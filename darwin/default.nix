@@ -111,6 +111,7 @@ in
       "microsoft-office"
       "witch"
       "openmtp"
+      "cherry-studio"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

@@ -185,8 +185,10 @@
           alt-shift-j = "move down";
           alt-shift-k = "move up";
           alt-shift-l = "move right";
-          alt-shift-n = "workspace next --wrap-around";
-          alt-shift-p = "workspace prev --wrap-around";
+          alt-n = "workspace next --wrap-around";
+          alt-p = "workspace prev --wrap-around";
+          alt-shift-n = "move-workspace-to-monitor --wrap-around next";
+          alt-shift-p = "move-workspace-to-monitor --wrap-around prev";
           alt-shift-q = [
             "move-node-to-workspace q"
             "workspace q"
