@@ -63,7 +63,6 @@ in
     };
   };
   fonts.packages = [ ] ++ optional.fonts;
-  services.nix-daemon.enable = true;
   homebrew = {
     enable = true;
     global = {

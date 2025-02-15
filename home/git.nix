@@ -1,4 +1,9 @@
-{ config, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.git = {
     enable = true;
@@ -79,12 +84,6 @@
       init = {
         defaultBranch = "master";
       };
-      gpg = {
-        format = "ssh";
-      };
-      "gpg \"ssh\"" = {
-        program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"; # TODO
-      };
     };
     ignores = [
       ".venv/"
@@ -101,8 +100,14 @@
     userName = "MisLink";
     userEmail = "gjq.uoiai@outlook.com";
     signing = {
+      format = "ssh";
       signByDefault = true;
       key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKnH3JJcsZnksInIdffC18IkcI2IGxnvyQBv3j+/MHsm";
+      signer =
+        if pkgs.stdenv.hostPlatform.isDarwin then
+          "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+        else
+          null;
     };
   };
 }

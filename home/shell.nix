@@ -19,8 +19,10 @@
     del = "trash -v";
     s = "kitty +kitten ssh";
   };
+  home.shell.enableShellIntegration = true;
   programs.fish = {
     enable = true;
+    preferAbbrs = true;
   };
   programs.zsh = {
     enable = true;

@@ -41,8 +41,8 @@
     shfmt
     typst
     gh
-    trash-cli
     _1password-cli
+    dust
     # nix
     nil
     nixfmt-rfc-style
@@ -53,40 +53,30 @@
     cargo-binstall
     go
     nodejs_22
+    temurin-bin
+    devenv
   ];
 
   home.file = {
+    "pdm" = {
+      source = ../dotfiles/pdm/config.toml;
+      target =
+        (if pkgs.stdenv.hostPlatform.isDarwin then "Library/Application\ Support/pdm/" else ".config/pdm/")
+        + "config.toml";
+    };
+    ".config/ruff/ruff.toml".source = ../dotfiles/ruff/ruff.toml;
+    ".config/pip/pip.conf".source = ../dotfiles/pip/pip.conf;
+    ".config/uv/uv.toml".source = ../dotfiles/uv/uv.toml;
     ".config/kitty/kitty.app.png".source = ../dotfiles/kitty/kitty.app.png;
-    ".config/pip/pip.conf".text = ''
-      [global]
-      index-url = https://pypi.tuna.tsinghua.edu.cn/simple
-    '';
-    ".cargo/config.toml".text = ''
-      [source.crates-io]
-      replace-with = "rsproxy-sparse"
-
-      [source.tuna]
-      registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
-
-      [source.tuna-sparse]
-      registry = "sparse+https://mirrors.tuna.tsinghua.edu.cn/crates.io-index/"
-
-      [source.rsproxy]
-      registry = "https://rsproxy.cn/crates.io-index"
-
-      [source.rsproxy-sparse]
-      registry = "sparse+https://rsproxy.cn/index/"
-
-      [build]
-      rustc-wrapper = "${pkgs.sccache}/bin/sccache"
-    '';
+    ".cargo/config.toml".source = ../dotfiles/cargo/config.toml;
+  };
+  home.sessionVariables = {
+    CARGO_BUILD_RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
   };
 
   programs = {
     atuin = {
       enable = true;
-      enableZshIntegration = true;
-      enableFishIntegration = true;
       settings = {
         sync_address = "https://atuin.uoiai.me";
         sync_frequency = "5s";
@@ -105,7 +95,6 @@
     };
     direnv = {
       enable = true;
-      enableZshIntegration = true;
       config = {
         global = {
           strict_env = true;
@@ -118,14 +107,7 @@
       mise.enable = true;
       nix-direnv.enable = true;
     };
-
     fd.enable = true;
-
-    fzf = {
-      enable = true;
-      enableZshIntegration = true;
-      enableFishIntegration = true;
-    };
     gh.enable = true;
     gpg.enable = true;
     home-manager.enable = true;
@@ -138,8 +120,6 @@
     };
     mise = {
       enable = true;
-      enableZshIntegration = true;
-      enableFishIntegration = true;
       globalConfig = {
         tools = {
           "go:github.com/google/wire/cmd/wire" = "latest";
@@ -328,15 +308,7 @@
         " ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
       '';
     };
-    yazi = {
-      enable = true;
-      enableZshIntegration = true;
-      enableFishIntegration = true;
-    };
-    zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-      enableFishIntegration = true;
-    };
+    yazi.enable = true;
+    zoxide.enable = true;
   };
 }

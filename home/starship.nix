@@ -2,8 +2,6 @@
 {
   programs.starship = {
     enable = true;
-    enableZshIntegration = true;
-    enableFishIntegration = true;
     settings = {
       format = "$all$line_break$character";
 
