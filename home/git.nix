@@ -107,7 +107,7 @@
         if pkgs.stdenv.hostPlatform.isDarwin then
           "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
         else
-          null;
+          "";
     };
   };
 }

@@ -19,6 +19,7 @@
       self,
       nixpkgs,
       nix-darwin,
+      home-manager,
       ...
     }@inputs:
     {
@@ -30,12 +31,15 @@
           in
           nix-darwin.lib.darwinSystem {
             specialArgs = {
-              inherit inputs self username;
+              inherit
+                inputs
+                self
+                username
+                system
+                ;
             };
             modules = [
-              {
-                nixpkgs.hostPlatform = system;
-              }
+              ./nixpkgs
               ./darwin
             ];
           };
@@ -46,13 +50,41 @@
           in
           nix-darwin.lib.darwinSystem {
             specialArgs = {
-              inherit inputs self username;
+              inherit
+                inputs
+                self
+                username
+                system
+                ;
             };
             modules = [
-              {
-                nixpkgs.hostPlatform = system;
-              }
+              ./nixpkgs
               ./darwin
+            ];
+          };
+      };
+      homeConfigurations = {
+        "ubuntu" =
+          let
+            system = "aarch64-linux";
+            username = "guojiaqi";
+            pkgs = nixpkgs.legacyPackages.${system};
+            homedir = "/home/${username}";
+          in
+          home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            extraSpecialArgs = {
+              inherit
+                inputs
+                self
+                username
+                homedir
+                system
+                ;
+            };
+            modules = [
+              ./nixpkgs
+              ./home
             ];
           };
       };

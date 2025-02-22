@@ -11,9 +11,9 @@
     ./sops.nix
     ./git.nix
     ./ssh.nix
-    ./ssh.nix
     ./starship.nix
     ./shell.nix
+    ./nix.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -43,6 +43,7 @@
     gh
     _1password-cli
     dust
+    gnumake
     # nix
     nil
     nixfmt-rfc-style
@@ -108,7 +109,12 @@
       nix-direnv.enable = true;
     };
     fd.enable = true;
-    gh.enable = true;
+    gh = {
+      enable = true;
+      settings = {
+        git_protocol = "ssh";
+      };
+    };
     gpg.enable = true;
     home-manager.enable = true;
     htop.enable = true;
