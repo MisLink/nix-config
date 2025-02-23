@@ -16,8 +16,6 @@
     du = "du -h";
     df = "df -h";
     grep = "grep -Ei";
-    del = "trash -v";
-    s = "kitty +kitten ssh";
   };
   home.shell.enableShellIntegration = true;
   programs.fish = {
