@@ -1,10 +1,6 @@
 { ... }:
 {
   security.pam.enableSudoTouchIdAuth = true;
-  system.defaults.".GlobalPreferences" = {
-    "com.apple.mouse.scaling" = -1.0;
-    "com.apple.sound.beep.sound" = /System/Library/Sounds/Tink.aiff;
-  };
   system.defaults.ActivityMonitor = {
     IconType = 0;
     ShowCategory = 100;
