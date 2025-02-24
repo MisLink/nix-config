@@ -43,8 +43,8 @@ in
     shellAliases = {
       cdf = ''cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"'';
       ofd = "open -a Finder .";
-      del = "${pkgs.darwin.trash} -v";
-      s = "${pkgs.kitty} +kitten ssh";
+      del = "${pkgs.darwin.trash}/bin/trash -v";
+      s = "${pkgs.kitty}/bin/kitty +kitten ssh";
     };
     systemPackages = with pkgs; [
       darwin.trash
