@@ -3,6 +3,7 @@
   homedir,
   pkgs,
   inputs,
+  lib,
   ...
 }:
 {
@@ -14,7 +15,9 @@
     ./starship.nix
     ./shell.nix
     ./nix.nix
+    ./kitty.nix
   ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = username;
@@ -31,32 +34,37 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
-    cloudflared
-    ffmpeg
-    nmap
-    openssh
-    sccache
-    shellcheck
-    shfmt
-    typst
-    gh
-    _1password-cli
-    dust
-    gnumake
-    # nix
-    nil
-    nixfmt-rfc-style
-    # pkg
-    python313
-    uv
-    rustup
-    cargo-binstall
-    go
-    nodejs_22
-    temurin-bin
-    devenv
-  ];
+  home.packages =
+    with pkgs;
+    [
+      cloudflared
+      ffmpeg
+      nmap
+      openssh
+      sccache
+      shellcheck
+      shfmt
+      typst
+      gh
+      _1password-cli
+      dust
+      gnumake
+      # nix
+      nil
+      nixfmt-rfc-style
+      # pkg
+      python313
+      uv
+      rustup
+      cargo-binstall
+      go
+      nodejs_22
+      temurin-bin
+      devenv
+    ]
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+      coreutils-prefixed
+    ];
 
   home.file = {
     "pdm" = {
@@ -74,7 +82,7 @@
   home.sessionVariables = {
     CARGO_BUILD_RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
   };
-
+  programs.kitty.enable = pkgs.stdenv.hostPlatform.isDarwin;
   programs = {
     atuin = {
       enable = true;

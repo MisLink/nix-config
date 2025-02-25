@@ -60,7 +60,6 @@ in
     users."${username}" = {
       imports = [
         ../home
-        ../home/app/kitty.nix
       ];
     };
   };

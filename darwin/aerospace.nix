@@ -45,7 +45,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 0"
+          "move-node-to-workspace q"
         ];
         "if" = {
           app-id = "org.mozilla.nightly";
@@ -53,7 +53,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 9"
+          "move-node-to-workspace e"
         ];
         "if" = {
           app-id = "com.microsoft.VSCode";
@@ -62,7 +62,7 @@
       {
         run = [
           "layout floating"
-          "move-node-to-workspace 9"
+          "move-node-to-workspace e"
         ];
         "if" = {
           app-id = "com.DanPristupov.Fork";
@@ -200,8 +200,8 @@
     mode = {
       main = {
         binding = {
-          alt-0 = "workspace 0"; # browsing
-          alt-9 = "workspace 9"; # coding
+          alt-q = "workspace q"; # browsing
+          alt-e = "workspace e"; # coding
           alt-1 = "workspace 1"; # messages
           alt-2 = "workspace 2"; # reading/writing
           alt-3 = "workspace 3"; # development
@@ -250,8 +250,6 @@
 
           alt-up = "resize smart +50";
           alt-down = "resize smart -50";
-          alt-left = "resize width -50";
-          alt-right = "resize width +50";
 
           alt-shift-semicolon = "mode service";
         };
