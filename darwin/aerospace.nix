@@ -40,12 +40,12 @@
       {
         check-further-callbacks = true;
         run = [
-          "move-node-to-workspace 4"
+          "move-node-to-workspace 1"
         ];
       }
       {
         run = [
-          "move-node-to-workspace q"
+          "move-node-to-workspace w"
         ];
         "if" = {
           app-id = "org.mozilla.nightly";
@@ -70,7 +70,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 1"
+          "move-node-to-workspace q"
         ];
         "if" = {
           app-id = "com.tencent.xinWeChat";
@@ -78,7 +78,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 1"
+          "move-node-to-workspace q"
         ];
         "if" = {
           app-id = "ru.keepcoder.Telegram";
@@ -86,7 +86,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 1"
+          "move-node-to-workspace q"
         ];
         "if" = {
           app-id = "com.apple.mail";
@@ -94,7 +94,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 1"
+          "move-node-to-workspace q"
         ];
         "if" = {
           app-id = "com.electron.lark";
@@ -102,7 +102,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 2"
+          "move-node-to-workspace r"
         ];
         "if" = {
           app-id = "com.reederapp.5.macOS";
@@ -110,7 +110,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 2"
+          "move-node-to-workspace r"
         ];
         "if" = {
           app-id = "com.readdle.PDFExpert-Mac";
@@ -118,7 +118,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 2"
+          "move-node-to-workspace r"
         ];
         "if" = {
           app-id = "com.apple.Preview";
@@ -126,7 +126,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 2"
+          "move-node-to-workspace r"
         ];
         "if" = {
           app-id = "md.obsidian";
@@ -134,7 +134,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 2"
+          "move-node-to-workspace r"
         ];
         "if" = {
           app-id = "com.apple.Notes";
@@ -142,7 +142,7 @@
       }
       {
         run = [
-          "move-node-to-workspace 2"
+          "move-node-to-workspace r"
         ];
         "if" = {
           app-id = "com.apple.reminders";
@@ -200,26 +200,44 @@
     mode = {
       main = {
         binding = {
-          alt-q = "workspace q"; # browsing
-          alt-e = "workspace e"; # coding
-          alt-1 = "workspace 1"; # messages
-          alt-2 = "workspace 2"; # reading/writing
-          alt-3 = "workspace 3"; # development
-          alt-4 = "workspace 4"; # others
+          shift-alt-q = "workspace q"; # messages
+          shift-alt-w = "workspace w"; # browsing
+          shift-alt-e = "workspace e"; # coding
+          shift-alt-r = "workspace r"; # reading
+          shift-alt-1 = "workspace 1";
+          shift-alt-2 = "workspace 2";
+          shift-alt-3 = "workspace 3";
+          shift-alt-4 = "workspace 4";
 
-          alt-shift-1 = [
+          shift-ctrl-alt-q = [
+            "move-node-to-workspace q"
+            "workspace q"
+          ];
+          shift-ctrl-alt-w = [
+            "move-node-to-workspace w"
+            "workspace w"
+          ];
+          shift-ctrl-alt-e = [
+            "move-node-to-workspace e"
+            "workspace e"
+          ];
+          shift-ctrl-alt-r = [
+            "move-node-to-workspace r"
+            "workspace r"
+          ];
+          shift-ctrl-alt-1 = [
             "move-node-to-workspace 1"
             "workspace 1"
           ];
-          alt-shift-2 = [
+          shift-ctrl-alt-2 = [
             "move-node-to-workspace 2"
             "workspace 2"
           ];
-          alt-shift-3 = [
+          shift-ctrl-alt-3 = [
             "move-node-to-workspace 3"
             "workspace 3"
           ];
-          alt-shift-4 = [
+          shift-ctrl-alt-4 = [
             "move-node-to-workspace 4"
             "workspace 4"
           ];
@@ -247,9 +265,6 @@
 
           alt-shift-rightSquareBracket = "move-workspace-to-monitor --wrap-around next";
           alt-shift-leftSquareBracket = "move-workspace-to-monitor --wrap-around prev";
-
-          alt-up = "resize smart +50";
-          alt-down = "resize smart -50";
 
           alt-shift-semicolon = "mode service";
         };

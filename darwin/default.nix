@@ -4,6 +4,7 @@
   username,
   pkgs,
   config,
+  system,
   ...
 }:
 let
@@ -13,14 +14,14 @@ in
 {
   imports = [
     inputs.home-manager.darwinModules.home-manager
-    ./nix.nix
-    ./system.nix
     ./aerospace.nix
   ];
   system = {
     configurationRevision = self.rev or self.dirtyRev or null;
     stateVersion = 5;
   };
+  nixpkgs.hostPlatform = system;
+  nix.enable = false;
   users = {
     users."${username}" = {
       home = "/Users/${username}";
