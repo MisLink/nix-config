@@ -267,6 +267,7 @@
           alt-shift-leftSquareBracket = "move-workspace-to-monitor --wrap-around prev";
 
           alt-shift-semicolon = "mode service";
+          alt-shift-0 = "mode resize";
         };
       };
       service = {
@@ -299,6 +300,20 @@
             "flatten-workspace-tree"
             "mode main"
           ];
+        };
+      };
+      resize = {
+        binding = {
+          h = "resize width -50";
+          j = "resize height +50";
+          k = "resize height -50";
+          l = "resize width +50";
+          b = "balance-sizes";
+          minus = "resize smart -50";
+          equal = "resize smart +50";
+
+          enter = "mode main";
+          esc = "mode main";
         };
       };
     };

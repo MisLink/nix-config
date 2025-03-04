@@ -62,6 +62,23 @@
               ./darwin
             ];
           };
+          "MyMacMini" =
+          let system = "aarch64-darwin";
+          username = "mi";
+          in nix-darwin.lib.darwinSystem {
+            specialArgs = {
+              inherit
+                inputs
+                self
+                username
+                system
+                ;
+            };
+            modules = [
+              ./nixpkgs
+              ./darwin
+            ];
+          };
       };
       homeConfigurations = {
         "ubuntu" =
