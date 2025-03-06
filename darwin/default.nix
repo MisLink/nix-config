@@ -9,7 +9,6 @@
 }:
 let
   homedir = config.users.users."${username}".home;
-  optional = import ../optional { inherit pkgs; };
 in
 {
   imports = [
@@ -64,7 +63,14 @@ in
       ];
     };
   };
-  fonts.packages = [ ] ++ optional.fonts;
+  fonts.packages = with pkgs; [
+    source-han-sans
+    source-han-serif
+    source-han-mono
+    hermit
+    agave
+    sarasa-gothic
+  ];
   homebrew = {
     enable = true;
     global = {
