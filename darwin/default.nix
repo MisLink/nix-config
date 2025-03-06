@@ -113,6 +113,7 @@ in
       "witch"
       "openmtp"
       "cherry-studio"
+      "zotero"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;
