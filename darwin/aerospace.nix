@@ -35,7 +35,11 @@
         top = 0;
       };
     };
-
+    workspace-to-monitor-force-assignment = {
+      "3" = "secondary";
+      "4" = "secondary";
+      e = "secondary";
+    };
     on-window-detected = [
       {
         check-further-callbacks = true;
