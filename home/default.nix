@@ -46,6 +46,7 @@
       shfmt
       typst
       gh
+      glab
       _1password-cli
       dust
       gnumake
@@ -113,7 +114,7 @@
           prefix = [ "~/projects" ];
         };
       };
-      mise.enable = true;
+      mise.enable = false;
       nix-direnv.enable = true;
     };
     fd.enable = true;

@@ -42,12 +42,6 @@
     };
     on-window-detected = [
       {
-        check-further-callbacks = true;
-        run = [
-          "move-node-to-workspace 1"
-        ];
-      }
-      {
         run = [
           "move-node-to-workspace w"
         ];
