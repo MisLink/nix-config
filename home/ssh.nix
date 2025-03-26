@@ -10,7 +10,7 @@
       config.sops.secrets.ssh_hosts.path
     ];
     matchBlocks = {
-      "*.uoiai.me" = {
+      do = {
         proxyCommand = "${pkgs.cloudflared}/bin/cloudflared access ssh --hostname %h";
       };
     };

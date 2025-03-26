@@ -71,6 +71,7 @@ in
     hermit
     agave
     sarasa-gothic
+    maple-mono.NL-CN
   ];
   homebrew = {
     enable = true;

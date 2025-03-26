@@ -50,6 +50,7 @@
       _1password-cli
       dust
       gnumake
+      duckdb
       # nix
       nil
       nixfmt-rfc-style
@@ -92,8 +93,8 @@
         sync_frequency = "5s";
         style = "compact";
         inline_height = 20;
-        filter_mode_shell_up_key_binding = "directory";
         enter_accept = true;
+        workspaces = true;
       };
     };
     bat = {
