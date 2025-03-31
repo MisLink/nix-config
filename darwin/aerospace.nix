@@ -1,6 +1,6 @@
 { ... }:
 {
-  services.aerospace.enable = true;
+  services.aerospace.enable = false;
   services.aerospace.settings = {
     accordion-padding = 30;
     after-login-command = [
