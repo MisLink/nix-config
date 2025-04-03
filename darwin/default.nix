@@ -123,12 +123,12 @@ in
       "cherry-studio"
       "zotero"
       "hammerspoon"
+      "eudic"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;
       "Xcode" = 497799835;
       "Klib" = 1196268448;
-      "eudict" = 434350458;
       "wechat" = 836500024;
       "OpenCat" = 6445999201;
       "LiquidText" = 922765270;

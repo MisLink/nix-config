@@ -24,9 +24,9 @@
       "cmd+7" = "goto_tab 7";
       "cmd+8" = "goto_tab 8";
       "cmd+9" = "goto_tab 9";
-      "ctrl+d" = "detach_window new-tab";
-      "cmd+d" = "launch --cwd=current --location=vsplit";
-      "kitty_mod+d" = "launch --cwd=current --location=hsplit";
+      "kitty_mod+d" = "detach_window new-tab";
+      "cmd+\\" = "launch --cwd=current --location=vsplit";
+      "kitty_mod+\\" = "launch --cwd=current --location=hsplit";
       "ctrl+shift+]" = "next_window";
       "ctrl+shift+[" = "prev_window";
       "cmd+t" = "new_tab_with_cwd !neighbor";
