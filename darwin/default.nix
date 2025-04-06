@@ -124,13 +124,13 @@ in
       "zotero"
       "hammerspoon"
       "eudic"
+      "opencat"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;
       "Xcode" = 497799835;
       "Klib" = 1196268448;
       "wechat" = 836500024;
-      "OpenCat" = 6445999201;
       "LiquidText" = 922765270;
       "iHosts" = 1102004240;
       "Immersive Translate" = 6447957425;

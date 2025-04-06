@@ -52,6 +52,7 @@
       dust
       gnumake
       duckdb
+      clang_20
       # nix
       nil
       nixfmt-rfc-style
@@ -81,9 +82,6 @@
     ".config/uv/uv.toml".source = ../dotfiles/uv/uv.toml;
     ".config/kitty/kitty.app.png".source = ../dotfiles/kitty/kitty.app.png;
     ".cargo/config.toml".source = ../dotfiles/cargo/config.toml;
-  };
-  home.sessionVariables = {
-    CARGO_BUILD_RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
   };
   programs.kitty.enable = pkgs.stdenv.hostPlatform.isDarwin;
   programs = {

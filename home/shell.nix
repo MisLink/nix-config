@@ -6,6 +6,8 @@
     VIRTUAL_ENV_DISABLE_PROMPT = "1";
     RUSTUP_DIST_SERVER = "https://rsproxy.cn";
     RUSTUP_UPDATE_ROOT = "https://rsproxy.cn/rustup";
+    CARGO_BUILD_RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
+    GOPROXY = "https://goproxy.cn,direct";
   };
 
   home.shellAliases = {
