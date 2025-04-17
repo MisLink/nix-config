@@ -65,6 +65,9 @@
       nodejs_22
       temurin-bin
       devenv
+      zola
+      beancount
+      fava
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed

@@ -50,6 +50,9 @@ in
     systemPackages = with pkgs; [
       darwin.trash
     ];
+    systemPath = [
+      "${config.homebrew.brewPrefix}"
+    ];
   };
   home-manager = {
     useGlobalPkgs = true;
@@ -83,7 +86,8 @@ in
       upgrade = true;
       cleanup = "uninstall";
     };
-    brews = [ ];
+    brews = [
+    ];
     casks = [
       "surge"
       "firefox@nightly"
@@ -125,6 +129,7 @@ in
       "hammerspoon"
       "eudic"
       "opencat"
+      "readest"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;
