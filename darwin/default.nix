@@ -130,6 +130,7 @@ in
       "eudic"
       "opencat"
       "readest"
+      "joplin"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

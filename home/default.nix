@@ -52,7 +52,6 @@
       dust
       gnumake
       duckdb
-      clang_20
       # nix
       nil
       nixfmt-rfc-style
@@ -68,6 +67,7 @@
       zola
       beancount
       fava
+      openconnect
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
