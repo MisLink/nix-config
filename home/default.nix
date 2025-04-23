@@ -68,6 +68,7 @@
       beancount
       fava
       openconnect
+      kubernetes-helm
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
