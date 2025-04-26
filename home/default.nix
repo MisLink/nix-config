@@ -93,11 +93,12 @@
       enable = true;
       settings = {
         sync_address = "https://atuin.uoiai.me";
-        sync_frequency = "5s";
+        sync_frequency = 0;
         style = "compact";
         inline_height = 20;
         enter_accept = true;
         workspaces = true;
+        filter_mode_shell_up_key_binding = "session";
       };
     };
     bat = {

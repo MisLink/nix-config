@@ -116,7 +116,6 @@ in
       "obsidian"
       "steam"
       "google-chrome"
-      "vmware-fusion"
       "tencent-meeting"
       "jordanbaird-ice"
       "popclip"
