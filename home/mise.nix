@@ -5,7 +5,7 @@
     globalConfig = {
       tools = {
         "go:github.com/google/wire/cmd/wire" = "latest";
-        "go:github.com/golangci/golangci-lint/cmd/golangci-lint" = "latest";
+        "go:github.com/golangci/golangci-lint/v2/cmd/golangci-lint" = "latest";
         "go:golang.org/x/tools/cmd/gonew" = "latest";
         "go:github.com/googleapis/api-linter/cmd/api-linter" = "latest";
         "go:github.com/go-delve/delve/cmd/dlv" = "latest";
@@ -47,6 +47,7 @@
         "aqua:protocolbuffers/protobuf/protoc" = "latest";
       };
       settings = {
+        fetch_remote_versions_timeout = "1m";
         legacy_version_file = false;
         plugin_autoupdate_last_check_duration = "1 week";
         experimental = true;
@@ -58,7 +59,6 @@
           registry_url = "https://pypi.tuna.tsinghua.edu.cn/pypi/{}/json";
         };
         python.precompiled_flavor = "pgo+lto";
-        cargo.registry_name = "rsproxy-sparse";
       };
     };
   };
