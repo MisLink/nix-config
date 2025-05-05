@@ -65,8 +65,6 @@
       temurin-bin
       devenv
       zola
-      beancount
-      fava
       openconnect
       kubernetes-helm
     ]
@@ -87,7 +85,6 @@
     ".config/kitty/kitty.app.png".source = ../dotfiles/kitty/kitty.app.png;
     ".cargo/config.toml".source = ../dotfiles/cargo/config.toml;
   };
-  programs.kitty.enable = pkgs.stdenv.hostPlatform.isDarwin;
   programs = {
     atuin = {
       enable = true;

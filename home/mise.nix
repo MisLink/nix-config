@@ -53,8 +53,12 @@
         status = {
           show_env = true;
         };
-        pipx.uvx = true;
+        pipx = {
+          uvx = true;
+          registry_url = "https://pypi.tuna.tsinghua.edu.cn/pypi/{}/json";
+        };
         python.precompiled_flavor = "pgo+lto";
+        cargo.registry_name = "rsproxy-sparse";
       };
     };
   };

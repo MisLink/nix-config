@@ -49,6 +49,7 @@ in
     };
     systemPackages = with pkgs; [
       darwin.trash
+      kitty
     ];
     systemPath = [
       "${config.homebrew.brewPrefix}"
@@ -87,6 +88,18 @@ in
       cleanup = "uninstall";
     };
     brews = [
+      {
+        name = "postgresql@17";
+        restart_service = "changed";
+      }
+      {
+        name = "mysql";
+        restart_service = "changed";
+      }
+      {
+        name = "redis";
+        restart_service = "changed";
+      }
     ];
     casks = [
       "surge"
@@ -130,6 +143,7 @@ in
       "opencat"
       "readest"
       "joplin"
+      "gnucash"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   programs.kitty = {
+    enable = true;
     darwinLaunchOptions = [
       "--single-instance"
       "--start-as=maximized"
