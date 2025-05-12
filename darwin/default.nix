@@ -76,6 +76,7 @@ in
     agave
     sarasa-gothic
     maple-mono.NL-CN
+    i-dot-ming
   ];
   homebrew = {
     enable = true;

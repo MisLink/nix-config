@@ -57,7 +57,8 @@
       nixfmt-rfc-style
       # pkg
       python313
-      uv
+      python313Packages.uv
+      python313Packages.pipx
       rustup
       cargo-binstall
       go
@@ -116,7 +117,7 @@
           prefix = [ "~/projects" ];
         };
       };
-      mise.enable = false;
+      mise.enable = true;
       nix-direnv.enable = true;
     };
     fd.enable = true;
