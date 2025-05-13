@@ -67,6 +67,7 @@ in
         ../home
       ];
     };
+    verbose = true;
   };
   fonts.packages = with pkgs; [
     source-han-sans
