@@ -22,7 +22,12 @@ in
     primaryUser = username;
   };
   nixpkgs.hostPlatform = system;
-  nix.enable = false;
+  nix.settings = {
+    extra-experimental-features = "nix-command flakes";
+    trusted-users = [
+      username
+    ];
+};
   users = {
     users."${username}" = {
       home = "/Users/${username}";
