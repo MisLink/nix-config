@@ -10,6 +10,7 @@
         "go:github.com/yoheimuta/protolint/cmd/protolint" = "latest";
         "go:github.com/Zxilly/go-size-analyzer/cmd/gsa" = "latest"; # A simple tool to analyze the size of a Go compiled binary
         "go:github.com/moderato-app/live-pprof" = "v1";
+        "go:github.com/bufbuild/buf/cmd/buf" = "latest"; # A tool for working with Protocol Buffers
         "pipx:ipython" = "latest";
         "pipx:notebook" = {
           version = "latest";
