@@ -3,11 +3,11 @@ default: $(shell uname -s | tr '[:upper:]' '[:lower:]')
 
 .PHONY: darwin
 darwin:
-	sudo darwin-rebuild switch --flake .#${shell scutil --get LocalHostName}
+	sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake .#${shell scutil --get LocalHostName}
 
 .PHONY: linux
 linux:
-	nix run home-manager -- switch --flake .#${shell hostname}
+	nix run home-manager/master -- switch --flake .#${shell hostname}
 
 
 .PHONY: edit
