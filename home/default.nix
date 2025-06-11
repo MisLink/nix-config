@@ -65,7 +65,6 @@
       nodejs_22
       temurin-bin
       devenv
-      zola
       openconnect
       kubernetes-helm
     ]
@@ -85,6 +84,7 @@
     ".config/uv/uv.toml".source = ../dotfiles/uv/uv.toml;
     ".config/kitty/kitty.app.png".source = ../dotfiles/kitty/kitty.app.png;
     ".cargo/config.toml".source = ../dotfiles/cargo/config.toml;
+    ".npmrc".source = ../dotfiles/npm/.npmrc;
   };
   programs = {
     atuin = {
