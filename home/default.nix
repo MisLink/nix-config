@@ -67,6 +67,7 @@
       devenv
       openconnect
       kubernetes-helm
+      socat
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
