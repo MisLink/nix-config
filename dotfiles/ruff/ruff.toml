@@ -1,24 +1,28 @@
 fix = true
-
-[lint]
-select = [
-    "E",
-    "F",
-    "W",   # flake8
-    "I",   # isort
-    "S",   # flake8-bandit
-    "B",   #flake8-bugbear
-    "N",   # pep8-naming
-    "C90", # mccabe
-    "RUF", # ruff
-]
-ignore = []
-
-[lint.isort]
-force-single-line = true
+line-length = 120
 
 [analyze]
 detect-string-imports = true
 
 [format]
 docstring-code-format = true
+
+[lint]
+select = [
+    "E",
+    "F",
+    "W",     # flake8
+    "I",     # isort
+    "S",     # flake8-bandit
+    "B",     #flake8-bugbear
+    "ASYNC", # flake8-async
+    "A",     # flake8-builtin
+    "N",     # pep8-naming
+    "C90",   # mccabe
+    "RUF",   # ruff
+]
+ignore = []
+allowed-confusables = ["，", "。", "“", "”"]
+
+[lint.isort]
+force-single-line = true

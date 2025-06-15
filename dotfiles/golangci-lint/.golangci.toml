@@ -1,0 +1,56 @@
+version = "2"
+
+[linters]
+default = "standard"
+enable = ["revive"]
+[linters.exclusions]
+warn-unused = true
+presets = ["comments"]
+[linters.settings.staticcheck]
+checks = ["all", "-ST1000", "-ST1003"]
+[linters.settings.revive]
+enable-all-rules = true
+rules = [
+  { name = "add-constant", disabled = true },
+  { name = "bare-return", disabled = true },
+  { name = "confusing-naming", disabled = true },
+  { name = "exported", disabled = true },
+  { name = "file-header", disabled = true },
+  { name = "line-length-limit", arguments = [
+    120,
+  ] },
+  { name = "max-public-structs", disabled = true },
+  { name = "package-comments", disabled = true },
+  { name = "receiver-naming", arguments = [
+    { max-length = 2 },
+  ] },
+  { name = "unchecked-type-assertion", arguments = [
+    { accept-ignored-assertion-result = true },
+  ] },
+  { name = "unhandled-error", arguments = [
+    'fmt\.Print(f|ln)?',
+    'fmt\.Fprint(f|ln)?',
+  ] },
+]
+[linters.settings.unused]
+exported-fields-are-used = false
+
+[formatters]
+enable = ["gci", "gofumpt", "golines"]
+exclusions.warn-unused = true
+[formatters.settings.gci]
+sections = ["standard", "default", "localmodule"]
+[formatters.settings.gofumpt]
+extra-rules = true
+[formatters.settings.golines]
+max-len = 120
+
+[issues]
+fix = true
+max-issues-per-linter = 0
+max-same-issues = 0
+
+[run]
+timeout = "1m"
+relative-path-mode = "gomod"
+modules-download-mode = "readonly"

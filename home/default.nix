@@ -68,6 +68,7 @@
       openconnect
       kubernetes-helm
       socat
+      wget
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
@@ -86,6 +87,7 @@
     ".config/kitty/kitty.app.png".source = ../dotfiles/kitty/kitty.app.png;
     ".cargo/config.toml".source = ../dotfiles/cargo/config.toml;
     ".npmrc".source = ../dotfiles/npm/.npmrc;
+    ".golangci.toml".source = ../dotfiles/golangci-lint/.golangci.toml;
   };
   programs = {
     atuin = {
