@@ -1,13 +1,25 @@
 .PHONY: default
 default: $(shell uname -s | tr '[:upper:]' '[:lower:]')
 
+HOSTNAME := $(shell hostname -s)
+
+# Check if darwin-rebuild command exists
+DARWIN_REBUILD_PATH := $(shell command -v darwin-rebuild 2>/dev/null)
+
+# Define the rebuild command and message based on whether darwin-rebuild exists
+ifeq ($(DARWIN_REBUILD_PATH),)
+  DARWIN_REBUILD_CMD := nix run nix-darwin/master#darwin-rebuild --
+else
+  DARWIN_REBUILD_CMD := darwin-rebuild
+endif
+
 .PHONY: darwin
 darwin:
-	sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake .#${shell scutil --get LocalHostName}
+	sudo $(DARWIN_REBUILD_CMD) switch --flake .#$(HOSTNAME)
 
 .PHONY: linux
 linux:
-	nix run home-manager/master -- switch --flake .#${shell hostname}
+	nix run home-manager/master -- switch --flake .#$(HOSTNAME)
 
 
 .PHONY: edit
