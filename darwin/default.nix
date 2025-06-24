@@ -27,7 +27,7 @@ in
     trusted-users = [
       username
     ];
-};
+  };
   users = {
     users."${username}" = {
       home = "/Users/${username}";
@@ -153,6 +153,7 @@ in
       "joplin"
       "gnucash"
       "battle-net"
+      "obs"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

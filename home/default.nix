@@ -69,6 +69,7 @@
       kubernetes-helm
       socat
       wget
+      bear
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
