@@ -40,7 +40,6 @@
         }; # Analyze ELF binaries
         "cargo:tokei" = "latest"; # displays statistics about your code
         "npm:eslint" = "latest";
-        "npm:@anthropic-ai/claude-code" = "latest";
       };
       settings = {
         fetch_remote_versions_timeout = "1m";
