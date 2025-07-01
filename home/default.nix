@@ -70,6 +70,7 @@
       socat
       wget
       bear
+      pv
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
