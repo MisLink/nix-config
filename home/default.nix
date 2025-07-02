@@ -71,6 +71,7 @@
       wget
       bear
       pv
+      oras
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
