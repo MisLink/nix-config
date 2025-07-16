@@ -62,7 +62,7 @@
       rustup
       cargo-binstall
       go
-      nodejs_22
+      nodejs_24
       temurin-bin
       devenv
       openconnect
