@@ -4,7 +4,6 @@
   username,
   pkgs,
   config,
-  system,
   ...
 }:
 let
@@ -21,7 +20,6 @@ in
     stateVersion = 5;
     primaryUser = username;
   };
-  nixpkgs.hostPlatform = system;
   nix.gc = {
     automatic = true;
     options = "--delete-older-than 30d";
@@ -167,6 +165,7 @@ in
       "gnucash"
       "battle-net"
       "obs"
+      "zed"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

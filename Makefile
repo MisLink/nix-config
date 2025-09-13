@@ -19,8 +19,11 @@ darwin:
 
 .PHONY: linux
 linux:
-	nix run home-manager/master -- switch --flake .#$(HOSTNAME)
+	sudo nixos-rebuild switch --flake .#$(HOSTNAME)
 
+.PHONY: home
+home:
+	nix run home-manager/master -- switch --flake .#$(HOSTNAME)
 
 .PHONY: edit
 edit:

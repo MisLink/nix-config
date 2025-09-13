@@ -2,7 +2,8 @@
   description = "my hosts flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,6 +19,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-darwin,
       nix-darwin,
       home-manager,
       ...
@@ -39,7 +41,7 @@
                 ;
             };
             modules = [
-              ./nixpkgs
+              ./nixpkgs/darwin.nix
               ./darwin
             ];
           };
@@ -58,7 +60,7 @@
                 ;
             };
             modules = [
-              ./nixpkgs
+              ./nixpkgs/darwin.nix
               ./darwin
             ];
           };
@@ -77,7 +79,7 @@
                 ;
             };
             modules = [
-              ./nixpkgs
+              ./nixpkgs/darwin.nix
               ./darwin
             ];
           };
@@ -102,8 +104,29 @@
                 ;
             };
             modules = [
-              ./nixpkgs
+              ./nixpkgs/linux.nix
               ./home
+            ];
+          };
+      };
+      nixosConfigurations = {
+        "nixos-test" =
+          let
+            system = "aarch64-linux";
+            username = "guojiaqi";
+          in
+          nixpkgs.lib.nixosSystem {
+            specialArgs = {
+              inherit
+                inputs
+                self
+                username
+                system
+                ;
+            };
+            modules = [
+              ./nixpkgs/linux.nix
+              ./linux/orbstack
             ];
           };
       };
