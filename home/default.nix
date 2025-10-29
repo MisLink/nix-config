@@ -72,6 +72,9 @@
       bear
       pv
       oras
+      dive
+      graphviz
+      ipcalc
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
