@@ -41,7 +41,7 @@
       cloudflared
       ffmpeg
       nmap
-      openssh
+      # openssh
       sccache
       shellcheck
       shfmt
@@ -128,6 +128,19 @@
       };
       mise.enable = true;
       nix-direnv.enable = true;
+    };
+    delta = {
+      enable = true;
+      enableGitIntegration = true;
+      enableJujutsuIntegration = true;
+      options = {
+        navigate = true;
+        line-numbers = {
+          "line-numbers-zero-style" = "gray";
+        };
+        syntax-theme = "Dracula";
+        features = "line-numbers";
+      };
     };
     fd.enable = true;
     gh = {

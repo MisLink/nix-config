@@ -6,30 +6,21 @@
 {
   programs.git = {
     enable = true;
-    aliases = {
-      s = "status";
-      ss = "status -s";
-      cs = "commit -s";
-      cp = "cherry-pick";
-      cps = "cherry-pick -x";
-      co = "checkout";
-      amend = "commit --amend";
-      fixup = "commit --fixup";
-      unc = "reset --mixed HEAD^";
-      l = "log --graph --decorate --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - %C(green)(%cd)%C(reset) %s %C(bold blue)<%an>%C(reset)%C(yellow)%d%C(reset)'";
-    };
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-        line-numbers = {
-          "line-numbers-zero-style" = "gray";
-        };
-        syntax-theme = "Dracula";
-        features = "line-numbers";
+    settings = {
+      alias = {
+        s = "status";
+        ss = "status -s";
+        cs = "commit -s";
+        cp = "cherry-pick";
+        cps = "cherry-pick -x";
+        co = "checkout";
+        amend = "commit --amend";
+        fixup = "commit --fixup";
+        unc = "reset --mixed HEAD^";
+        l = "log --graph --decorate --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit --pretty=format:'%C(red)%h%C(reset) - %C(green)(%cd)%C(reset) %s %C(bold blue)<%an>%C(reset)%C(yellow)%d%C(reset)'";
       };
-    };
-    extraConfig = {
+      user.name = "MisLink";
+      user.email = "gjq.uoiai@outlook.com";
       core = {
         editor = "vim";
         autocrlf = "input";
@@ -96,8 +87,6 @@
       ".mise.*.toml"
     ];
     includes = [ { path = config.sops.secrets.git.path; } ];
-    userName = "MisLink";
-    userEmail = "gjq.uoiai@outlook.com";
     signing = {
       format = "ssh";
       signByDefault = true;
