@@ -2,7 +2,7 @@
 {
   programs.ssh = {
     enable = true;
-    package = pkgs.openssh_10_2;
+    # package = pkgs.openssh_10_2;
     enableDefaultConfig = false;
     includes = [
       "~/.orbstack/ssh/config"
