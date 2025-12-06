@@ -165,6 +165,7 @@ in
       "battle-net"
       "obs"
       "zed"
+      "ghostty"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;
