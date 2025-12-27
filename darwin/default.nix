@@ -129,6 +129,7 @@ in
       "logseq"
       "bettertouchtool"
       "visual-studio-code"
+      "visual-studio-code@insiders"
       "dash"
       "raycast"
       "fork"
