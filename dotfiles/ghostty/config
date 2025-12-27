@@ -16,7 +16,8 @@ macos-auto-secure-input = true
 macos-secure-input-indication = true
 macos-icon = xray
 shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
-theme = Vibrant Ink
+# theme = Vibrant Ink
+theme = Catppuccin Mocha
 #theme = Paul Millr
 #theme = Synthwave
 
