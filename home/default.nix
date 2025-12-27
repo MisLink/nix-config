@@ -94,6 +94,7 @@
     ".cargo/config.toml".source = ../dotfiles/cargo/config.toml;
     ".npmrc".source = ../dotfiles/npm/.npmrc;
     ".golangci.toml".source = ../dotfiles/golangci-lint/.golangci.toml;
+    ".config/ghostty/config".source = ../dotfiles/ghostty/config;
   };
   programs = {
     atuin = {
