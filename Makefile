@@ -8,7 +8,7 @@ DARWIN_REBUILD_PATH := $(shell command -v darwin-rebuild 2>/dev/null)
 
 # Define the rebuild command and message based on whether darwin-rebuild exists
 ifeq ($(DARWIN_REBUILD_PATH),)
-  DARWIN_REBUILD_CMD := nix run nix-darwin/master#darwin-rebuild --
+  DARWIN_REBUILD_CMD := nix run nix-darwin/master\#darwin-rebuild --
 else
   DARWIN_REBUILD_CMD := darwin-rebuild
 endif
