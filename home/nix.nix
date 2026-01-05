@@ -1,7 +1,10 @@
 {
+  pkgs,
+  lib,
   ...
 }:
 {
+  nix.package = lib.mkDefault pkgs.nix;
   nix.settings = {
     extra-experimental-features = "nix-command flakes";
     substituters = [

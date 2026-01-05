@@ -2,7 +2,7 @@ font-family = Agave
 font-family = Sarasa Term SC
 font-size = 18
 cursor-style = bar
-background-opacity = 0.8
+background-opacity = 0.9
 maximize = true
 scrollback-limit = 1073741824
 clipboard-paste-protection = true
@@ -11,14 +11,14 @@ quick-terminal-size = 50%
 quick-terminal-animation-duration = 0
 macos-titlebar-style = tabs
 macos-non-native-fullscreen = true
-macos-option-as-alt = true
 macos-auto-secure-input = true
 macos-secure-input-indication = true
+window-colorspace = display-p3
 macos-icon = xray
 shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
 # theme = Vibrant Ink
 theme = Catppuccin Mocha
-#theme = Paul Millr
-#theme = Synthwave
+# theme = Paul Millr
+# theme = Synthwave
 
 keybind = global:alt+backquote=toggle_quick_terminal

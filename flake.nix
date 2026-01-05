@@ -24,111 +24,90 @@
       home-manager,
       ...
     }@inputs:
-    {
-      darwinConfigurations = {
-        "GJQMM" =
-          let
-            system = "aarch64-darwin";
-            username = "guojiaqi";
-          in
-          nix-darwin.lib.darwinSystem {
-            specialArgs = {
-              inherit
-                inputs
-                self
-                username
-                system
-                ;
-            };
-            modules = [
-              ./nixpkgs/darwin.nix
-              ./darwin
-            ];
+    let
+      mkSystem =
+        {
+          system,
+          username,
+          hostname ? null,
+          homeManager ? false,
+        }:
+        let
+          isDarwin = builtins.match ".*darwin" system != null;
+          baseSpecialArgs = {
+            inherit
+              inputs
+              self
+              username
+              system
+              ;
           };
-        "GJQMBP" =
-          let
-            system = "x86_64-darwin";
-            username = "guojiaqi";
-          in
-          nix-darwin.lib.darwinSystem {
-            specialArgs = {
-              inherit
-                inputs
-                self
-                username
-                system
-                ;
-            };
-            modules = [
-              ./nixpkgs/darwin.nix
-              ./darwin
-            ];
+          nixpkgsModule = {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.hostPlatform = system;
           };
-        "MyMacMini" =
-          let
-            system = "aarch64-darwin";
-            username = "mi";
-          in
-          nix-darwin.lib.darwinSystem {
-            specialArgs = {
-              inherit
-                inputs
-                self
-                username
-                system
-                ;
-            };
-            modules = [
-              ./nixpkgs/darwin.nix
-              ./darwin
-            ];
-          };
-      };
-      homeConfigurations = {
-        "ubuntu" =
-          let
-            system = "aarch64-linux";
-            username = "guojiaqi";
-            pkgs = nixpkgs.legacyPackages.${system};
-            homedir = "/home/${username}";
-          in
+        in
+        if homeManager then
           home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-            extraSpecialArgs = {
-              inherit
-                inputs
-                self
-                username
-                homedir
-                system
-                ;
+            pkgs = import nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+            };
+            extraSpecialArgs = baseSpecialArgs // {
+              homedir = if isDarwin then "/Users/${username}" else "/home/${username}";
             };
             modules = [
-              ./nixpkgs/linux.nix
               ./home
             ];
-          };
-      };
-      nixosConfigurations = {
-        "nixos-test" =
-          let
-            system = "aarch64-linux";
-            username = "guojiaqi";
-          in
-          nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit
-                inputs
-                self
-                username
-                system
-                ;
-            };
+          }
+        else if isDarwin then
+          nix-darwin.lib.darwinSystem {
+            specialArgs = baseSpecialArgs;
             modules = [
-              ./nixpkgs/linux.nix
+              nixpkgsModule
+              ./darwin
+            ];
+          }
+        else
+          nixpkgs.lib.nixosSystem {
+            specialArgs = baseSpecialArgs;
+            modules = [
+              nixpkgsModule
               ./linux/orbstack
+              {
+                networking.hostName = hostname;
+              }
             ];
           };
+    in
+    {
+      darwinConfigurations = {
+        "GJQMM" = mkSystem {
+          system = "aarch64-darwin";
+          username = "guojiaqi";
+        };
+        "GJQMBP" = mkSystem {
+          system = "x86_64-darwin";
+          username = "guojiaqi";
+        };
+        "MyMacMini" = mkSystem {
+          system = "aarch64-darwin";
+          username = "mi";
+        };
+      };
+      homeConfigurations = {
+        "ubuntu" = mkSystem {
+          system = "aarch64-linux";
+          username = "guojiaqi";
+          homeManager = true;
+        };
+      };
+      nixosConfigurations = {
+        "nixos" = mkSystem {
+          system = "aarch64-linux";
+          username = "guojiaqi";
+          hostname = "nixos";
+        };
       };
     };
 }
