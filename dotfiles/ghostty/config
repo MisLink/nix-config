@@ -13,6 +13,7 @@ macos-titlebar-style = tabs
 macos-non-native-fullscreen = true
 macos-auto-secure-input = true
 macos-secure-input-indication = true
+macos-option-as-alt = true
 window-colorspace = display-p3
 macos-icon = xray
 shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
@@ -20,5 +21,7 @@ shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
 theme = Catppuccin Mocha
 # theme = Paul Millr
 # theme = Synthwave
+# theme = Challenger Deep
+# theme = Ayu Mirage
 
 keybind = global:alt+backquote=toggle_quick_terminal

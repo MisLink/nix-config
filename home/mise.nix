@@ -41,6 +41,11 @@
         "cargo:tokei" = "latest"; # displays statistics about your code
         "npm:eslint" = "latest";
         "npm:@anthropic-ai/claude-code" = "latest";
+        "npm:opencode-ai" = "latest";
+        "npm:@sourcegraph/amp" = "latest";
+        "npm:@openai/codex" = "latest";
+        "npm:@google/gemini-cli" = "latest";
+        "npm:@github/copilot" = "latest";
       };
       settings = {
         fetch_remote_versions_timeout = "1m";
