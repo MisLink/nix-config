@@ -12,11 +12,7 @@
         "go:github.com/moderato-app/live-pprof" = "v1";
         "go:github.com/bufbuild/buf/cmd/buf" = "latest"; # A tool for working with Protocol Buffers
         "pipx:ipython" = "latest";
-        "pipx:notebook" = {
-          version = "latest";
-          uvx = "false";
-          pipx_args = "--include-deps";
-        };
+        "pipx:notebook" = "latest";
         "pipx:litecli" = "latest";
         "pipx:mycli" = "latest";
         "pipx:pdm" = "latest";

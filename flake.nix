@@ -101,6 +101,11 @@
           username = "guojiaqi";
           homeManager = true;
         };
+        "ubuntu-amd64" = mkSystem {
+          system = "x86_64-linux";
+          username = "guojiaqi";
+          homeManager = true;
+        };
       };
       nixosConfigurations = {
         "nixos" = mkSystem {
