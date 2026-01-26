@@ -119,6 +119,7 @@ in
         name = "redis";
         restart_service = "changed";
       }
+      "trivy"
     ];
     casks = [
       "surge"
