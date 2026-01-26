@@ -42,6 +42,7 @@
         "npm:@openai/codex" = "latest";
         "npm:@google/gemini-cli" = "latest";
         "npm:@github/copilot" = "latest";
+        "cargo:git-cliff" = "latest"; # A git cliff notes generator
       };
       settings = {
         fetch_remote_versions_timeout = "1m";

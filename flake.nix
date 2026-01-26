@@ -54,7 +54,13 @@
               config.allowUnfree = true;
             };
             extraSpecialArgs = baseSpecialArgs // {
-              homedir = if isDarwin then "/Users/${username}" else "/home/${username}";
+              homedir =
+                if isDarwin then
+                  "/Users/${username}"
+                else if username == "root" then
+                  "/root"
+                else
+                  "/home/${username}";
             };
             modules = [
               ./home
