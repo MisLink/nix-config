@@ -54,7 +54,7 @@
       duckdb
       # nix
       nil
-      nixfmt-rfc-style
+      nixfmt
       # pkg
       python313
       python313Packages.uv

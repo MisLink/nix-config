@@ -3,7 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/b579d443b37c9c5373044201ea77604e37e748c8";
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,7 +44,10 @@
               ;
           };
           nixpkgsModule = {
-            nixpkgs.config.allowUnfree = true;
+            nixpkgs.pkgs = import (if isDarwin then nixpkgs-darwin else nixpkgs) {
+              inherit system;
+              config.allowUnfree = true;
+            };
             nixpkgs.hostPlatform = system;
           };
         in
