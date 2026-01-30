@@ -75,6 +75,8 @@
       dive
       graphviz
       ipcalc
+      age
+      sops
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
