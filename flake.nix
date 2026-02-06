@@ -3,8 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-darwin.url = "github:NixOS/nixpkgs/b579d443b37c9c5373044201ea77604e37e748c8";
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # nixpkgs-darwin.url = "github:NixOS/nixpkgs/b579d443b37c9c5373044201ea77604e37e748c8";
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,7 +13,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sops-nix.url = "github:Mic92/sops-nix/d7593b87b0c1c33f9cfdd485a7fef081dd5362e7";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =
