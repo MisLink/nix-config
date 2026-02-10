@@ -85,6 +85,7 @@
       ".envrc"
       ".mise.toml"
       ".mise.*.toml"
+      ".claude/*.local.json"
     ];
     includes = [ { path = config.sops.secrets.git.path; } ];
     signing = {
