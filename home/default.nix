@@ -77,6 +77,7 @@
       ipcalc
       age
       sops
+      jujutsu
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
