@@ -68,7 +68,7 @@ in
       kitty
     ];
     systemPath = [
-      "${config.homebrew.brewPrefix}"
+      "${config.homebrew.prefix}"
     ];
   };
   home-manager = {
