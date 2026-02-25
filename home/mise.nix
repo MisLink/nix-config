@@ -44,6 +44,7 @@
         "npm:@github/copilot" = "latest";
         "cargo:git-cliff" = "latest"; # A git cliff notes generator
         "npm:@fission-ai/openspec" = "latest"; # Open source specification tool by Fission AI
+        "pipx:git+https://github.com/github/spec-kit.git" = "latest"; # A tool to generate OpenAPI specifications from GitHub repositories
       };
       settings = {
         fetch_remote_versions_timeout = "1m";
