@@ -13,6 +13,13 @@ else
   DARWIN_REBUILD_CMD := darwin-rebuild
 endif
 
+HOME_MANAGER_PATH := $(shell command -v home-manager 2>/dev/null)
+ifeq ($(HOME_MANAGER_PATH),)
+  HOME_MANAGER_CMD := nix run home-manager/master --
+else
+  HOME_MANAGER_CMD := home-manager
+endif
+
 .PHONY: darwin
 darwin:
 	sudo $(DARWIN_REBUILD_CMD) switch --flake .#$(HOSTNAME)
@@ -23,7 +30,7 @@ linux:
 
 .PHONY: home
 home:
-	nix run home-manager/master -- switch --flake .#$(HOSTNAME)
+	$(HOME_MANAGER_CMD) switch --flake .#$(HOSTNAME)
 
 .PHONY: edit
 edit:
