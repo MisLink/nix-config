@@ -78,6 +78,7 @@
       age
       sops
       jujutsu
+      lld
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
