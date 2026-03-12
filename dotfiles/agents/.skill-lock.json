@@ -1,0 +1,101 @@
+{
+  "version": 3,
+  "skills": {
+    "deploy-to-vercel": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/deploy-to-vercel/SKILL.md",
+      "skillFolderHash": "1378aa506439f26c809dbcfc61515cbd70f93d69",
+      "installedAt": "2026-03-12T14:58:32.582Z",
+      "updatedAt": "2026-03-12T15:03:11.241Z"
+    },
+    "vercel-composition-patterns": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/composition-patterns/SKILL.md",
+      "skillFolderHash": "bf90d0a4b83ea054653350f9c67f6de235d3a368",
+      "installedAt": "2026-03-12T14:58:33.068Z",
+      "updatedAt": "2026-03-12T15:03:11.792Z"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "skillFolderHash": "18a9a6d17d5958d4ab10405883b80960644dbd5b",
+      "installedAt": "2026-03-12T14:58:33.525Z",
+      "updatedAt": "2026-03-12T15:03:12.383Z"
+    },
+    "vercel-react-native-skills": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/react-native-skills/SKILL.md",
+      "skillFolderHash": "8b4c6a51914e2111ab6f4f00cb81778652aa241d",
+      "installedAt": "2026-03-12T14:58:34.000Z",
+      "updatedAt": "2026-03-12T15:03:12.933Z"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/web-design-guidelines/SKILL.md",
+      "skillFolderHash": "3116f3e62dbd02b44a598b1aa690d2a8938e8f89",
+      "installedAt": "2026-03-12T14:58:34.494Z",
+      "updatedAt": "2026-03-12T15:03:13.623Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "installedAt": "2026-03-12T14:58:41.987Z",
+      "updatedAt": "2026-03-12T14:58:41.987Z"
+    },
+    "software-design-philosophy": {
+      "source": "luoling8192/software-design-philosophy-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/luoling8192/software-design-philosophy-skill.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "e55ac385e89913a6d53c7da460d080982d32ea03",
+      "installedAt": "2026-03-12T15:06:16.528Z",
+      "updatedAt": "2026-03-12T15:06:16.528Z"
+    },
+    "use-modern-go": {
+      "source": "JetBrains/go-modern-guidelines",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/JetBrains/go-modern-guidelines.git",
+      "skillPath": "claude/modern-go-guidelines/skills/use-modern-go/SKILL.md",
+      "skillFolderHash": "e44d45d26b32ec08c949a365f2ef44ed27f5572f",
+      "installedAt": "2026-03-12T15:06:46.000Z",
+      "updatedAt": "2026-03-12T15:06:46.000Z"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "skillFolderHash": "928950704df8a8b885c03de5da626331e6f29cf8",
+      "pluginName": "example-skills",
+      "installedAt": "2026-03-12T15:10:39.079Z",
+      "updatedAt": "2026-03-12T15:10:39.079Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "cline",
+    "codex",
+    "cursor",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "claude-code"
+  ]
+}
