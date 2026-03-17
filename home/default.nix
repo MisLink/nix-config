@@ -99,7 +99,6 @@
     ".npmrc".source = ../dotfiles/npm/.npmrc;
     ".golangci.toml".source = ../dotfiles/golangci-lint/.golangci.toml;
     ".config/ghostty/config".source = ../dotfiles/ghostty/config;
-    ".agents".source = ../dotfiles/agents;
   };
   programs = {
     atuin = {
