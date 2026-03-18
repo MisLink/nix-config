@@ -17,6 +17,7 @@
     ./nix.nix
     ./kitty.nix
     ./mise.nix
+    ./jujtsu.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -136,8 +137,8 @@
     };
     delta = {
       enable = true;
-      enableGitIntegration = true;
-      enableJujutsuIntegration = true;
+      # enableGitIntegration = true;
+      # enableJujutsuIntegration = true;
       options = {
         navigate = true;
         line-numbers = {
@@ -146,6 +147,12 @@
         syntax-theme = "Dracula";
         features = "line-numbers";
       };
+    };
+    difftastic = {
+      enable = true;
+      git.enable = true;
+      jujutsu.enable = true;
+      options = { };
     };
     fd.enable = true;
     gh = {
