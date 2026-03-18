@@ -80,6 +80,7 @@
       sops
       jujutsu
       lld
+      watchman
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed

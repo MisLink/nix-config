@@ -9,6 +9,13 @@
     settings = {
       user.name = "MisLink";
       user.email = "gjq.uoiai@outlook.com";
+      git = {
+        sign-on-push = true;
+      };
+      fsmonitor = {
+        backend = "watchman";
+        watchman.register-snapshot-trigger = true;
+      };
       signing = {
         behavior = "own";
         backend = "ssh";
@@ -18,9 +25,6 @@
             "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
           else
             "";
-      };
-      git = {
-        sign-on-push = true;
       };
     };
   };
