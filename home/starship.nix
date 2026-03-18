@@ -72,9 +72,11 @@
         symbol = "git ";
       };
       git_commit = {
+        disabled = true;
         tag_symbol = " tag ";
       };
       git_status = {
+        disabled = true;
         ahead = ">";
         behind = "<";
         deleted = "x";
@@ -247,6 +249,61 @@
       };
       time = {
         disabled = false;
+      };
+      custom.jj = {
+        description = "The current jj status";
+        when = "jj --ignore-working-copy root";
+        symbol = "jj ";
+        command = ''
+          jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
+            separate(" ",
+              change_id.shortest(4),
+              bookmarks,
+              "|",
+              concat(
+                if(conflict, "conflict"),
+                if(divergent, "divergent"),
+                if(hidden, "hidden"),
+                if(immutable, "immutable"),
+              ),
+              raw_escape_sequence("\x1b[1;32m") ++ if(empty, "(empty)"),
+              raw_escape_sequence("\x1b[1;32m") ++ coalesce(
+                truncate_end(29, description.first_line(), "…"),
+                "(no description set)",
+              ) ++ raw_escape_sequence("\x1b[0m"),
+            )
+          '
+        '';
+      };
+      custom.git_status = {
+        when = "! jj --ignore-working-copy root";
+        command = "starship module git_status";
+        style = ""; # This disables the default "(bold green)" style
+        description = "Only show git_status if we're not in a jj repo";
+      };
+      custom.git_commit = {
+        when = "! jj --ignore-working-copy root";
+        command = "starship module git_commit";
+        style = "";
+        description = "Only show git_commit if we're not in a jj repo";
+      };
+      git_metrics = {
+        disabled = true;
+      };
+      custom.git_metrics = {
+        when = "! jj --ignore-working-copy root";
+        command = "starship module git_metrics";
+        style = "";
+        description = "Only show git_metrics if we're not in a jj repo";
+      };
+      git_branch = {
+        disabled = true;
+      };
+      custom.git_branch = {
+        when = "! jj --ignore-working-copy root";
+        command = "starship module git_branch";
+        style = "";
+        description = "Only show git_branch if we're not in a jj repo";
       };
     };
   };
