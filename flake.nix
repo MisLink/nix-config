@@ -57,6 +57,13 @@
             pkgs = import nixpkgs {
               inherit system;
               config.allowUnfree = true;
+              overlays = if isDarwin then [ ] else [
+                (final: prev: {
+                  folly = prev.folly.overrideAttrs {
+                    doCheck = false;
+                  };
+                })
+              ];
             };
             extraSpecialArgs = baseSpecialArgs // {
               homedir =
