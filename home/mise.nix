@@ -45,6 +45,8 @@
         "cargo:git-cliff" = "latest"; # A git cliff notes generator
         "npm:@fission-ai/openspec" = "latest"; # Open source specification tool by Fission AI
         "pipx:git+https://github.com/github/spec-kit.git" = "latest"; # A tool to generate OpenAPI specifications from GitHub repositories
+        "cargo:https://github.com/rtk-ai/rtk" = "tag:v0.30.1";
+        "cargo:https://github.com/saladday/cc-switch-cli" = "tag:v5.0.1";
       };
       settings = {
         fetch_remote_versions_timeout = "1m";

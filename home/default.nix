@@ -84,7 +84,10 @@
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
-    ];
+    ]
+    ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
+      claude-code
+    ]);
 
   home.file = {
     "pdm" = {
