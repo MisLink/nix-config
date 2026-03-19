@@ -57,13 +57,17 @@
             pkgs = import nixpkgs {
               inherit system;
               config.allowUnfree = true;
-              overlays = if isDarwin then [ ] else [
-                (final: prev: {
-                  folly = prev.folly.overrideAttrs {
-                    doCheck = false;
-                  };
-                })
-              ];
+              overlays =
+                if isDarwin then
+                  [ ]
+                else
+                  [
+                    (final: prev: {
+                      folly = prev.folly.overrideAttrs {
+                        doCheck = false;
+                      };
+                    })
+                  ];
             };
             extraSpecialArgs = baseSpecialArgs // {
               homedir =
@@ -122,6 +126,11 @@
         "ubuntu-amd64" = mkSystem {
           system = "x86_64-linux";
           username = "guojiaqi";
+          homeManager = true;
+        };
+        "GM0RA28N" = mkSystem {
+          system = "x86_64-linux";
+          username = "root";
           homeManager = true;
         };
       };

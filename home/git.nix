@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 {
@@ -88,15 +89,13 @@
       ".claude/*.local.json"
     ];
     includes = [ { path = config.sops.secrets.git.path; } ];
+  }
+  // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
     signing = {
       format = "ssh";
       signByDefault = true;
       key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKnH3JJcsZnksInIdffC18IkcI2IGxnvyQBv3j+/MHsm";
-      signer =
-        if pkgs.stdenv.hostPlatform.isDarwin then
-          "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-        else
-          "";
+      signer = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
     };
   };
 }
