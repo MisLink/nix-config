@@ -26,7 +26,6 @@
         "cargo:cargo-wizard" = "latest"; # Cargo subcommand for configuring Cargo projects for best performance
         "cargo:cargo-machete" = "latest"; # Remove unused Rust dependencies
         "cargo:samply" = "latest"; # sampling profiler
-        "cargo:trunk" = "latest"; # WASM web application bundler
         "cargo:watchexec-cli" = "latest";
         "cargo:git-absorb" = "latest"; # git commit --fixup
         "cargo:bacon" = "latest"; # background code checker
@@ -35,18 +34,7 @@
           default-features = "false";
         }; # Analyze ELF binaries
         "cargo:tokei" = "latest"; # displays statistics about your code
-        "npm:eslint" = "latest";
-        # "npm:@anthropic-ai/claude-code" = "latest";
-        "npm:opencode-ai" = "latest";
-        "npm:@sourcegraph/amp" = "latest";
-        "npm:@openai/codex" = "latest";
-        "npm:@google/gemini-cli" = "latest";
-        "npm:@github/copilot" = "latest";
         "cargo:git-cliff" = "latest"; # A git cliff notes generator
-        "npm:@fission-ai/openspec" = "latest"; # Open source specification tool by Fission AI
-        "pipx:git+https://github.com/github/spec-kit.git" = "latest"; # A tool to generate OpenAPI specifications from GitHub repositories
-        "cargo:https://github.com/rtk-ai/rtk" = "tag:v0.30.1";
-        "cargo:https://github.com/saladday/cc-switch-cli" = "tag:v5.0.1";
       };
       settings = {
         fetch_remote_versions_timeout = "1m";

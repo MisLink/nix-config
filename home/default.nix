@@ -18,6 +18,7 @@
     ./kitty.nix
     ./mise.nix
     ./jujtsu.nix
+    ./llm.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -84,10 +85,7 @@
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
-    ]
-    ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
-      claude-code
-    ]);
+    ];
 
   home.file = {
     "pdm" = {
@@ -305,7 +303,10 @@
         " ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
       '';
     };
-    yazi.enable = true;
+    yazi = {
+      enable = true;
+      shellWrapperName = "y";
+    };
     zoxide.enable = true;
   };
 }
