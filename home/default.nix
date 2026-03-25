@@ -82,6 +82,7 @@
       jujutsu
       lld
       watchman
+      stow
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
