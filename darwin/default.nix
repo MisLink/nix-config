@@ -153,6 +153,7 @@ in
       "tencent-meeting"
       "popclip"
       "1password"
+      "1password-cli@beta"
       "microsoft-office"
       "witch"
       "openmtp"

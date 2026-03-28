@@ -50,7 +50,7 @@
       typst
       gh
       glab
-      _1password-cli
+      # _1password-cli
       dust
       gnumake
       duckdb

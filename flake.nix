@@ -48,6 +48,13 @@
               username
               system
               ;
+            homedir =
+              if isDarwin then
+                "/Users/${username}"
+              else if username == "root" then
+                "/root"
+              else
+                "/home/${username}";
           };
           nixpkgsModule = {
             nixpkgs.pkgs = import (if isDarwin then nixpkgs-darwin else nixpkgs) {
@@ -74,15 +81,7 @@
                     })
                   ];
             };
-            extraSpecialArgs = baseSpecialArgs // {
-              homedir =
-                if isDarwin then
-                  "/Users/${username}"
-                else if username == "root" then
-                  "/root"
-                else
-                  "/home/${username}";
-            };
+            extraSpecialArgs = baseSpecialArgs;
             modules = [
               ./home
             ];
@@ -98,13 +97,13 @@
         else
           nixpkgs.lib.nixosSystem {
             specialArgs = baseSpecialArgs;
-            modules = [
-              nixpkgsModule
-              ./linux/orbstack
-              {
-                networking.hostName = hostname;
-              }
-            ];
+            # modules = [
+            #   nixpkgsModule
+            #   ./linux/orbstack
+            #   {
+            #     networking.hostName = hostname;
+            #   }
+            # ];
           };
     in
     {
@@ -139,12 +138,12 @@
           homeManager = true;
         };
       };
-      nixosConfigurations = {
-        "nixos" = mkSystem {
-          system = "aarch64-linux";
-          username = "guojiaqi";
-          hostname = "nixos";
-        };
-      };
+      # nixosConfigurations = {
+      #   "nixos" = mkSystem {
+      #     system = "aarch64-linux";
+      #     username = "guojiaqi";
+      #     hostname = "nixos";
+      #   };
+      # };
     };
 }
