@@ -34,4 +34,4 @@ home:
 
 .PHONY: edit
 edit:
-	SOPS_AGE_KEY_CMD="op read 'op://Personal/age/password'" sops edit ./secrets/secrets.yaml
+	sops edit ./secrets/secrets.yaml

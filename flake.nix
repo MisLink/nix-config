@@ -41,6 +41,13 @@
         }:
         let
           isDarwin = builtins.match ".*darwin" system != null;
+          overlays = [ (import ./overlays/patches.nix) ];
+          mkPkgs =
+            nixpkgsSrc:
+            import nixpkgsSrc {
+              inherit system overlays;
+              config.allowUnfree = true;
+            };
           baseSpecialArgs = {
             inherit
               inputs
@@ -57,30 +64,13 @@
                 "/home/${username}";
           };
           nixpkgsModule = {
-            nixpkgs.pkgs = import (if isDarwin then nixpkgs-darwin else nixpkgs) {
-              inherit system;
-              config.allowUnfree = true;
-            };
+            nixpkgs.pkgs = mkPkgs (if isDarwin then nixpkgs-darwin else nixpkgs);
             nixpkgs.hostPlatform = system;
           };
         in
         if homeManager then
           home-manager.lib.homeManagerConfiguration {
-            pkgs = import nixpkgs {
-              inherit system;
-              config.allowUnfree = true;
-              overlays =
-                if isDarwin then
-                  [ ]
-                else
-                  [
-                    (final: prev: {
-                      folly = prev.folly.overrideAttrs {
-                        doCheck = false;
-                      };
-                    })
-                  ];
-            };
+            pkgs = mkPkgs nixpkgs;
             extraSpecialArgs = baseSpecialArgs;
             modules = [
               ./home
