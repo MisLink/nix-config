@@ -1,10 +1,12 @@
-{ homedir, ... }:
+{ pkgs, ... }:
 {
   sops = {
     # age.keyFile = "${homedir}/.config/sops/age/keys.txt";
     age.keyFile = "";
     environment = {
-      SOPS_AGE_KEY_CMD = "op read 'op://Personal/age/password'";
+      SOPS_AGE_SSH_PRIVATE_KEY_CMD = ''${
+        if pkgs.stdenv.hostPlatform.isDarwin then "/opt/homebrew/bin/op" else "/usr/local/bin/op"
+      } read "op://Personal/primary/private_key?ssh-format=openssh"'';
     };
     defaultSopsFile = ../secrets/secrets.yaml;
     secrets.git = { };
