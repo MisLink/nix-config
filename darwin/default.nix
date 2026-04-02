@@ -65,7 +65,6 @@ in
     };
     systemPackages = with pkgs; [
       darwin.trash
-      kitty
     ];
     systemPath = [
       "${config.homebrew.prefix}/bin"
@@ -169,8 +168,7 @@ in
       "obs"
       "zed"
       "ghostty"
-      # "antigravity"
-      # "claude-code"
+      "tailscale-app"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

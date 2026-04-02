@@ -35,6 +35,7 @@
         }; # Analyze ELF binaries
         "cargo:tokei" = "latest"; # displays statistics about your code
         "cargo:git-cliff" = "latest"; # A git cliff notes generator
+        "npm:@playwright/cli" = "latest";
       };
       settings = {
         fetch_remote_versions_timeout = "1m";

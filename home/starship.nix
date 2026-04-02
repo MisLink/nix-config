@@ -4,6 +4,7 @@
     enable = true;
     settings = {
       format = "$all$line_break$character";
+      command_timeout = 1000;
 
       aws = {
         symbol = "aws ";
@@ -266,12 +267,12 @@
                 if(divergent, "^"),
                 if(hidden, "·"),
                 if(immutable, "#"),
-                if(self.contained_in("present(bookmarks()..@)"), "↑"),
-                if(self.contained_in("present(@..bookmarks())"), "↓"),
+                if(self.contained_in("present(bookmarks()..@)"), ">"),
+                if(self.contained_in("present(@..bookmarks())"), "<"),
               ),
               raw_escape_sequence("\x1b[1;32m") ++ if(empty, "(?)"),
               raw_escape_sequence("\x1b[1;32m") ++ coalesce(
-                truncate_end(19, description.first_line(), "…"),
+                truncate_end(19, description.first_line(), "..."),
                 "(WIP)",
               ) ++ raw_escape_sequence("\x1b[0m"),
             )

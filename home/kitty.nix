@@ -1,7 +1,8 @@
 { pkgs, ... }:
 {
   programs.kitty = {
-    enable = true;
+    enable = pkgs.stdenv.hostPlatform.isDarwin;
+    themeFile = "Catppuccin-Mocha";
     darwinLaunchOptions = [
       "--single-instance"
       "--start-as=maximized"
@@ -10,6 +11,46 @@
       package = pkgs.sarasa-gothic;
       name = "Sarasa Term SC";
       size = 19.0;
+    };
+    settings = {
+      # font
+      symbol_map = "U+20-U+2F,U+3A-U+40,U+5B-U+60,U+7B-U+7E,U+30-U+39,U+61-U+7A,U+41-U+5A Agave";
+      disable_ligatures = "cursor";
+      # cursor
+      cursor_shape = "beam";
+      cursor_trail = 10;
+      cursor_trail_decay = "0.2 0.5";
+      # scrollback
+      scrollback_lines = 5000;
+      scrollback_pager = "${pkgs.less}/bin/less --tabs=4 --window=-2 --no-init --mouse --wordwrap --incsearch --ignore-case --status-line --use-color --HILITE-UNREAD --LONG-PROMPT --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
+      scrollback_pager_history_size = 1024;
+      # mouse
+      url_style = "straight";
+      strip_trailing_spaces = "smart";
+      # window layout
+      enabled_layouts = "splits,tall,stack";
+      hide_window_decorations = "titlebar-and-corners";
+      window_padding_width = 2;
+      # tab bar
+      tab_bar_style = "powerline";
+      tab_powerline_style = "angled";
+      tab_title_max_length = 32;
+      tab_activity_symbol = "·";
+      tab_title_template = "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index}{'+' if layout_name == 'stack' else ''}:{title}";
+      tab_bar_min_tabs = 1;
+      # color
+      background_opacity = 0.85;
+      background_blur = 2;
+      inactive_text_alpha = 0.75;
+      # advanced
+      notify_on_cmd_finish = "invisible 5 notify";
+      terminfo_type = "direct";
+      kitty_mod = "cmd+shift";
+      # os specific
+      macos_option_as_alt = "left";
+      macos_colorspace = "default";
+      macos_titlebar_color = "background";
+      macos_custom_beam_cursor = "yes";
     };
     keybindings = {
       # scrolling
@@ -24,63 +65,31 @@
       "cmd+7" = "goto_tab 7";
       "cmd+8" = "goto_tab 8";
       "cmd+9" = "goto_tab 9";
-      "kitty_mod+d" = "detach_window new-tab";
-      "cmd+\\" = "launch --cwd=current --location=vsplit";
-      "kitty_mod+\\" = "launch --cwd=current --location=hsplit";
-      "ctrl+shift+]" = "next_window";
-      "ctrl+shift+[" = "prev_window";
       "cmd+t" = "new_tab_with_cwd !neighbor";
+      "cmd+d" = "launch --location=vsplit --cwd=current";
+      "kitty_mod+d" = "launch --location=hsplit --cwd=current";
+      "kitty_mod+z" = "scroll_to_prompt -1";
+      "kitty_mod+x" = "scroll_to_prompt 1";
+      "cmd+[" = "previous_window";
+      "cmd+]" = "next_window";
+      "kitty_mod+." = "move_tab_forward";
+      "kitty_mod+," = "move_tab_backward";
       "kitty_mod+enter" = "toggle_layout stack";
+      "kitty_mod+p" = "command_palette";
       # mark
       "kitty_mod+m>c" = "create_marker";
       "kitty_mod+m>d" = "remove_marker";
       "ctrl+p" = "scroll_to_mark prev";
       "ctrl+n" = "scroll_to_mark next";
-      "cmd+f" = "show_scrollback";
-      "kitty_mod+c" = "launch --type=clipboard --stdin-source=@last_cmd_output";
-      "cmd+alt+i" = "launch --allow-remote-control kitty +kitten broadcast --match-tab state:focused";
-      # "alt+left" = "send_text all \\x1b\\x62";
-      # "alt+right" = "send_text all \\x1b\\x66";
     };
-    settings = {
-      # font
-      symbol_map = "U+20-U+2F,U+3A-U+40,U+5B-U+60,U+7B-U+7E,U+30-U+39,U+61-U+7A,U+41-U+5A Agave";
-      disable_ligatures = "cursor";
-      # cursor
-      cursor_shape = "beam";
-      cursor_trail = 10;
-      cursor_trail_decay = "0.2 0.5";
-      # scrollback
-      scrollback_lines = 5000;
-      scrollback_pager = "${pkgs.less}/bin/less --chop-long-lines --incsearch --ignore-case --status-column --hilite-unread --LONG-PROMPT --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
-      scrollback_pager_history_size = 1024;
-      # mouse
-      url_style = "straight";
-      show_hyperlink_targets = "yes";
-      strip_trailing_spaces = "smart";
-      # window layout
-      enabled_layouts = "splits,grid,fat,tall,stack";
-      hide_window_decorations = "titlebar-only";
-      # tab bar
-      tab_bar_style = "powerline";
-      tab_powerline_style = "angled";
-      tab_title_max_length = 32;
-      tab_title_template = "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index}{'^' if layout_name == 'stack' else ''}:{title}";
-      tab_bar_min_tabs = 1;
-      # color
-      background_opacity = 0.75;
-      background_blur = 4;
-      # advanced
-      notify_on_cmd_finish = "invisible 5 notify";
-      terminfo_type = "direct";
-      # os specific
-      kitty_mod = "cmd+shift";
+    mouseBindings = {
+      "left click" = "ungrabbed mouse_handle_click selection prompt";
+      "cmd+left click" = "ungrabbed mouse_click_url";
+      "right click" = "ungrabbed mouse_select_command_output";
     };
-    extraConfig = ''
-      mouse_map left click ungrabbed mouse_handle_click selection prompt
-      mouse_map cmd+left click ungrabbed mouse_click_url
-      mouse_map right press ungrabbed mouse_select_command_output
-    '';
-    themeFile = "spaceduck";
+    quickAccessTerminalConfig = {
+      lines = 30;
+      start_as_hidden = "yes";
+    };
   };
 }
