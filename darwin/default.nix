@@ -177,12 +177,12 @@ in
       "Xcode" = 497799835;
       "Klib" = 1196268448;
       "wechat" = 836500024;
-      "LiquidText" = 922765270;
+      # "LiquidText" = 922765270;
       "iHosts" = 1102004240;
       "Immersive Translate" = 6447957425;
       "WindowsApp" = 1295203466;
       "SnippetsLab" = 1006087419;
-      "Goodnotes" = 1444383602;
+      # "Goodnotes" = 1444383602;
       "Reeder" = 1529448980;
       "rcmd" = 1596283165;
       "Xmind" = 1327661892;
