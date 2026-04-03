@@ -253,6 +253,11 @@
       custom.jj = {
         description = "The current jj status";
         when = "jj --ignore-working-copy root";
+        shell = [
+          "sh"
+          "--norc"
+          "--noprofile"
+        ];
         symbol = "jj ";
         command = ''
           jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
@@ -261,10 +266,10 @@
               bookmarks,
               "|",
               concat(
-                if(conflict, "⛌"),
-                if(divergent, "⑂"),
-                if(hidden, "◌"),
-                if(immutable, "⛒"),
+                if(conflict, "x"),
+                if(divergent, "^"),
+                if(hidden, "·"),
+                if(immutable, "#"),
                 if(self.contained_in("present(bookmarks()..@)"), "↑"),
                 if(self.contained_in("present(@..bookmarks())"), "↓"),
               ),
