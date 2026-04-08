@@ -22,7 +22,7 @@
       cursor_trail_decay = "0.2 0.5";
       # scrollback
       scrollback_lines = 5000;
-      scrollback_pager = "${pkgs.less}/bin/less --tabs=4 --window=-2 --no-init --mouse --wordwrap --incsearch --ignore-case --status-line --use-color --HILITE-UNREAD --LONG-PROMPT --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
+      scrollback_pager = "${pkgs.less}/bin/less --tabs=4 --window=-2 --no-init --wordwrap --incsearch --ignore-case --status-line --use-color --HILITE-UNREAD --LONG-PROMPT --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
       scrollback_pager_history_size = 1024;
       # mouse
       url_style = "straight";
