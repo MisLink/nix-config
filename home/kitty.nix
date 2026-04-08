@@ -22,14 +22,14 @@
       cursor_trail_decay = "0.2 0.5";
       # scrollback
       scrollback_lines = 5000;
-      scrollback_pager = "${pkgs.less}/bin/less --tabs=4 --window=-2 --no-init --wordwrap --incsearch --ignore-case --status-line --use-color --HILITE-UNREAD --LONG-PROMPT --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
+      scrollback_pager = "${pkgs.less}/bin/less --tabs=4 --window=-2 --wordwrap --incsearch --ignore-case --status-line --use-color --HILITE-UNREAD --LONG-PROMPT --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
       scrollback_pager_history_size = 1024;
       # mouse
       url_style = "straight";
       strip_trailing_spaces = "smart";
       # window layout
       enabled_layouts = "splits,tall,stack";
-      hide_window_decorations = "titlebar-and-corners";
+      # hide_window_decorations = "titlebar-and-corners";
       window_padding_width = 2;
       # tab bar
       tab_bar_style = "powerline";

@@ -2,7 +2,7 @@
 {
   home.sessionVariables = {
     LC_ALL = "en_US.UTF-8";
-    LESS = "--tabs=4 --window=-2 --no-init --wordwrap --incsearch --ignore-case --status-line --use-color --HILITE-UNREAD --LONG-PROMPT --RAW-CONTROL-CHARS";
+    LESS = "--tabs=4 --window=-2 --wordwrap --incsearch --ignore-case --status-line --use-color --HILITE-UNREAD --LONG-PROMPT --RAW-CONTROL-CHARS";
     VIRTUAL_ENV_DISABLE_PROMPT = "1";
     RUSTUP_DIST_SERVER = "https://rsproxy.cn";
     RUSTUP_UPDATE_ROOT = "https://rsproxy.cn/rustup";

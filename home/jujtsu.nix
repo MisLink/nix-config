@@ -10,6 +10,13 @@
     settings = {
       user.name = "MisLink";
       user.email = "gjq.uoiai@outlook.com";
+      ui = {
+        default-command = "log";
+        conflict-marker-style = "git";
+        merge-editor = "vscode";
+        graph.style = "ascii";
+      };
+      snapshot.auto-update-stale = true;
       git = {
         sign-on-push = true;
       };
@@ -17,8 +24,6 @@
         backend = "watchman";
         watchman.register-snapshot-trigger = true;
       };
-    }
-    // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
       signing = {
         behavior = "drop";
         backend = "ssh";
