@@ -26,7 +26,7 @@ in
       # 仅在非 SSH 会话中（SSH_TTY 未设置）使用 1Password agent
       # 在 SSH 会话中（SSH_TTY 已设置）不设置 IdentityAgent，走 SSH_AUTH_SOCK（agent forwarding）
       "1password" = lib.hm.dag.entryBefore [ "*" ] {
-        match = ''host * exec "test -z $SSH_TTY"'';
+        match = ''host * exec "test -z $SSH_CONNECTION"'';
         identityAgent =
           if pkgs.stdenv.hostPlatform.isDarwin then
             ''"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"''
