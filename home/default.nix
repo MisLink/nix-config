@@ -83,6 +83,7 @@
       lld
       watchman
       stow
+      ghidra
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed
