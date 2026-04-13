@@ -36,6 +36,7 @@
         "cargo:tokei" = "latest"; # displays statistics about your code
         "cargo:git-cliff" = "latest"; # A git cliff notes generator
         "npm:@playwright/cli" = "latest";
+        "pipx:markitdown[all]" = "latest";
       };
       settings = {
         fetch_remote_versions_timeout = "1m";
@@ -47,7 +48,7 @@
         };
         pipx = {
           uvx = true;
-          registry_url = "https://pypi.tuna.tsinghua.edu.cn/pypi/{}/json";
+          registry_url = "https://pypi.tuna.tsinghua.edu.cn/simple/{}/";
         };
         python.precompiled_flavor = "pgo+lto";
       };
