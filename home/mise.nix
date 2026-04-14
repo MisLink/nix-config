@@ -36,7 +36,10 @@
         "cargo:tokei" = "latest"; # displays statistics about your code
         "cargo:git-cliff" = "latest"; # A git cliff notes generator
         "npm:@playwright/cli" = "latest";
-        "pipx:markitdown[all]" = "latest";
+        "pipx:markitdown" = {
+          version = "latest";
+          extras = "all";
+        };
       };
       settings = {
         fetch_remote_versions_timeout = "1m";
