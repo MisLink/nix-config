@@ -58,9 +58,9 @@
       nil
       nixfmt
       # pkg
-      python313
-      python313Packages.uv
-      python313Packages.pipx
+      python314
+      python314Packages.uv
+      python314Packages.pipx
       rustup
       cargo-binstall
       go
