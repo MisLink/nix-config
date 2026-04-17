@@ -2,6 +2,7 @@
 {
   programs.kitty = {
     enable = pkgs.stdenv.hostPlatform.isDarwin;
+    package = null;
     themeFile = "Catppuccin-Mocha";
     darwinLaunchOptions = [
       "--single-instance"
@@ -43,13 +44,17 @@
       background_blur = 2;
       inactive_text_alpha = 0.75;
       # advanced
-      notify_on_cmd_finish = "invisible 5 notify";
-      terminfo_type = "direct";
+      # notify_on_cmd_finish = "invisible 30 notify";
+      # terminfo_type = "direct";
+      listen_on = "unix:$TMPDIR/kitty.sock";
+      allow_remote_control = "socket-only";
       kitty_mod = "cmd+shift";
       # os specific
       macos_option_as_alt = "left";
       macos_colorspace = "default";
       macos_titlebar_color = "background";
+      # macos_window_resizable = "no";
+      hide_window_decorations = "titlebar-only";
       macos_custom_beam_cursor = "yes";
     };
     keybindings = {
