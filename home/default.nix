@@ -100,10 +100,24 @@
     ".config/pip/pip.conf".source = ../dotfiles/pip/pip.conf;
     ".config/uv/uv.toml".source = ../dotfiles/uv/uv.toml;
     ".config/kitty/kitty.app.png".source = ../dotfiles/kitty/kitty.app.png;
-    ".cargo/config.toml".source = ../dotfiles/cargo/config.toml;
     ".npmrc".source = ../dotfiles/npm/.npmrc;
     ".golangci.toml".source = ../dotfiles/golangci-lint/.golangci.toml;
     ".config/ghostty/config".source = ../dotfiles/ghostty/config;
+    ".cargo/config.toml".text = ''
+      [source.crates-io]
+      replace-with = "tuna-sparse"
+      [source.tuna]
+      registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
+      [source.tuna-sparse]
+      registry = "sparse+https://mirrors.tuna.tsinghua.edu.cn/crates.io-index/"
+      [source.rsproxy]
+      registry = "https://rsproxy.cn/crates.io-index"
+      [source.rsproxy-sparse]
+      registry = "sparse+https://rsproxy.cn/index/"
+      [build]
+      rustc-wrapper = "${pkgs.sccache}/bin/sccache"
+      target-dir = "${homedir}/.cargo/target"
+    '';
   };
   programs = {
     atuin = {

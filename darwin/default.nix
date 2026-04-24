@@ -169,6 +169,7 @@ in
       "zed"
       "ghostty"
       "kitty"
+      "codex-app"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

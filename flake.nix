@@ -112,7 +112,7 @@
         };
       };
       homeConfigurations = {
-        "ubuntu" = mkSystem {
+        "ubuntu-arm64" = mkSystem {
           system = "aarch64-linux";
           username = "guojiaqi";
           homeManager = true;
