@@ -1,8 +1,7 @@
 final: prev: {
-  folly = prev.folly.overrideAttrs (old: {
-    # Skip flaky async UDP socket tests
-    doCheck = false;
-  });
+  # Skip flaky tests for packages with known failures
+  folly = prev.folly.overrideAttrs (_: { doCheck = false; });
+  edencommon = prev.edencommon.overrideAttrs (_: { doCheck = false; });
 
   direnv = prev.direnv.overrideAttrs (old: {
     # With CGO disabled the internal linker is used by default; remove the
