@@ -51,11 +51,11 @@ in
   environment = {
     shells = [ pkgs.fish ];
     variables = {
-      HOMEBREW_API_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api";
-      HOMEBREW_BOTTLE_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles";
+      HOMEBREW_API_DOMAIN = "https://mirrors.ustc.edu.cn/homebrew-bottles/api";
+      HOMEBREW_BOTTLE_DOMAIN = "https://mirrors.ustc.edu.cn/homebrew-bottles";
       HOMEBREW_PIP_INDEX_URL = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple";
-      HOMEBREW_BREW_GIT_REMOTE = "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git";
-      HOMEBREW_CORE_GIT_REMOTE = "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git";
+      HOMEBREW_BREW_GIT_REMOTE = "https://mirrors.ustc.edu.cn/brew.git";
+      HOMEBREW_CORE_GIT_REMOTE = "https://mirrors.ustc.edu.cn/homebrew-core.git";
     };
     shellAliases = {
       cdf = ''cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"'';
@@ -67,7 +67,6 @@ in
       darwin.trash
     ];
     systemPath = [
-      "${config.homebrew.prefix}/bin"
     ];
   };
   home-manager = {
@@ -105,6 +104,9 @@ in
       upgrade = true;
       cleanup = "uninstall";
     };
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+    enableZshIntegration = true;
     brews = [
       {
         name = "postgresql@17";
