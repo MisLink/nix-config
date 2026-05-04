@@ -89,8 +89,6 @@
       ".claude/*.local.json"
     ];
     includes = [ { path = config.sops.secrets.git.path; } ];
-  }
-  // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
     signing = {
       format = "ssh";
       signByDefault = true;
