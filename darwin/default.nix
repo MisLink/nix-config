@@ -126,7 +126,6 @@ in
       "surge"
       "firefox@nightly"
       "keka"
-      "stats"
       "spotify"
       "logseq"
       "bettertouchtool"
@@ -172,6 +171,9 @@ in
       "ghostty"
       "kitty"
       "codex-app"
+      "claude"
+      "istat-menus@6"
+      "hammerspoon"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

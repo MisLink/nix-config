@@ -21,8 +21,9 @@
         sign-on-push = true;
       };
       fsmonitor = {
-        backend = "watchman";
-        watchman.register-snapshot-trigger = true;
+        backend = "none";
+        # backend = "watchman";
+        # watchman.register-snapshot-trigger = true;
       };
       signing = {
         behavior = "drop";

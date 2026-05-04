@@ -17,7 +17,7 @@
     ./nix.nix
     ./kitty.nix
     ./mise.nix
-    ./jujtsu.nix
+    ./jujutsu.nix
     ./llm.nix
   ];
 
@@ -58,9 +58,9 @@
       nil
       nixfmt
       # pkg
-      python314
-      python314Packages.uv
-      python314Packages.pipx
+      python313
+      python313Packages.uv
+      python313Packages.pipx
       rustup
       cargo-binstall
       go
@@ -81,9 +81,10 @@
       sops
       jujutsu
       lld
-      watchman
       stow
-      ghidra
+    ]
+    ++ [
+      (if pkgs.stdenv.hostPlatform.system == "x86_64-darwin" then ghidra-bin else ghidra)
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
       coreutils-prefixed

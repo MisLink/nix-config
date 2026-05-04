@@ -45,7 +45,7 @@
       inactive_text_alpha = 0.75;
       # advanced
       # notify_on_cmd_finish = "invisible 30 notify";
-      # terminfo_type = "direct";
+      terminfo_type = "direct";
       listen_on = "unix:$TMPDIR/kitty.sock";
       allow_remote_control = "socket-only";
       kitty_mod = "cmd+shift";
