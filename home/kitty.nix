@@ -94,7 +94,6 @@
     };
     quickAccessTerminalConfig = {
       lines = 30;
-      start_as_hidden = "yes";
     };
   };
 }
