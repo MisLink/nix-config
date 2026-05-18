@@ -119,6 +119,9 @@
       rustc-wrapper = "${pkgs.sccache}/bin/sccache"
       target-dir = "${homedir}/.cargo/target"
     '';
+    ".pi/agent/settings.json".source = ../dotfiles/pi/settings.json;
+    ".agents/skills".source = ../dotfiles/.agents/skills;
+    ".claude".source = ../dotfiles/.claude;
   };
   programs = {
     atuin = {

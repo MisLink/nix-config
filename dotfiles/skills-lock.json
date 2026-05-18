@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "skills": {
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser",
+      "sourceType": "github",
+      "skillPath": "skills/agent-browser/SKILL.md",
+      "computedHash": "228f87d57035100d9dc6efcfc05aafd4b6e3962adacaa04b8217ab2fadb15dc8"
+    },
+    "alerting-irm": {
+      "source": "grafana/skills",
+      "sourceType": "github",
+      "skillPath": "skills/grafana-core/alerting-irm/SKILL.md",
+      "computedHash": "c1d7a3a007a7d31080877c0e764f6364cd8c30633cd5303958eb223d81628cff"
+    },
+    "claude-api": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/claude-api/SKILL.md",
+      "computedHash": "56eb11d68a601c8ba87750e6bdda44a4569a1fe8f66057d2dc5d75843b23889f"
+    },
+    "dashboarding": {
+      "source": "grafana/skills",
+      "sourceType": "github",
+      "skillPath": "skills/grafana-core/dashboarding/SKILL.md",
+      "computedHash": "d8b1a6b7b8e7796fc8fc0eacda974a6c6c61594d848e5b3f30df837112ead839"
+    },
+    "feishu-bitable": {
+      "source": "larksuite/openclaw-lark",
+      "sourceType": "github",
+      "skillPath": "skills/feishu-bitable/SKILL.md",
+      "computedHash": "97a3859795f4f0f9e63b674bccf195897c4412bec8150046321ba8d19beb0928"
+    },
+    "feishu-create-doc": {
+      "source": "larksuite/openclaw-lark",
+      "sourceType": "github",
+      "skillPath": "skills/feishu-create-doc/SKILL.md",
+      "computedHash": "5808a67d49b952fc39115ff6c4fa8d7adbdce2c23814c5a1c1f308bc70790622"
+    },
+    "feishu-fetch-doc": {
+      "source": "larksuite/openclaw-lark",
+      "sourceType": "github",
+      "skillPath": "skills/feishu-fetch-doc/SKILL.md",
+      "computedHash": "d1829e06905b70106178da5450a424142e4983197736f2a9b03efe640242cb01"
+    },
+    "feishu-update-doc": {
+      "source": "larksuite/openclaw-lark",
+      "sourceType": "github",
+      "skillPath": "skills/feishu-update-doc/SKILL.md",
+      "computedHash": "1ad02af184831c662b923539024aec9d69b0ca667f10d1bd391ca21aac68d959"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "computedHash": "9e1c8b3103f92fa8092568a44fe64858de7c5c9dc65ce4bea8f168080e889cfd"
+    },
+    "mcp-builder": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/mcp-builder/SKILL.md",
+      "computedHash": "826e46adf81e1372282e205c34e1a2ee876e72148007726e4a2512599d2fef7b"
+    },
+    "opentelemetry": {
+      "source": "grafana/skills",
+      "sourceType": "github",
+      "skillPath": "skills/grafana-core/opentelemetry/SKILL.md",
+      "computedHash": "7726c7e8b48f15a846f22bf1c8af710095c033cf3f8f5440c2284321ec0fc205"
+    },
+    "playwright-cli": {
+      "source": "microsoft/playwright-cli",
+      "sourceType": "github",
+      "skillPath": "skills/playwright-cli/SKILL.md",
+      "computedHash": "84495cfda62b6c012afc4cc34a0c35bfc7923ba35983b8c04ce4cace0f35a5d8"
+    },
+    "promql": {
+      "source": "grafana/skills",
+      "sourceType": "github",
+      "skillPath": "skills/grafana-core/promql/SKILL.md",
+      "computedHash": "81d1df0ad4d81f51ef9ac71e4e63e9a67a8423a7cd4fbb73efee25a7a22cb8ba"
+    },
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "80a6226e78f6d1fe464214ae0ef449d49d8ffaa3e7704f011e9b418c678ad4d1"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "computedHash": "5ea13a6d9f0d4bb694405d79acd00cadec0d21bb138c4dd10fcf3c500cb835c2"
+    },
+    "use-modern-go": {
+      "source": "JetBrains/go-modern-guidelines",
+      "sourceType": "github",
+      "skillPath": "claude/modern-go-guidelines/skills/use-modern-go/SKILL.md",
+      "computedHash": "a814593e0b52d429d6fedd2550782b11891408111ca6fc9b04ec80f308e547bb"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-guidelines/SKILL.md",
+      "computedHash": "f3bc47f890f42a44db1007ab390709ec368e4b8c089baee6b0007182236ac474"
+    }
+  }
+}

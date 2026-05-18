@@ -5,3 +5,7 @@ creation_rules:
     key_groups:
       - age:
           - *primary
+  - path_regex: dotfiles/pi/[^/]+\.enc.json$
+    key_groups:
+      - age:
+          - *primary

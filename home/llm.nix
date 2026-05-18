@@ -12,7 +12,6 @@
     openspec
     spec-kit
     agent-browser
-    ccusage-pi
     ccusage
   ];
 }
