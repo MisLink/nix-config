@@ -121,7 +121,7 @@
     '';
     ".pi/agent/settings.json".source = ../dotfiles/pi/settings.json;
     ".agents/skills".source = ../dotfiles/.agents/skills;
-    ".claude".source = ../dotfiles/.claude;
+    ".claude/skills".source = ../dotfiles/.claude/skills;
   };
   programs = {
     atuin = {
