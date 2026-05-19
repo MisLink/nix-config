@@ -42,7 +42,7 @@
         };
         "npm:pnpm" = "latest";
         "npm:bun" = "latest";
-        "npm:biome" = "latest";
+        "npm:@biomejs/biome" = "latest";
       };
       settings = {
         fetch_remote_versions_timeout = "1m";
