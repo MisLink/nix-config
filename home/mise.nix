@@ -40,9 +40,9 @@
           version = "latest";
           extras = "all";
         };
-        "node" = "latest";
         "npm:pnpm" = "latest";
         "npm:bun" = "latest";
+        "npm:biome" = "latest";
       };
       settings = {
         fetch_remote_versions_timeout = "1m";

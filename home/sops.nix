@@ -8,9 +8,12 @@ let
   opTokenFile = "${homedir}/.config/op/sops-service-account-token";
   sopsAgeKeyCmd = pkgs.writeShellScript "sops-age-key-cmd" ''
     set -eu
+
     if [ -z "''${OP_SERVICE_ACCOUNT_TOKEN:-}" ]; then
-      export OP_SERVICE_ACCOUNT_TOKEN="$(cat "${opTokenFile}")"
+      IFS= read -r OP_SERVICE_ACCOUNT_TOKEN < "${opTokenFile}"
+      export OP_SERVICE_ACCOUNT_TOKEN
     fi
+
     exec ${op} read "op://key/sops/private_key?ssh-format=openssh"
   '';
 in
