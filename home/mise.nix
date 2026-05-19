@@ -40,7 +40,6 @@
           version = "latest";
           extras = "all";
         };
-        "npm:@earendil-works/pi-coding-agent" = "latest";
         "node" = "latest";
         "npm:pnpm" = "latest";
         "npm:bun" = "latest";

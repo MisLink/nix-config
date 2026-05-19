@@ -24,12 +24,6 @@ in
     defaultSopsFile = ../secrets/secrets.yaml;
     secrets.git = { };
     secrets.ssh_hosts = { };
-    secrets."pi-auth.json" = {
-      sopsFile = ../dotfiles/pi/auth.enc.json;
-      path = "${homedir}/.pi/agent/auth.json";
-      key = "";
-      format = "json";
-    };
     secrets."pi-mcp.json" = {
       sopsFile = ../dotfiles/pi/mcp.enc.json;
       path = "${homedir}/.pi/agent/mcp.json";
