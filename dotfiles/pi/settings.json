@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.74.1",
+  "lastChangelogVersion": "0.75.3",
   "defaultProvider": "github-copilot",
   "defaultModel": "claude-sonnet-4.6",
   "defaultThinkingLevel": "high",
@@ -15,7 +15,7 @@
         "-pi-package/extensions/questionnaire/index.ts",
         "-pi-package/extensions/caveman/index.ts",
         "-pi-package/extensions/btw/index.ts",
-        "+pi-package/extensions/plan-tracker/index.ts"
+        "-pi-package/extensions/plan-tracker/index.ts"
       ],
       "skills": []
     },
@@ -23,7 +23,8 @@
     "npm:pi-mcp-adapter",
     "npm:pi-autoresearch",
     "npm:@eko24ive/pi-ask",
-    "npm:pi-context-usage"
+    "npm:pi-context-usage",
+    "npm:@plannotator/pi-extension"
   ],
   "hideThinkingBlock": false,
   "theme": "dark",

@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     # nixpkgs-darwin.url = "github:NixOS/nixpkgs/b579d443b37c9c5373044201ea77604e37e748c8";
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
@@ -27,6 +28,7 @@
       self,
       nixpkgs,
       nixpkgs-darwin,
+      nixpkgs-stable,
       nix-darwin,
       home-manager,
       ...
@@ -41,7 +43,7 @@
         }:
         let
           isDarwin = builtins.match ".*darwin" system != null;
-          overlays = [ (import ./overlays/patches.nix) ];
+          overlays = [ (import ./overlays/patches.nix { inherit inputs system; }) ];
           mkPkgs =
             nixpkgsSrc:
             import nixpkgsSrc {

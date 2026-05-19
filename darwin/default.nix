@@ -14,6 +14,7 @@ in
     inputs.home-manager.darwinModules.home-manager
     ./aerospace.nix
     ./system.nix
+    ./dash-mcp.nix
   ];
   system = {
     configurationRevision = self.rev or self.dirtyRev or null;
@@ -174,6 +175,7 @@ in
       "claude"
       "istat-menus@6"
       "hammerspoon"
+      "charles"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

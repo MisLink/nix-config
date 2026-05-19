@@ -54,18 +54,19 @@
       dust
       gnumake
       duckdb
-      # nix
       nil
       nixfmt
-      # pkg
+      temurin-bin
+      go
+      nodejs
       python313
-      python313Packages.uv
-      python313Packages.pipx
+      uv
       rustup
       cargo-binstall
-      go
-      nodejs_24
-      temurin-bin
+      cargo-machete
+      cargo-generate
+      cargo-wizard
+      cargo-machete
       devenv
       openconnect
       kubernetes-helm
@@ -82,6 +83,33 @@
       jujutsu
       lld
       stow
+      mitmproxy
+      frida-tools
+      python313Packages.markitdown
+      pnpm
+      bun
+      biome
+      git-cliff
+      tokei
+      binsider
+      bacon
+      git-absorb
+      watchexec
+      samply
+      binocle
+      ruff
+      pre-commit
+      pgcli
+      pkgsStable.pdm
+      pipx
+      mycli
+      litecli
+      python313Packages.notebook
+      python313Packages.ipython
+      buf
+      api-linter
+      gotools
+      golangci-lint
     ]
     ++ [
       (if pkgs.stdenv.hostPlatform.system == "x86_64-darwin" then ghidra-bin else ghidra)

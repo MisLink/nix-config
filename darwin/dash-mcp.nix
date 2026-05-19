@@ -6,23 +6,22 @@ in
 {
   launchd.agents.dash-mcp-server = {
     serviceConfig = {
-      Label = "io.github.MisLink.dash-mcp-server";
+      Label = "io.github.MisLink.dash-mcp";
       ProgramArguments = [
-        "${pkgs.uv}/bin/uv"
-        "tool"
-        "run"
-        "--from"
-        "git+https://github.com/MisLink/dash-mcp-server.git"
-        "dash-mcp-server"
+        "${pkgs.nodejs}/bin/npx"
+        "--yes"
+        "github:MisLink/dash-mcp"
         "--transport"
         "streamable-http"
         "--host"
         "0.0.0.0"
         "--port"
         "49455"
-        "--allowed-host"
-        "dash.mcp.srv:49455"
       ];
+      EnvironmentVariables = {
+        PATH = "${pkgs.nodejs}/bin:/usr/bin:/bin";
+        HOME = "/Users/${username}";
+      };
       RunAtLoad = true;
       ExitTimeOut = 30;
       KeepAlive = true;
