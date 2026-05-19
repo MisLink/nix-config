@@ -11,7 +11,7 @@ let
     if [ -z "''${OP_SERVICE_ACCOUNT_TOKEN:-}" ]; then
       export OP_SERVICE_ACCOUNT_TOKEN="$(cat "${opTokenFile}")"
     fi
-    exec ${op} read "op://SOPS/primary/private_key?ssh-format=openssh"
+    exec ${op} read "op://key/sops/private_key?ssh-format=openssh"
   '';
 in
 {
