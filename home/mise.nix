@@ -24,7 +24,7 @@
         # "cargo:cargo-binstall" = "latest";
         # "cargo:cargo-generate" = "latest";
         # "cargo:cargo-wizard" = "latest"; # Cargo subcommand for configuring Cargo projects for best performance
-        "cargo:cargo-machete" = "latest"; # Remove unused Rust dependencies
+        # "cargo:cargo-machete" = "latest"; # Remove unused Rust dependencies
         # "cargo:samply" = "latest"; # sampling profiler
         # "cargo:watchexec-cli" = "latest";
         # "cargo:git-absorb" = "latest"; # git commit --fixup

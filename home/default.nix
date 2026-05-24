@@ -63,7 +63,6 @@
       uv
       rustup
       cargo-binstall
-      cargo-machete
       cargo-generate
       cargo-wizard
       cargo-machete
