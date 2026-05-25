@@ -35,6 +35,7 @@
         # }; # Analyze ELF binaries
         # "cargo:tokei" = "latest"; # displays statistics about your code
         # "cargo:git-cliff" = "latest"; # A git cliff notes generator
+        "cargo:cargo-crap" = "latest";
         "npm:@playwright/cli" = "latest";
         # "pipx:markitdown" = {
         #   version = "latest";
