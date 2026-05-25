@@ -71,7 +71,7 @@
       kubernetes-helm
       socat
       wget
-      bear
+      pkgsStable.bear
       pv
       oras
       dive
