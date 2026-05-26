@@ -147,8 +147,14 @@
       target-dir = "${homedir}/.cargo/target"
     '';
     ".pi/agent/settings.json".source = ../dotfiles/pi/settings.json;
-    ".agents/skills".source = ../dotfiles/.agents/skills;
-    ".claude/skills".source = ../dotfiles/.claude/skills;
+    ".agents/skills" = {
+      source = ../dotfiles/.agents/skills;
+      recursive = true;
+    };
+    ".claude/skills" = {
+      source = ../dotfiles/.claude/skills;
+      recursive = true;
+    };
   };
   programs = {
     atuin = {
