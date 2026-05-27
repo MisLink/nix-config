@@ -37,7 +37,6 @@ import {
 import {
   applyUsage,
   clearEntry,
-  cloneGoal,
   reconstructGoal,
   setEntry,
   updateGoalStatus,
@@ -120,7 +119,11 @@ export default function goalExtension(pi: ExtensionAPI): void {
     }
   }
 
-  function accountProgress(ctx: ExtensionContext, allowBudgetAbort: boolean): void {
+  function accountUsage(
+    ctx: ExtensionContext,
+    tokenDelta: number,
+    allowBudgetAbort: boolean,
+  ): void {
     if (!goal || goal.status !== "active" || lastAccountedAt === null) {
       beginAccounting();
       return;
@@ -130,9 +133,9 @@ export default function goalExtension(pi: ExtensionAPI): void {
     const elapsed = Math.max(0, Math.floor((now - lastAccountedAt) / 1000));
     lastAccountedAt = now;
 
-    if (elapsed === 0) return;
+    if (tokenDelta === 0 && elapsed === 0) return;
 
-    const result = applyUsage(goal, 0, elapsed);
+    const result = applyUsage(goal, tokenDelta, elapsed);
     if (!result.changed) return;
 
     persistGoal(result.goal, "runtime");
@@ -176,12 +179,6 @@ export default function goalExtension(pi: ExtensionAPI): void {
 
   registerGoalCommand(pi, {
     getGoal: () => goal,
-    getCurrentSessionTokens: () => {
-      // This will be called by commands.ts; the actual token count comes
-      // from sessionManager in the event handlers.  For commands we return
-      // a snapshot — the delta-based accounting handles the rest.
-      return goal?.baselineTokens ?? 0;
-    },
     setGoal(nextGoal, source, _ctx) {
       persistGoal(nextGoal, source);
       if (source === "command" && nextGoal.status === "active") {
@@ -198,13 +195,12 @@ export default function goalExtension(pi: ExtensionAPI): void {
 
   registerGoalTools(pi, {
     getGoal: () => goal,
-    getCurrentSessionTokens: () => goal?.baselineTokens ?? 0,
     setGoal(nextGoal, source, _ctx) {
       persistGoal(nextGoal, source);
       updateStatus(_ctx);
     },
     completeGoal(source, _ctx) {
-      accountProgress(_ctx, false);
+      accountUsage(_ctx, 0, false);
       const result = updateGoalStatus(goal, "complete");
       if (!result.ok || !result.goal) return result;
       persistGoal(result.goal, source);
@@ -291,29 +287,18 @@ export default function goalExtension(pi: ExtensionAPI): void {
 
     const goalId = goal.goalId;
 
-    // Account for tokens used in this agent turn.
+    // Account for tokens + elapsed time in one shot.
     const finalAssistant = findFinalAssistantMessage(event.messages);
     const turnTokens = finalAssistant ? assistantTurnTokens(finalAssistant) : 0;
+    accountUsage(ctx, turnTokens, true);
 
-    if (turnTokens > 0) {
-      goal = cloneGoal(goal);
-      goal.usage.tokensUsed += turnTokens;
-      goal.updatedAt = Math.floor(Date.now() / 1000);
-      if (goal.tokenBudget !== null && goal.usage.tokensUsed >= goal.tokenBudget) {
-        goal.status = "budgetLimited";
-      }
-      persistGoal(goal, "runtime");
-    }
-
-    // Account elapsed time.
-    accountProgress(ctx, true);
-
-    // Check for abort / error — auto-pause.
-    if (
-      finalAssistant?.stopReason === "aborted" ||
-      finalAssistant?.stopReason === "error"
-    ) {
-      if (goal && goal.status === "active") {
+    // Goal may have transitioned to budgetLimited during accounting.
+    // Abort/error check only applies to still-active goals.
+    if (goal?.status === "active") {
+      if (
+        finalAssistant?.stopReason === "aborted" ||
+        finalAssistant?.stopReason === "error"
+      ) {
         const result = updateGoalStatus(goal, "paused");
         if (result.ok && result.goal) {
           persistGoal(result.goal, "runtime");
@@ -323,41 +308,37 @@ export default function goalExtension(pi: ExtensionAPI): void {
             "warning",
           );
         }
+        return;
+      }
+    }
+
+    // Check if goal ended (budgetLimited, paused, or completed).
+    const currentStatus = goal?.status;
+    if (!currentStatus || currentStatus !== "active") {
+      updateStatus(ctx);
+      if (currentStatus === "budgetLimited") {
+        ctx.ui.notify(
+          `Goal hit token budget. Use /goal resume --budget N to continue, or /goal clear to end.`,
+          "warning",
+        );
       }
       return;
     }
 
-    // Check budget.
-    if (goal?.status === "budgetLimited") {
-      updateStatus(ctx);
-      ctx.ui.notify(
-        `Goal hit token budget. Use /goal resume --budget N to continue, or /goal clear to end.`,
-        "warning",
-      );
-      return;
-    }
-
     // Continue if goal is still active.
-    if (!goal || goal.goalId !== goalId || goal.status !== "active") return;
-    if (ctx.hasPendingMessages()) return;
+    if (goal.goalId !== goalId || ctx.hasPendingMessages()) return;
 
     sendContinuation(ctx, goal);
   });
 
   pi.on("session_compact", async (_event, ctx) => {
     // Finalize accounting before session compaction.
-    accountProgress(ctx, false);
-    if (goal) {
-      persistGoal(goal, "runtime");
-    }
+    accountUsage(ctx, 0, false);
     updateStatus(ctx);
     maybeContinue(ctx);
   });
 
   pi.on("session_shutdown", async (_event, ctx) => {
-    accountProgress(ctx, false);
-    if (goal) {
-      persistGoal(goal, "runtime");
-    }
+    accountUsage(ctx, 0, false);
   });
 }

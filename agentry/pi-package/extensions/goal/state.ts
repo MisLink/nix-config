@@ -48,7 +48,6 @@ export function validateTokenBudget(tokenBudget: number | null | undefined): str
 export function createGoal(
   objective: string,
   tokenBudget: number | null,
-  currentSessionTokens: number,
   now = unixSeconds(),
 ): GoalResult {
   const objectiveError = validateObjective(objective);
@@ -67,7 +66,6 @@ export function createGoal(
     status: "active",
     tokenBudget,
     usage: { tokensUsed: 0, activeSeconds: 0 },
-    baselineTokens: currentSessionTokens,
     createdAt: now,
     updatedAt: now,
   };
@@ -78,7 +76,6 @@ export function createGoal(
 export function replaceGoal(
   objective: string,
   tokenBudget: number | null,
-  currentSessionTokens: number,
   now = unixSeconds(),
 ): GoalResult {
   const objectiveError = validateObjective(objective);
@@ -97,7 +94,6 @@ export function replaceGoal(
     status: "active",
     tokenBudget,
     usage: { tokensUsed: 0, activeSeconds: 0 },
-    baselineTokens: currentSessionTokens,
     createdAt: now,
     updatedAt: now,
   };
@@ -163,19 +159,15 @@ export interface ApplyUsageResult {
 
 export function applyUsage(
   current: ThreadGoal,
-  currentSessionTokens: number,
+  tokenDelta: number,
   activeSecondsDelta: number,
 ): ApplyUsageResult {
   const goal = cloneGoal(current);
 
-  // Delta-based token accounting.
-  const newTokensUsed = Math.max(0, currentSessionTokens - goal.baselineTokens);
-  const tokenDelta = newTokensUsed - goal.usage.tokensUsed;
-
   const wasUnderBudget = goal.tokenBudget === null || goal.usage.tokensUsed < goal.tokenBudget;
 
   if (tokenDelta > 0) {
-    goal.usage.tokensUsed = newTokensUsed;
+    goal.usage.tokensUsed += tokenDelta;
   }
 
   if (activeSecondsDelta > 0) {

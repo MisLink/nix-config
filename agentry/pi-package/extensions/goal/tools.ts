@@ -19,7 +19,6 @@ import { createGoal, updateGoalStatus } from "./state.js";
 
 export interface ToolHost {
   getGoal(): ThreadGoal | null;
-  getCurrentSessionTokens(): number;
   setGoal(goal: ThreadGoal, source: GoalEntrySource, ctx: ExtensionContext): void;
   completeGoal(source: GoalEntrySource, ctx: ExtensionContext): GoalResult;
 }
@@ -154,7 +153,6 @@ export function registerGoalTools(pi: ExtensionAPI, host: ToolHost): void {
       const result = createGoal(
         params.objective,
         params.token_budget ?? null,
-        host.getCurrentSessionTokens(),
       );
       if (!result.ok || !result.goal) {
         return textResult(result.message, null, true);

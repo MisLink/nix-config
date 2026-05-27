@@ -81,19 +81,18 @@ test("validateTokenBudget accepts positive integer", () => {
 });
 
 test("createGoal creates a goal with correct fields", () => {
-  const result = createGoal("Fix the bug", null, 5000, 1000);
+  const result = createGoal("Fix the bug", null, 1000);
   assert.equal(result.ok, true);
   assert.notEqual(result.goal, null);
   assert.equal(result.goal!.objective, "Fix the bug");
   assert.equal(result.goal!.status, "active");
   assert.equal(result.goal!.tokenBudget, null);
-  assert.equal(result.goal!.baselineTokens, 5000);
   assert.equal(result.goal!.usage.tokensUsed, 0);
   assert.equal(result.goal!.usage.activeSeconds, 0);
 });
 
 test("createGoal creates a goal with token budget", () => {
-  const result = createGoal("Fix the bug", 100_000, 0);
+  const result = createGoal("Fix the bug", 100_000);
   assert.equal(result.ok, true);
   assert.equal(result.goal!.tokenBudget, 100_000);
 });
@@ -104,10 +103,9 @@ test("createGoal rejects empty objective", () => {
 });
 
 test("replaceGoal creates a fresh goal", () => {
-  const result = replaceGoal("New objective", null, 2000, 2000);
+  const result = replaceGoal("New objective", null, 2000);
   assert.equal(result.ok, true);
   assert.equal(result.goal!.objective, "New objective");
-  assert.equal(result.goal!.baselineTokens, 2000);
 });
 
 test("updateGoalStatus transitions status", () => {
@@ -143,35 +141,34 @@ test("updateGoalBudget auto-transitions to budgetLimited when over new budget", 
   assert.equal(result.goal!.status, "budgetLimited");
 });
 
-test("applyUsage tracks token delta from baseline", () => {
-  const goal = makeGoal({ baselineTokens: 1000 });
-  const result = applyUsage(goal, 1500, 0);
+test("applyUsage tracks token delta (accumulation)", () => {
+  const goal = makeGoal();
+  const result = applyUsage(goal, 500, 0);
   assert.equal(result.goal.usage.tokensUsed, 500);
   assert.equal(result.changed, true);
 });
 
 test("applyUsage tracks time delta", () => {
   const goal = makeGoal();
-  const result = applyUsage(goal, 1000, 30);
+  const result = applyUsage(goal, 0, 30);
   assert.equal(result.goal.usage.activeSeconds, 30);
   assert.equal(result.changed, true);
 });
 
 test("applyUsage detects budget crossing", () => {
   const goal = makeGoal({
-    baselineTokens: 1000,
     tokenBudget: 600,
-    usage: { tokensUsed: 0, activeSeconds: 0 },
+    usage: { tokensUsed: 500, activeSeconds: 0 },
   });
-  const result = applyUsage(goal, 1700, 0);
+  const result = applyUsage(goal, 200, 0);
   assert.equal(result.goal.usage.tokensUsed, 700);
   assert.equal(result.crossedBudget, true);
   assert.equal(result.goal.status, "budgetLimited");
 });
 
 test("applyUsage does not change when no delta", () => {
-  const goal = makeGoal({ baselineTokens: 1000, usage: { tokensUsed: 0, activeSeconds: 0 } });
-  const result = applyUsage(goal, 1000, 0);
+  const goal = makeGoal();
+  const result = applyUsage(goal, 0, 0);
   assert.equal(result.changed, false);
 });
 

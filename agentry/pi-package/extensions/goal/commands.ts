@@ -13,7 +13,7 @@
 
 import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 
-import { formatGoalSummary, formatGoalStatus } from "./prompts.js";
+import { formatGoalSummary, formatGoalStatus, formatTokenValue } from "./prompts.js";
 import {
   editGoalObjective,
   replaceGoal,
@@ -26,7 +26,6 @@ import { CUSTOM_ENTRY_TYPE, type GoalEntrySource, type ThreadGoal } from "./type
 
 export interface CommandHost {
   getGoal(): ThreadGoal | null;
-  getCurrentSessionTokens(): number;
   setGoal(goal: ThreadGoal, source: GoalEntrySource, ctx: ExtensionCommandContext): void;
   clearGoal(source: GoalEntrySource, ctx: ExtensionCommandContext): void;
 }
@@ -259,8 +258,27 @@ export async function handleGoalCommand(
     return;
   }
 
-  // ── /goal <objective> — start or replace ─────────────────────────────────
-  const objective = trimmed;
+  // ── /goal [--tokens N] <objective> — start or replace ──────────────────────
+  let tokenBudget: number | null = null;
+  let objective = trimmed;
+
+  // Parse --tokens / -t prefix.
+  const tokensParsed = trimmed.match(/^(?:--tokens|-t)\s+(\S+)\s+([\s\S]+)$/i);
+  if (tokensParsed) {
+    const budgetResult = parseBudgetValue(tokensParsed[1]);
+    if (!budgetResult.ok) {
+      ctx.ui.notify(budgetResult.message, "warning");
+      return;
+    }
+    tokenBudget = budgetResult.budget;
+    objective = tokensParsed[2];
+  }
+
+  if (!objective.trim()) {
+    ctx.ui.notify("Usage: /goal [--tokens N] <objective>", "warning");
+    return;
+  }
+
   const current = host.getGoal();
   if (current && current.status !== "complete") {
     if (!ctx.hasUI) {
@@ -277,13 +295,14 @@ export async function handleGoalCommand(
     }
   }
 
-  const result = replaceGoal(objective, null, host.getCurrentSessionTokens());
+  const result = replaceGoal(objective, tokenBudget);
   if (!result.ok || !result.goal) {
     ctx.ui.notify(result.message, "error");
     return;
   }
   host.setGoal(result.goal, "command", ctx);
-  ctx.ui.notify(`Goal active: ${result.goal.objective}`);
+  const budgetSuffix = tokenBudget ? ` (budget: ${formatTokenValue(tokenBudget)})` : "";
+  ctx.ui.notify(`Goal active: ${result.goal.objective}${budgetSuffix}`);
   queueGoalTurn(pi, result.goal, "command_start");
 }
 
@@ -291,7 +310,7 @@ export async function handleGoalCommand(
 
 export function registerGoalCommand(pi: GoalCommandPi, host: CommandHost): void {
   pi.registerCommand("goal", {
-    description: "Set or manage a long-running goal: /goal <objective> | pause | resume | edit | budget | clear",
+    description: "Set or manage a long-running goal: /goal [--tokens N] <objective> | pause | resume | edit | budget | clear",
     getArgumentCompletions(argumentPrefix) {
       return completions(argumentPrefix.trim());
     },

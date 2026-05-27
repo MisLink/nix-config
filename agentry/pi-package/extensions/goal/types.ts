@@ -26,8 +26,6 @@ export interface ThreadGoal {
   status: GoalStatus;
   tokenBudget: number | null;
   usage: GoalUsage;
-  /** Token count at goal creation — used for delta-based accounting. */
-  baselineTokens: number;
   createdAt: number;
   updatedAt: number;
 }
