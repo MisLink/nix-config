@@ -7,6 +7,7 @@
  * Terminal support (in priority order):
  *   - Kitty     — OSC 99 via `kitten notify --only-print-escape-code`
  *   - Ghostty / iTerm2 / WezTerm — OSC 777
+ *   - macOS     — AppleScript desktop notification
  *   - Others    — terminal bell (BEL)
  *
  * NOTE: `kitten notify` without `--only-print-escape-code` opens /dev/tty
@@ -196,6 +197,35 @@ function notifyOSC777(title: string, body: string): void {
 	process.stdout.write(`\x1b]777;notify;${safeTitle};${safeBody}\x07`);
 }
 
+function escapeAppleScriptString(text: string): string {
+	return text.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+function notifyMacOS(title: string, body: string): boolean {
+	try {
+		execFileSync(
+			"osascript",
+			[
+				"-e",
+				`display notification "${escapeAppleScriptString(body)}" with title "${escapeAppleScriptString(title)}"`,
+			],
+			{ encoding: "utf8", timeout: 5000 },
+		);
+		return true;
+	} catch {
+		return false;
+	}
+}
+
+function isKittyTerminal(env: Record<string, string | undefined>): boolean {
+	return Boolean(
+		env.KITTY_WINDOW_ID ||
+			env.KITTY_PID ||
+			env.TERM === "xterm-kitty" ||
+			env.TERM_PROGRAM?.toLowerCase() === "kitty",
+	);
+}
+
 /** Universal fallback: audible terminal bell. */
 function notifyBell(): void {
 	process.stdout.write("\x07");
@@ -277,15 +307,17 @@ export function shouldSendNotification(
 function notify(title: string, body: string): void {
 	if (!shouldSendNotification(process.env, process.platform)) return;
 
-	if (process.env.KITTY_WINDOW_ID) {
+	if (isKittyTerminal(process.env)) {
 		notifyKitten(title, body);
 	} else if (
 		process.env.TERM_PROGRAM === "iTerm.app" ||
 		process.env.TERM_PROGRAM === "WezTerm" ||
-		process.env.TERM === "xterm-ghostty" ||
-		process.env.COLORTERM === "truecolor"
+		process.env.TERM_PROGRAM === "ghostty" ||
+		process.env.TERM === "xterm-ghostty"
 	) {
 		notifyOSC777(title, body);
+	} else if (process.platform === "darwin" && notifyMacOS(title, body)) {
+		return;
 	} else {
 		notifyBell();
 	}
