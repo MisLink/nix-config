@@ -6,17 +6,6 @@
   "packages": [
     {
       "source": "~/projects/nix-config/agentry",
-      "extensions": [
-        "+pi-package/extensions/notify/index.ts",
-        "+pi-package/extensions/review/index.ts",
-        "+pi-package/extensions/static-check/index.ts",
-        "+pi-package/extensions/rtk.ts",
-        "-pi-package/extensions/web-search/index.ts",
-        "-pi-package/extensions/questionnaire/index.ts",
-        "-pi-package/extensions/caveman/index.ts",
-        "-pi-package/extensions/btw/index.ts",
-        "-pi-package/extensions/plan-tracker/index.ts"
-      ],
       "skills": []
     },
     "npm:pi-web-access",

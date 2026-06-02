@@ -9,7 +9,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Text, truncateToWidth } from "@earendil-works/pi-tui";
 import { Type } from "@sinclair/typebox";
-import { notifyBeforePrompt } from "../notify/index.js";
+import { notifyBeforePrompt } from "../../extensions/notify/index.js";
 import { QuestionnaireComponent } from "./component.js";
 import type { Answer, Question, QuestionnaireResult } from "./types.js";
 
