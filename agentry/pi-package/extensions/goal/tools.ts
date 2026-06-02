@@ -12,8 +12,8 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { Type } from "@sinclair/typebox";
 
-import type { GoalEntrySource, GoalResult, ThreadGoal } from "./types.js";
-import { createGoal, updateGoalStatus } from "./state.js";
+import type { GoalEntrySource, GoalResult, ThreadGoal } from "./types.ts";
+import { createGoal, updateGoalStatus } from "./state.ts";
 
 // ── Host interface (provided by index.ts) ──────────────────────────────────
 

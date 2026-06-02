@@ -6,7 +6,7 @@ const agentsDoc = readFileSync("AGENTS.md", "utf8");
 const staticCheckSource = readFileSync("pi-package/extensions/static-check/index.ts", "utf8");
 const staticCheckStateSource = readFileSync("pi-package/extensions/static-check/state.ts", "utf8");
 const staticCheckTypesSource = readFileSync("pi-package/extensions/static-check/types.ts", "utf8");
-const webSearchSource = readFileSync("pi-package/extensions/web-search/index.ts", "utf8");
+const webFetchSource = readFileSync("pi-package/extensions/web-fetch/index.ts", "utf8");
 
 function includes(text: string, expected: string): boolean {
 	return text.includes(expected);
@@ -20,9 +20,9 @@ test("AGENTS documents every shipped extension surfaced to users", () => {
 		"AGENTS table should list review session commands",
 	);
 	assert.equal(
-		includes(agentsDoc, "| **web-search** | `web_search` + `web_fetch` + `get_search_content` tools |"),
+		includes(agentsDoc, "| **web-fetch** | `fetch_content_local` + `get_fetch_content_local` tools |"),
 		true,
-		"AGENTS table should list get_search_content tool",
+		"AGENTS table should list local fetch tools",
 	);
 });
 
@@ -64,20 +64,20 @@ test("static-check docs and command surface use /staticcheck consistently", () =
 	);
 });
 
-test("web-search header documents all exported tools", () => {
+test("web-fetch header documents all exported tools", () => {
 	assert.equal(
-		includes(webSearchSource, "Registers `web_search` for lightweight DuckDuckGo search, `web_fetch`"),
+		includes(webFetchSource, "Registers `fetch_content_local` for URL content retrieval as Markdown,"),
 		true,
-		"web-search header should describe search and fetch tools together",
+		"web-fetch header should describe fetch_content_local",
 	);
 	assert.equal(
-		includes(webSearchSource, "`get_search_content`"),
+		includes(webFetchSource, "`get_fetch_content_local`"),
 		true,
-		"web-search header should mention get_search_content",
+		"web-fetch header should mention get_fetch_content_local",
 	);
 	assert.equal(
-		includes(webSearchSource, "retrieving stored full content from earlier search/fetch results"),
+		includes(webFetchSource, "retrieving stored full content"),
 		true,
-		"web-search header should explain what get_search_content does",
+		"web-fetch header should explain what get_fetch_content_local does",
 	);
 });

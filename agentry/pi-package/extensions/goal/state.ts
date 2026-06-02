@@ -18,7 +18,7 @@ import {
   type GoalUsage,
   type SessionEntryLike,
   type ThreadGoal,
-} from "./types.js";
+} from "./types.ts";
 
 // ── Validation ─────────────────────────────────────────────────────────────
 

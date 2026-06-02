@@ -25,7 +25,7 @@
 
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
-import { registerGoalCommand } from "./commands.js";
+import { registerGoalCommand } from "./commands.ts";
 import {
   buildContinuationPrompt,
   buildGoalSystemPrompt,
@@ -33,16 +33,16 @@ import {
   continuationGoalIdFromPrompt,
   formatGoalStatus,
   formatGoalSummary,
-} from "./prompts.js";
+} from "./prompts.ts";
 import {
   applyUsage,
   clearEntry,
   reconstructGoal,
   setEntry,
   updateGoalStatus,
-} from "./state.js";
-import { registerGoalTools } from "./tools.js";
-import { CUSTOM_ENTRY_TYPE, type GoalEntrySource, type ThreadGoal } from "./types.js";
+} from "./state.ts";
+import { registerGoalTools } from "./tools.ts";
+import { CUSTOM_ENTRY_TYPE, type GoalEntrySource, type ThreadGoal } from "./types.ts";
 
 // ── Assistant message helpers ──────────────────────────────────────────────
 

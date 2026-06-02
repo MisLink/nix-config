@@ -6,7 +6,7 @@
  * the agent's autonomous behaviour.
  */
 
-import type { ThreadGoal } from "./types.js";
+import type { ThreadGoal } from "./types.ts";
 
 // ── Formatting helpers ─────────────────────────────────────────────────────
 

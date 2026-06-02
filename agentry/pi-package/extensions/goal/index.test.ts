@@ -19,7 +19,7 @@ import {
   updateGoalStatus,
   validateObjective,
   validateTokenBudget,
-} from "./state.js";
+} from "./state.ts";
 
 import {
   buildContinuationPrompt,
@@ -30,9 +30,9 @@ import {
   formatGoalStatus,
   formatGoalSummary,
   formatTokenValue,
-} from "./prompts.js";
+} from "./prompts.ts";
 
-import type { ThreadGoal } from "./types.js";
+import type { ThreadGoal } from "./types.ts";
 
 // ── Fixtures ───────────────────────────────────────────────────────────────
 

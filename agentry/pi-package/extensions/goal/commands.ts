@@ -13,14 +13,14 @@
 
 import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 
-import { formatGoalSummary, formatGoalStatus, formatTokenValue } from "./prompts.js";
+import { formatGoalSummary, formatGoalStatus, formatTokenValue } from "./prompts.ts";
 import {
   editGoalObjective,
   replaceGoal,
   updateGoalBudget,
   updateGoalStatus,
-} from "./state.js";
-import { CUSTOM_ENTRY_TYPE, type GoalEntrySource, type ThreadGoal } from "./types.js";
+} from "./state.ts";
+import { CUSTOM_ENTRY_TYPE, type GoalEntrySource, type ThreadGoal } from "./types.ts";
 
 // ── Host interface (provided by index.ts) ──────────────────────────────────
 

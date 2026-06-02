@@ -176,7 +176,12 @@ function notifyKitten(title: string, body: string): void {
  * Strip control characters that could break terminal escape sequences (OSC / BEL).
  */
 function stripControlChars(text: string): string {
-	return text.replace(/[\x00-\x1f\x7f]/g, "");
+	return [...text]
+		.filter((char) => {
+			const code = char.charCodeAt(0);
+			return code > 0x1f && code !== 0x7f;
+		})
+		.join("");
 }
 
 /**
