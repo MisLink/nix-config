@@ -146,7 +146,10 @@
       rustc-wrapper = "${pkgs.sccache}/bin/sccache"
       target-dir = "${homedir}/.cargo/target"
     '';
-    ".pi/agent/settings.json".source = ../dotfiles/pi/settings.json;
+    ".pi/agent" = {
+      source = ../dotfiles/pi;
+      recursive = true;
+    };
     ".agents/skills" = {
       source = ../dotfiles/.agents/skills;
       recursive = true;
