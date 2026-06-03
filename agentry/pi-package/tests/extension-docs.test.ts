@@ -15,10 +15,11 @@ function includes(text: string, expected: string): boolean {
 test("AGENTS documents every shipped extension surfaced to users", () => {
 	assert.equal(includes(agentsDoc, "├── notify/"), true, "AGENTS tree should list notify extension");
 	assert.equal(
-		includes(agentsDoc, "| **review** | `/review`、`/end-review`、`/review status` |"),
+		includes(agentsDoc, "| **review** | `/review`、`/end-review`、`/review status` + bundled `review` skill |"),
 		true,
-		"AGENTS table should list review session commands",
+		"AGENTS table should list review session commands and bundled skill",
 	);
+	assert.equal(includes(agentsDoc, "pi-package/skills/"), true, "AGENTS should document shipped skills");
 	assert.equal(
 		includes(agentsDoc, "| **web-fetch** | `fetch_content_local` + `get_fetch_content_local` tools |"),
 		true,

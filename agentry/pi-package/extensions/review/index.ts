@@ -41,9 +41,9 @@ import path from "node:path";
 import { notifyBeforePrompt } from "../notify/index.js";
 import { selectModelForExtension } from "../../lib/model-selector.js";
 import {
+	buildReviewFixFindingsPrompt,
 	buildReviewPrompt,
-	REVIEW_FIX_FINDINGS_PROMPT,
-	REVIEW_SUMMARY_PROMPT,
+	buildReviewSummaryPrompt,
 } from "./prompts.ts";
 import {
 	type ReviewTarget,
@@ -65,6 +65,7 @@ import {
 	prepareMrTarget,
 } from "./pr.ts";
 import { sanitizePromptBlock } from "./sanitize.ts";
+import { loadReviewSkill } from "./skill.ts";
 
 // ─── 状态 ────────────────────────────────────────────────────────────────────
 
@@ -76,6 +77,7 @@ type ReviewSession = {
 	preReviewModel: Model<Api> | null | undefined;
 	// undefined = 未切换；null = 从“无模型”切换过来（还原时无需 setModel）
 	worktree: ReviewWorktree | undefined;
+	reviewSkill: string | undefined;
 };
 
 let currentSession: ReviewSession | undefined;
@@ -523,6 +525,16 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 		const startedAtMs = Date.now();
 		let reviewTarget = target;
 		let reviewWorktree: ReviewWorktree | undefined;
+		let reviewSkill: string;
+		try {
+			reviewSkill = (await loadReviewSkill(pi, ctx.cwd)).body;
+		} catch (error) {
+			ctx.ui.notify(
+				`无法加载 review skill：${error instanceof Error ? error.message : String(error)}`,
+				"error",
+			);
+			return;
+		}
 
 		// 记录返回点：当前叶节点。分叉后会从首条用户消息处创建兄弟分支，
 		// /end-review 时 navigateTree 回原叶节点，把审查分支总结成一条提示
@@ -594,6 +606,7 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 			completedTotalMs: undefined,
 			preReviewModel: applyResult.preReviewModel,
 			worktree: reviewWorktree,
+			reviewSkill,
 		};
 
 		persistState({
@@ -615,6 +628,7 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 			const projectGuidelines = await loadProjectReviewGuidelines(ctx.cwd);
 
 			const prompt = buildReviewPrompt({
+				reviewSkill,
 				target: reviewTarget,
 				vcs: promptVcs,
 				mergeBase,
@@ -644,11 +658,12 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 		ctx: ExtensionCommandContext,
 		originId: string,
 		summarize: boolean,
+		reviewSkill: string | undefined,
 	): Promise<{ ok: boolean; cancelled: boolean }> {
 		try {
 			const result = await ctx.navigateTree(originId, summarize ? {
 				summarize: true,
-				customInstructions: REVIEW_SUMMARY_PROMPT,
+				customInstructions: buildReviewSummaryPrompt(reviewSkill ?? (await loadReviewSkill(pi, ctx.cwd)).body),
 				replaceInstructions: true,
 				label: "code-review",
 			} : { summarize: false });
@@ -680,6 +695,18 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 		const session = currentSession;
 		const originId = session.originId!;
 		const summarize = action !== "returnOnly";
+		let reviewSkill = session.reviewSkill;
+		if (summarize && !reviewSkill) {
+			try {
+				reviewSkill = (await loadReviewSkill(pi, ctx.cwd)).body;
+			} catch (error) {
+				ctx.ui.notify(
+					`无法加载 review skill，不能总结审查分支：${error instanceof Error ? error.message : String(error)}`,
+					"error",
+				);
+				return;
+			}
+		}
 		const progressMessage = action === "returnOnly"
 			? "正在返回主会话"
 			: action === "returnAndSummarize"
@@ -688,7 +715,7 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 		ctx.ui.notify(`${progressMessage}，请稍候...`, "info");
 		setReviewProgress(ctx, session.targetLabel, progressMessage);
 
-		const result = await navigateBack(ctx, originId, summarize);
+		const result = await navigateBack(ctx, originId, summarize, reviewSkill);
 		if (!result.ok) {
 			clearReviewProgress(ctx);
 			if (session) {
@@ -712,7 +739,11 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 				ctx.ui.notify("审查结束，已返回并注入结构化交接。", "info");
 				return;
 			case "returnAndFix":
-				pi.sendUserMessage(REVIEW_FIX_FINDINGS_PROMPT, { deliverAs: "followUp" });
+				if (!reviewSkill) {
+					ctx.ui.notify("无法加载 review skill，不能自动触发修复。", "error");
+					return;
+				}
+				pi.sendUserMessage(buildReviewFixFindingsPrompt(reviewSkill), { deliverAs: "followUp" });
 				ctx.ui.notify("审查结束，已返回并自动触发修复。", "info");
 				return;
 		}
@@ -854,6 +885,7 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 				worktree: lastState.worktreePath && lastState.worktreeRef
 					? { path: lastState.worktreePath, ref: lastState.worktreeRef }
 					: undefined,
+				reviewSkill: undefined,
 			};
 			setReviewWidget(ctx, currentSession.targetLabel, currentSession.completedTotalMs !== undefined);
 		} else {

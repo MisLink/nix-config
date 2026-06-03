@@ -18,6 +18,9 @@
   "pi": {
     "extensions": [
       "pi-package/extensions"
+    ],
+    "skills": [
+      "pi-package/skills"
     ]
   },
   "devDependencies": {
