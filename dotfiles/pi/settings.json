@@ -5,8 +5,7 @@
   "defaultThinkingLevel": "high",
   "packages": [
     {
-      "source": "~/projects/nix-config/agentry",
-      "skills": []
+      "source": "~/projects/nix-config/agentry"
     },
     "npm:pi-web-access",
     "npm:pi-mcp-adapter",
