@@ -21,6 +21,5 @@
   "treeFilterMode": "default",
   "doubleEscapeAction": "tree",
   "steeringMode": "all",
-  "skills": [],
   "npmCommand": ["mise", "exec", "node@latest", "--", "npm"]
 }

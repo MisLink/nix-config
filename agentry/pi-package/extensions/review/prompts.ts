@@ -1,6 +1,6 @@
 /**
- * 审查提示词：每个审查目标的指令、`/end-review` 用的总结提示词、
- * “返回并修复”流程触发的修复提示词。
+ * 审查提示词：每个审查目标的指令、
+ * “带回并修复”流程触发的修复提示词。
  *
  * 中文输出约定：
  *   - 评审项使用 [P0]..[P3] 优先级标签
@@ -70,50 +70,10 @@ export function buildReviewPrompt(input: BuildReviewPromptInput): string {
 }
 
 /**
- * 用于 navigateTree({ summarize: true }) 的自定义指令。强制把审查分支
- * 的全部内容压缩成一份结构化交接文档，让主会话拿到后可以直接照着修。
- */
-const REVIEW_SUMMARY_TASK_PROMPT = `这是一段代码审查分支的总结任务。我们正要离开审查分支回到主开发分支，请把本分支内的审查结果压缩成一份**结构化交接文档**，保留所有可执行的评审项，便于下一步直接修复。
-
-**严格按下列结构输出**（顺序固定，无内容写"（无）"或"- 无"）：
-
-## 审查范围
-- 审查目标（文件、路径、改动范围、提交或 MR 编号等）
-
-## 结论
-- 通过，有备注 / 小问题 / 重大疑虑（三选一）
-
-## 问题列表（按优先级排序）
-对每条评审项给出：
-- 优先级 [P0]..[P3] + 一句话标题
-- 文件位置 \`path/to/file.ext:line\`
-- 为什么这是问题（一句话）
-- 应该如何修改（一句话，可执行）
-
-## 修复清单
-1. 按优先级（P0 → P1 → P2 → 可选 P3）的顺序给一份执行清单，便于直接照着修
-
-## 用户偏好与约束
-- 审查过程中作者明确提到的偏好、约束或不修决定
-- 没有则写"- 无"
-
-## 非阻塞人工审查提示
-仅保留审查结果中已经提到的适用项，沿用原标签和细节。常见标签包括：数据库迁移、新依赖、依赖或 lockfile 变更、认证或授权逻辑、不向后兼容的 schema/API/契约变化、不可逆或破坏性操作。若全部不适用写"- 无"。
-
-要求：
-- 不省略任何评审项，每条都要保留。
-- 文件路径、函数名、错误字符串保持原样不要改写。
-- 思考过程、引用的代码片段、复述的审查准则全部省略。`;
-
-export function buildReviewSummaryPrompt(reviewSkill: string): string {
-	return [buildSkillBlock(reviewSkill), REVIEW_SUMMARY_TASK_PROMPT].join("\n\n---\n\n");
-}
-
-/**
- * 用户在 /end-review 选择“返回并修复”时，navigateTree summarize 完成后
+ * 用户在 /end-review 选择“带回并修复”时，审查结果带回主会话后
  * 自动作为 followUp 投递给主会话的修复指令。
  */
-const REVIEW_FIX_FINDINGS_TASK_PROMPT = `请按上一条审查交接文档（含问题列表与修复清单）实施修复。
+const REVIEW_FIX_FINDINGS_TASK_PROMPT = `请按上一条 code review 结果实施修复。
 
 要求：
 1. 把修复清单当作执行清单，按 P0 → P1 → P2 顺序修；P3 项简单且安全就顺手修，否则跳过并说明原因。

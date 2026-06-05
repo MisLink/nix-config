@@ -3,7 +3,7 @@
  *
  * 为代码改动提供 AI 驱动的只读审查。设计参考：
  *   - mitsuhiko/agent-stuff 的 `/review` + `/end-review`：会话内分叉 +
- *     navigateTree 总结 + 仅返回 / 返回并总结 / 返回并修复三选项
+ *     仅返回 / 带回审查结果 / 带回并修复三选项
  *   - Cloudflare AI code review 博文：审查准则里“什么不该指出”的写法、
  *     噪声过滤、boundary tag 清洗防提示词注入
  *
@@ -12,8 +12,8 @@
  * - 审查未提交改动 / 相对分支差异 / 单个提交 / Merge Request（glab）/
  *   Pull Request（gh）
  * - `/review --extra "..."` 即兴附加指令
- * - `/end-review` 三选项收尾：自动 navigateTree 总结产出结构化修复清单
- *   注入主会话
+ * - `/end-review` 三选项收尾：返回主会话，可把最后一条审查结果注入主会话
+ *   或进一步自动触发修复
  *
  * 用法：
  *   /review                  交互式选择
@@ -43,7 +43,6 @@ import { selectModelForExtension } from "../../lib/model-selector.js";
 import {
 	buildReviewFixFindingsPrompt,
 	buildReviewPrompt,
-	buildReviewSummaryPrompt,
 } from "./prompts.ts";
 import {
 	type ReviewTarget,
@@ -66,6 +65,12 @@ import {
 } from "./pr.ts";
 import { sanitizePromptBlock } from "./sanitize.ts";
 import { loadReviewSkill } from "./skill.ts";
+import {
+	buildCarriedReviewResultMessage,
+	lastAssistantReviewText,
+	REVIEW_RESULT_CUSTOM_TYPE,
+	type CarriedReviewResultDetails,
+} from "./handoff.ts";
 
 // ─── 状态 ────────────────────────────────────────────────────────────────────
 
@@ -537,8 +542,8 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 		}
 
 		// 记录返回点：当前叶节点。分叉后会从首条用户消息处创建兄弟分支，
-		// /end-review 时 navigateTree 回原叶节点，把审查分支总结成一条提示
-		// 插入主分支。
+		// /end-review 时 navigateTree 回原叶节点，可把最后一条审查结果
+		// 作为 custom message 插入主分支。
 		const originId = ctx.sessionManager.getLeafId() ?? undefined;
 
 		// 副作用 1 / 3：若为 MR 目标，创建临时 worktree。不会切换当前仓库分支。
@@ -652,21 +657,14 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 
 	// ─── /end-review 结束审查 ────────────────────────────────────────────
 
-	type EndReviewAction = "returnOnly" | "returnAndSummarize" | "returnAndFix";
+	type EndReviewAction = "returnOnly" | "carryResult" | "carryResultAndFix";
 
 	async function navigateBack(
 		ctx: ExtensionCommandContext,
 		originId: string,
-		summarize: boolean,
-		reviewSkill: string | undefined,
 	): Promise<{ ok: boolean; cancelled: boolean }> {
 		try {
-			const result = await ctx.navigateTree(originId, summarize ? {
-				summarize: true,
-				customInstructions: buildReviewSummaryPrompt(reviewSkill ?? (await loadReviewSkill(pi, ctx.cwd)).body),
-				replaceInstructions: true,
-				label: "code-review",
-			} : { summarize: false });
+			const result = await ctx.navigateTree(originId, { summarize: false });
 			return { ok: !result.cancelled, cancelled: result.cancelled };
 		} catch (error) {
 			ctx.ui.notify(
@@ -677,12 +675,30 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 		}
 	}
 
+	function carryReviewResult(session: ReviewSession, reviewText: string): void {
+		const details: CarriedReviewResultDetails = {
+			targetLabel: session.targetLabel,
+			carriedAtMs: Date.now(),
+			source: "last-assistant",
+		};
+		pi.sendMessage({
+			customType: REVIEW_RESULT_CUSTOM_TYPE,
+			content: buildCarriedReviewResultMessage(session.targetLabel, reviewText),
+			display: true,
+			details,
+		});
+	}
+
 	async function executeEndReview(
 		ctx: ExtensionCommandContext,
 		action: EndReviewAction,
 	): Promise<void> {
 		if (!currentSession) {
 			ctx.ui.notify("当前没有进行中的审查", "info");
+			return;
+		}
+		if (currentSession.completedTotalMs === undefined) {
+			ctx.ui.notify("审查仍在运行，请等模型输出完成后再结束。", "warning");
 			return;
 		}
 		if (!currentSession.originId) {
@@ -694,33 +710,38 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 
 		const session = currentSession;
 		const originId = session.originId!;
-		const summarize = action !== "returnOnly";
+		const shouldCarryResult = action !== "returnOnly";
+		const reviewText = shouldCarryResult ? lastAssistantReviewText(ctx.sessionManager.getBranch()) : null;
+		if (shouldCarryResult && !reviewText) {
+			ctx.ui.notify("没有找到可带回的审查结果。可选择仅返回，或等审查输出完成后重试。", "warning");
+			return;
+		}
+
 		let reviewSkill = session.reviewSkill;
-		if (summarize && !reviewSkill) {
+		if (action === "carryResultAndFix" && !reviewSkill) {
 			try {
 				reviewSkill = (await loadReviewSkill(pi, ctx.cwd)).body;
 			} catch (error) {
 				ctx.ui.notify(
-					`无法加载 review skill，不能总结审查分支：${error instanceof Error ? error.message : String(error)}`,
+					`无法加载 review skill，不能自动触发修复：${error instanceof Error ? error.message : String(error)}`,
 					"error",
 				);
 				return;
 			}
 		}
+
 		const progressMessage = action === "returnOnly"
 			? "正在返回主会话"
-			: action === "returnAndSummarize"
-				? "正在总结审查分支并返回主会话"
-				: "正在总结审查分支，随后自动触发修复";
+			: action === "carryResult"
+				? "正在带回审查结果并返回主会话"
+				: "正在带回审查结果，随后自动触发修复";
 		ctx.ui.notify(`${progressMessage}，请稍候...`, "info");
 		setReviewProgress(ctx, session.targetLabel, progressMessage);
 
-		const result = await navigateBack(ctx, originId, summarize, reviewSkill);
+		const result = await navigateBack(ctx, originId);
 		if (!result.ok) {
 			clearReviewProgress(ctx);
-			if (session) {
-				setReviewWidget(ctx, session.targetLabel, session.completedTotalMs !== undefined);
-			}
+			setReviewWidget(ctx, session.targetLabel, session.completedTotalMs !== undefined);
 			if (result.cancelled) {
 				ctx.ui.notify("已取消。再次运行 /end-review 可重试。", "info");
 			} else {
@@ -729,22 +750,23 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 			return;
 		}
 
+		if (reviewText) carryReviewResult(session, reviewText);
 		await finalizeReviewState(ctx);
 
 		switch (action) {
 			case "returnOnly":
 				ctx.ui.notify("审查结束，已返回主会话（未保留审查内容）。", "info");
 				return;
-			case "returnAndSummarize":
-				ctx.ui.notify("审查结束，已返回并注入结构化交接。", "info");
+			case "carryResult":
+				ctx.ui.notify("审查结束，已返回并带回审查结果。", "info");
 				return;
-			case "returnAndFix":
+			case "carryResultAndFix":
 				if (!reviewSkill) {
 					ctx.ui.notify("无法加载 review skill，不能自动触发修复。", "error");
 					return;
 				}
 				pi.sendUserMessage(buildReviewFixFindingsPrompt(reviewSkill), { deliverAs: "followUp" });
-				ctx.ui.notify("审查结束，已返回并自动触发修复。", "info");
+				ctx.ui.notify("审查结束，已返回、带回审查结果并自动触发修复。", "info");
 				return;
 		}
 	}
@@ -768,6 +790,10 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 			ctx.ui.notify("当前没有进行中的审查", "info");
 			return;
 		}
+		if (currentSession.completedTotalMs === undefined) {
+			ctx.ui.notify("审查仍在运行，请等模型输出完成后再结束。", "warning");
+			return;
+		}
 		if (!ctx.hasUI) {
 			// 非交互模式：默认仅返回
 			await executeEndReview(ctx, "returnOnly");
@@ -776,18 +802,18 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 		const choice = await notifyBeforePrompt("结束审查：", () =>
 			ctx.ui.select("结束审查：", [
 				"仅返回",
-				"返回并总结",
-				"返回并修复",
+				"带回审查结果",
+				"带回并修复",
 			]),
 		);
 		if (!choice) {
 			ctx.ui.notify("已取消。再次运行 /end-review 可重试。", "info");
 			return;
 		}
-		const action: EndReviewAction = choice === "返回并修复"
-			? "returnAndFix"
-			: choice === "返回并总结"
-				? "returnAndSummarize"
+		const action: EndReviewAction = choice === "带回并修复"
+			? "carryResultAndFix"
+			: choice === "带回审查结果"
+				? "carryResult"
 				: "returnOnly";
 		await executeEndReview(ctx, action);
 	}
@@ -830,7 +856,7 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 	});
 
 	pi.registerCommand("end-review", {
-		description: "结束代码审查并返回主会话。三选项：仅返回 / 返回并总结 / 返回并修复",
+		description: "结束代码审查并返回主会话。三选项：仅返回 / 带回审查结果 / 带回并修复",
 		handler: async (_args, ctx) => {
 			await runEndReview(ctx);
 		},
@@ -843,8 +869,8 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 	});
 
 	pi.on("agent_end", async (_event, ctx) => {
-		if (!currentSession || !ctx.hasUI) return;
-		// 模型跑完时记入总耗时，仅给状态栏用
+		if (!currentSession) return;
+		// 模型跑完时记入总耗时。/end-review 也用它判断审查结果是否完整。
 		if (currentSession.completedTotalMs === undefined) {
 			currentSession.completedTotalMs = Date.now() - currentSession.startedAtMs;
 			persistState({
@@ -856,7 +882,7 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 				worktreePath: currentSession.worktree?.path,
 				worktreeRef: currentSession.worktree?.ref,
 			});
-			setReviewWidget(ctx, currentSession.targetLabel, true);
+			if (ctx.hasUI) setReviewWidget(ctx, currentSession.targetLabel, true);
 		}
 	});
 

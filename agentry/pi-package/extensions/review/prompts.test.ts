@@ -3,7 +3,6 @@ import test from "node:test";
 import {
 	buildReviewFixFindingsPrompt,
 	buildReviewPrompt,
-	buildReviewSummaryPrompt,
 } from "./prompts.ts";
 
 const reviewSkill = "# 代码审查\n\n使用严格、低噪声的中文标准审查代码改动。";
@@ -35,14 +34,10 @@ test("buildReviewPrompt keeps project guidelines and extra instructions outside 
 	assert.equal(prompt.includes("- \"src/a.ts\""), true);
 });
 
-test("summary and fix prompts are also skill-backed", () => {
-	const summary = buildReviewSummaryPrompt(reviewSkill);
+test("fix prompt is skill-backed", () => {
 	const fix = buildReviewFixFindingsPrompt(reviewSkill);
 
-	assert.equal(summary.includes('<skill name="review">'), true);
-	assert.equal(summary.includes("结构化交接文档"), true);
-	assert.equal(summary.includes("沿用原标签和细节"), true);
 	assert.equal(fix.includes('<skill name="review">'), true);
-	assert.equal(fix.includes("请按上一条审查交接文档"), true);
+	assert.equal(fix.includes("请按上一条 code review 结果"), true);
 	assert.equal(fix.includes("非阻塞人工审查提示\"仅供参考，不要把它当作修复任务。"), true);
 });
