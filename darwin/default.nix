@@ -104,6 +104,7 @@ in
       autoUpdate = false;
       upgrade = false;
       cleanup = "uninstall";
+      extraFlags = [ "--force-cleanup" ];
     };
     enableBashIntegration = true;
     enableFishIntegration = true;
