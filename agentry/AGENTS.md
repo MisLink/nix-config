@@ -21,7 +21,7 @@ Local pi package for custom pi extensions, skills, and shared helper code.
 
 ## User-facing surface
 
-| Extension | Commands / tools |
+| Surface | Commands / tools |
 | --- | --- |
 | **notify** | Desktop notifications when pi waits for input |
 | **review** | `/review`、`/end-review`、`/review status` + bundled `review` skill |
@@ -29,6 +29,7 @@ Local pi package for custom pi extensions, skills, and shared helper code.
 | **web-fetch** | `fetch_content_local` + `get_fetch_content_local` tools |
 | **goal** | `/goal` + `create_goal` / `update_goal` tools |
 | **rtk** | `/rtk` |
+| **workflow skills** | `workflow-init`、`issue-capture`、`issue-grill`、`issue-review`、`issue-split`、`issue-plan`、`issue-tasks`、`bdd-implement` |
 
 Some extensions may be disabled by `dotfiles/pi/settings.json`.
 

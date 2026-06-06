@@ -25,6 +25,14 @@ test("AGENTS documents every shipped extension surfaced to users", () => {
 		true,
 		"AGENTS table should list local fetch tools",
 	);
+	assert.equal(
+		includes(
+			agentsDoc,
+			"| **workflow skills** | `workflow-init`、`issue-capture`、`issue-grill`、`issue-review`、`issue-split`、`issue-plan`、`issue-tasks`、`bdd-implement` |",
+		),
+		true,
+		"AGENTS table should list workflow bundled skills",
+	);
 });
 
 test("static-check docs and command surface use /staticcheck consistently", () => {
