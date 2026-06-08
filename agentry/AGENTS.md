@@ -30,9 +30,9 @@ Local pi package for custom pi extensions, skills, and shared helper code.
 | **goal** | `/goal` + `create_goal` / `update_goal` tools |
 | **rtk** | `/rtk` |
 | **simple-plannotator** | `/plannotator-annotate`、`/plannotator-last` |
-| **workflow skills** | `workflow-init`、`issue-capture`、`issue-grill`、`issue-review`、`issue-split`、`issue-plan`、`issue-tasks`、`bdd-implement` |
 
 Some extensions may be disabled by `dotfiles/pi/settings.json`.
+`pi-package/skills/workflow/` is kept in the repo for debugging, but is intentionally omitted from the default `package.json` `pi.skills` manifest.
 
 ## Tests
 
@@ -63,4 +63,4 @@ pi-package/
 └── legacy/
 ```
 
-`pi-package/skills/` contains skills shipped with this package.
+`pi-package/skills/review/` is the only skill loaded by this package by default. `pi-package/skills/workflow/` remains available in the repo for opt-in testing while it is being debugged.

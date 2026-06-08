@@ -3,6 +3,7 @@ import test from "node:test";
 import { readFileSync } from "node:fs";
 
 const agentsDoc = readFileSync("AGENTS.md", "utf8");
+const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
 const staticCheckSource = readFileSync("pi-package/extensions/static-check/index.ts", "utf8");
 const staticCheckStateSource = readFileSync("pi-package/extensions/static-check/state.ts", "utf8");
 const staticCheckTypesSource = readFileSync("pi-package/extensions/static-check/types.ts", "utf8");
@@ -20,7 +21,7 @@ test("AGENTS documents every shipped extension surfaced to users", () => {
 		true,
 		"AGENTS table should list review session commands and bundled skill",
 	);
-	assert.equal(includes(agentsDoc, "pi-package/skills/"), true, "AGENTS should document shipped skills");
+	assert.equal(includes(agentsDoc, "pi-package/skills/review/"), true, "AGENTS should document the default bundled skill");
 	assert.equal(
 		includes(agentsDoc, "| **web-fetch** | `fetch_content_local` + `get_fetch_content_local` tools |"),
 		true,
@@ -31,13 +32,11 @@ test("AGENTS documents every shipped extension surfaced to users", () => {
 		true,
 		"AGENTS table should list simple Plannotator annotation commands",
 	);
+	assert.deepEqual(packageJson.pi.skills, ["pi-package/skills/review"], "package should only load the review skill by default");
 	assert.equal(
-		includes(
-			agentsDoc,
-			"| **workflow skills** | `workflow-init`、`issue-capture`、`issue-grill`、`issue-review`、`issue-split`、`issue-plan`、`issue-tasks`、`bdd-implement` |",
-		),
+		includes(agentsDoc, "`pi-package/skills/workflow/` is kept in the repo for debugging"),
 		true,
-		"AGENTS table should list workflow bundled skills",
+		"AGENTS should explain that workflow skills are not loaded by default",
 	);
 });
 

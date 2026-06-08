@@ -20,7 +20,7 @@
       "pi-package/extensions"
     ],
     "skills": [
-      "pi-package/skills"
+      "pi-package/skills/review"
     ]
   },
   "devDependencies": {
