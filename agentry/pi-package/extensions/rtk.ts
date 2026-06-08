@@ -14,7 +14,6 @@
  *   /rtk gain     — cumulative token-savings report
  *   /rtk status   — version and session stats
  */
-import { spawnSync } from "node:child_process";
 import {
 	createLocalBashOperations,
 	isToolCallEventType,
@@ -25,14 +24,34 @@ import {
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 /** `rtk rewrite` was introduced in 0.23.0. */
-const RTK_MIN_MINOR = 23;
-const REWRITE_TIMEOUT_MS = 5000;
+const MIN_SUPPORTED_RTK_MINOR = 23;
+const REWRITE_TIMEOUT_MS = 2_000;
+const GAIN_TIMEOUT_MS = 5_000;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function parseMinor(versionStr: string): number | null {
-	const m = versionStr.match(/\d+\.(\d+)\.\d+/);
-	return m ? Number(m[1]) : null;
+function parseSemver(raw: string): [number, number, number] | null {
+	const m = raw.trim().match(/(\d+)\.(\d+)\.(\d+)/);
+	if (!m) return null;
+	return [parseInt(m[1], 10), parseInt(m[2], 10), parseInt(m[3], 10)];
+}
+
+function isTooOld(versionStr: string): boolean {
+	const parsed = parseSemver(versionStr.replace(/^rtk\s+/, ""));
+	if (!parsed) return false;
+
+	const [major, minor] = parsed;
+	return major === 0 && minor < MIN_SUPPORTED_RTK_MINOR;
+}
+
+function shouldBypass(command: string): boolean {
+	const trimmed = command.trimStart();
+	return (
+		trimmed === "rtk" ||
+		trimmed.startsWith("rtk ") ||
+		trimmed.startsWith("RTK_DISABLED=1 ") ||
+		process.env.RTK_DISABLED === "1"
+	);
 }
 
 // ─── Extension ────────────────────────────────────────────────────────────────
@@ -74,44 +93,37 @@ export default function (pi: ExtensionAPI) {
 		);
 	}
 
-	function showGain(ctx: ExtensionContext): void {
+	async function showGain(ctx: ExtensionContext): Promise<void> {
 		if (!rtkReady) {
 			ctx.ui.notify("rtk not available", "warning");
 			return;
 		}
-		const res = spawnSync("rtk", ["gain"], {
-			encoding: "utf-8",
-			timeout: REWRITE_TIMEOUT_MS,
-		});
-		ctx.ui.notify(res.stdout?.trim() || res.stderr?.trim() || "No stats yet.", "info");
+		try {
+			const res = await pi.exec("rtk", ["gain"], { timeout: GAIN_TIMEOUT_MS });
+			ctx.ui.notify(res.stdout?.trim() || res.stderr?.trim() || "No stats yet.", "info");
+		} catch (err) {
+			console.warn("[rtk] unexpected error while running rtk gain", err);
+			ctx.ui.notify("rtk gain failed", "warning");
+		}
 	}
 
 	// ── RTK availability check ───────────────────────────────────────────────
 
-	function checkRtk(ctx: ExtensionContext): void {
+	async function checkRtk(ctx: ExtensionContext): Promise<void> {
 		try {
-			const res = spawnSync("rtk", ["--version"], {
-				encoding: "utf-8",
-				timeout: REWRITE_TIMEOUT_MS,
-			});
+			const res = await pi.exec("rtk", ["--version"], { timeout: REWRITE_TIMEOUT_MS });
 
-			if (res.error) {
-				throw res.error;
-			}
-			if (res.status !== 0) {
+			if (res.killed || res.code !== 0) {
 				throw new Error("rtk exited non-zero");
 			}
 
 			rtkVersion = (res.stdout ?? "").trim();
-			const minor = parseMinor(rtkVersion);
-			if (minor === null) throw new Error(`unparseable version: ${rtkVersion}`);
-
-			if (minor < RTK_MIN_MINOR) {
+			if (isTooOld(rtkVersion)) {
 				rtkReady = false;
 				if (!warnedUnavailable) {
 					warnedUnavailable = true;
 					ctx.ui.notify(
-						`⚠️  rtk ${rtkVersion} is too old (need ≥ 0.${RTK_MIN_MINOR}.0).\n` +
+						`⚠️  rtk ${rtkVersion} is too old (need ≥ 0.${MIN_SUPPORTED_RTK_MINOR}.0).\n` +
 							"Upgrade:  brew upgrade rtk",
 						"warning",
 					);
@@ -124,83 +136,90 @@ export default function (pi: ExtensionAPI) {
 			rtkReady = false;
 			if (!warnedUnavailable) {
 				warnedUnavailable = true;
-				const errno = (err as NodeJS.ErrnoException).code;
-				const hint =
-					errno === "EACCES"
-						? "rtk binary found but not executable. Run: chmod +x $(command -v rtk)"
-						: [
-								"⚠️  rtk not found — extension inactive.",
-								"",
-								"Install:  brew install rtk",
-								"or:       curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh",
-								"",
-								"Restart pi after installing.",
-							].join("\n");
-				ctx.ui.notify(`⚠️  ${hint}`, "warning");
+				const hint = [
+					"⚠️  rtk not found — extension inactive.",
+					"",
+					"Install:  brew install rtk",
+					"or:       curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh",
+					"",
+					"Restart pi after installing.",
+				].join("\n");
+				console.warn("[rtk] rtk binary unavailable or unsupported", err);
+				ctx.ui.notify(hint, "warning");
 			}
 		}
 	}
 
 	// ── Core rewrite (shared by tool_call and user_bash) ─────────────────────
 
-	function rtkRewrite(command: string): string | undefined {
+	async function rtkRewrite(command: string, signal?: AbortSignal): Promise<string | undefined> {
 		if (!enabled || !rtkReady) return undefined;
+		if (shouldBypass(command)) return undefined;
 
 		try {
-			const res = spawnSync("rtk", ["rewrite", command], {
-				encoding: "utf-8",
+			const res = await pi.exec("rtk", ["rewrite", command], {
 				timeout: REWRITE_TIMEOUT_MS,
+				signal,
 			});
 
-			if (res.error) return undefined;
+			if (res.killed) return undefined;
 
-			// Exit codes: 0=rewritten, 1=no equivalent, 2=deny, 3=ask
-			// For 1/2/3 stdout is empty or same → no rewrite
+			// Exit codes: 0=rewritten, 1=no equivalent, 2=deny, 3=advisory rewrite
+			if (res.code !== 0 && res.code !== 3) return undefined;
 			const out = (res.stdout ?? "").trim();
 			return out.length > 0 && out !== command ? out : undefined;
-		} catch {
+		} catch (err) {
+			console.warn("[rtk] unexpected error while rewriting command", err);
 			return undefined;
 		}
 	}
 
 	// ── Session lifecycle ────────────────────────────────────────────────────
 
-	function handleRewrite(original: string, rewritten: string): void {
+	function handleRewrite(): void {
 		rewriteCount++;
 	}
 
-	pi.on("session_start", (_event, ctx) => {
+	pi.on("session_start", async (_event, ctx) => {
 		rewriteCount = 0;
-		checkRtk(ctx);
+		await checkRtk(ctx);
 		refreshStatus(ctx);
 	});
 
 	// ── Agent bash tool calls ────────────────────────────────────────────────
 
 	pi.on("tool_call", async (event, ctx) => {
-		if (!enabled || !rtkReady) return;
-		if (!isToolCallEventType("bash", event)) return;
+		try {
+			if (!enabled || !rtkReady) return;
+			if (!isToolCallEventType("bash", event)) return;
 
-		const rewritten = rtkRewrite(event.input.command);
-		if (rewritten) {
-			const original = event.input.command;
-			event.input.command = rewritten;
-			handleRewrite(original, rewritten);
-			refreshStatus(ctx);
+			const cmd = event.input.command;
+			if (typeof cmd !== "string" || cmd.trim() === "") return;
+
+			const rewritten = await rtkRewrite(cmd, ctx.signal);
+			if (rewritten) {
+				event.input.command = rewritten;
+				handleRewrite();
+				refreshStatus(ctx);
+			}
+		} catch (err) {
+			// Fail open: never block execution on an unexpected error.
+			console.warn("[rtk] unexpected error in tool_call handler; passing through command", err);
 		}
 	});
 
 	// ── User !<cmd> shell commands ───────────────────────────────────────────
 
-	pi.on("user_bash", (event, _ctx) => {
+	pi.on("user_bash", async (event, ctx) => {
 		// !!<cmd> → context-excluded, don't intercept
 		if (event.excludeFromContext) return;
 		if (!enabled || !rtkReady) return;
 
-		const rewritten = rtkRewrite(event.command);
+		const rewritten = await rtkRewrite(event.command, ctx.signal);
 		if (!rewritten) return;
 
-		handleRewrite(event.command, rewritten);
+		handleRewrite();
+		refreshStatus(ctx);
 		return {
 			operations: {
 				exec: (_command, cwd, options) =>
@@ -238,7 +257,7 @@ export default function (pi: ExtensionAPI) {
 			}
 
 			if (sub === "gain") {
-				showGain(ctx);
+				await showGain(ctx);
 				return;
 			}
 
@@ -260,9 +279,10 @@ export default function (pi: ExtensionAPI) {
 			} else if (selected === "status") {
 				showStatus(ctx);
 			} else if (selected === "gain") {
-				showGain(ctx);
+				await showGain(ctx);
 			}
 			refreshStatus(ctx);
 		},
 	});
 }
+
