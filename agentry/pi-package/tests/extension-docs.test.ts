@@ -7,6 +7,7 @@ const staticCheckSource = readFileSync("pi-package/extensions/static-check/index
 const staticCheckStateSource = readFileSync("pi-package/extensions/static-check/state.ts", "utf8");
 const staticCheckTypesSource = readFileSync("pi-package/extensions/static-check/types.ts", "utf8");
 const webFetchSource = readFileSync("pi-package/extensions/web-fetch/index.ts", "utf8");
+const simplePlannotatorSource = readFileSync("pi-package/extensions/simple-plannotator/index.ts", "utf8");
 
 function includes(text: string, expected: string): boolean {
 	return text.includes(expected);
@@ -24,6 +25,11 @@ test("AGENTS documents every shipped extension surfaced to users", () => {
 		includes(agentsDoc, "| **web-fetch** | `fetch_content_local` + `get_fetch_content_local` tools |"),
 		true,
 		"AGENTS table should list local fetch tools",
+	);
+	assert.equal(
+		includes(agentsDoc, "| **simple-plannotator** | `/plannotator-annotate`、`/plannotator-last` |"),
+		true,
+		"AGENTS table should list simple Plannotator annotation commands",
 	);
 	assert.equal(
 		includes(
@@ -70,6 +76,44 @@ test("static-check docs and command surface use /staticcheck consistently", () =
 		includes(staticCheckTypesSource, "Mutable at runtime via /staticcheck commands."),
 		true,
 		"types docs should reference /staticcheck commands",
+	);
+});
+
+test("simple-plannotator header documents its command surface", () => {
+	assert.equal(
+		includes(simplePlannotatorSource, "/plannotator-annotate <path> — annotate a Markdown file or folder in the browser"),
+		true,
+		"simple-plannotator header should document /plannotator-annotate",
+	);
+	assert.equal(
+		includes(simplePlannotatorSource, "/plannotator-last            — annotate the last assistant message in the browser"),
+		true,
+		"simple-plannotator header should document /plannotator-last",
+	);
+	assert.equal(
+		includes(simplePlannotatorSource, 'pi.registerCommand("plannotator-annotate", {'),
+		true,
+		"simple-plannotator should register /plannotator-annotate",
+	);
+	assert.equal(
+		includes(simplePlannotatorSource, 'pi.registerCommand("plannotator-last", {'),
+		true,
+		"simple-plannotator should register /plannotator-last",
+	);
+	assert.equal(
+		includes(simplePlannotatorSource, "formatMarkdownFeedback"),
+		true,
+		"file/folder annotation feedback should be wrapped with target path context",
+	);
+	assert.equal(
+		includes(simplePlannotatorSource, "Annotated assistant message excerpt"),
+		true,
+		"last-message annotation feedback should include an assistant-message anchor",
+	);
+	assert.equal(
+		includes(simplePlannotatorSource, "sendUserMessageToCurrentPiSession"),
+		true,
+		"background feedback delivery should fall back to the current pi session",
 	);
 });
 

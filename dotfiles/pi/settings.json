@@ -11,8 +11,7 @@
     "npm:pi-mcp-adapter",
     "npm:pi-autoresearch",
     "npm:@eko24ive/pi-ask",
-    "npm:pi-context-usage",
-    "npm:@plannotator/pi-extension"
+    "npm:pi-context-usage"
   ],
   "hideThinkingBlock": false,
   "theme": "dark",

@@ -29,6 +29,7 @@ Local pi package for custom pi extensions, skills, and shared helper code.
 | **web-fetch** | `fetch_content_local` + `get_fetch_content_local` tools |
 | **goal** | `/goal` + `create_goal` / `update_goal` tools |
 | **rtk** | `/rtk` |
+| **simple-plannotator** | `/plannotator-annotate`、`/plannotator-last` |
 | **workflow skills** | `workflow-init`、`issue-capture`、`issue-grill`、`issue-review`、`issue-split`、`issue-plan`、`issue-tasks`、`bdd-implement` |
 
 Some extensions may be disabled by `dotfiles/pi/settings.json`.
@@ -52,6 +53,7 @@ pi-package/
 │   ├── goal/
 │   ├── notify/
 │   ├── review/
+│   ├── simple-plannotator/
 │   ├── static-check/
 │   ├── web-fetch/
 │   └── rtk.ts
