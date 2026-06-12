@@ -146,18 +146,6 @@
       rustc-wrapper = "${pkgs.sccache}/bin/sccache"
       target-dir = "${homedir}/.cargo/target"
     '';
-    ".pi/agent" = {
-      source = ../dotfiles/pi;
-      recursive = true;
-    };
-    ".agents/skills" = {
-      source = ../dotfiles/.agents/skills;
-      recursive = true;
-    };
-    ".claude/skills" = {
-      source = ../dotfiles/.claude/skills;
-      recursive = true;
-    };
   };
   programs = {
     atuin = {

@@ -12,4 +12,23 @@
     agent-browser
     ccusage
   ];
+  home.file = {
+    ".pi/agent" = {
+      source = ../dotfiles/pi;
+      recursive = true;
+    };
+    ".agents/skills" = {
+      source = ../dotfiles/skills/.agents/skills;
+      recursive = true;
+    };
+    ".claude/skills" = {
+      source = ../dotfiles/skills/.agents/skills;
+      recursive = true;
+    };
+    ".codex/skills" = {
+      source = ../dotfiles/skills/.agents/skills;
+      recursive = true;
+    };
+    ".claude/settings.json".source = ../dotfiles/claude/settings.json;
+  };
 }
