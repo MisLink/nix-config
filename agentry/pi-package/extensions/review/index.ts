@@ -38,7 +38,6 @@ import {
 import type { Api, Model } from "@earendil-works/pi-ai";
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { notifyBeforePrompt } from "../notify/index.js";
 import { selectModelForExtension } from "../../lib/model-selector.js";
 import {
 	buildReviewFixFindingsPrompt,
@@ -299,9 +298,7 @@ async function resolveTargetInteractive(
 		return [def, ...all.filter((k) => k !== def)];
 	})();
 
-	const choice = await notifyBeforePrompt("选择审查内容：", () =>
-		ctx.ui.select("选择审查内容：", orderedKeys.map((k) => PRESET_LABELS[k])),
-	);
+	const choice = await ctx.ui.select("选择审查内容：", orderedKeys.map((k) => PRESET_LABELS[k]));
 	if (!choice) return null;
 
 	const key = orderedKeys.find((k) => PRESET_LABELS[k] === choice) ?? "uncommitted";
@@ -327,9 +324,7 @@ async function resolveBaseBranchInteractive(
 			ctx.ui.notify("没有其他可用 bookmark", "error");
 			return null;
 		}
-		const branch = await notifyBeforePrompt("选择基础 bookmark：", () =>
-			ctx.ui.select("选择基础 bookmark：", others),
-		);
+		const branch = await ctx.ui.select("选择基础 bookmark：", others);
 		if (!branch) return null;
 		return { type: "baseBranch", branch };
 	}
@@ -342,9 +337,7 @@ async function resolveBaseBranchInteractive(
 		ctx.ui.notify("没有其他可用分支", "error");
 		return null;
 	}
-	const branch = await notifyBeforePrompt("选择基础分支：", () =>
-		ctx.ui.select("选择基础分支：", others),
-	);
+	const branch = await ctx.ui.select("选择基础分支：", others);
 	if (!branch) return null;
 	return { type: "baseBranch", branch };
 }
@@ -360,9 +353,7 @@ async function resolveCommitInteractive(
 		return null;
 	}
 	const labels = commits.map((c) => `${c.sha.slice(0, 7)}  ${c.title}`);
-	const pick = await notifyBeforePrompt("选择提交 / jj change：", () =>
-		ctx.ui.select("选择提交 / jj change：", labels),
-	);
+	const pick = await ctx.ui.select("选择提交 / jj change：", labels);
 	if (!pick) return null;
 	const shortSha = pick.trim().split(/\s+/)[0] ?? "";
 	const commit = commits.find((c) => c.sha.startsWith(shortSha));
@@ -373,10 +364,7 @@ async function resolveMrInteractive(
 	pi: ExtensionAPI,
 	ctx: ExtensionCommandContext,
 ): Promise<ReviewTarget | null> {
-	const ref = await notifyBeforePrompt(
-		"输入 MR/PR 编号：",
-		() => ctx.ui.editor("输入当前仓库中的 MR/PR 数字编号（例如 123）：", ""),
-	);
+	const ref = await ctx.ui.editor("输入当前仓库中的 MR/PR 数字编号（例如 123）：", "");
 	if (!ref?.trim()) return null;
 	return prepareMrTarget({
 		pi,
@@ -445,12 +433,10 @@ function formatReviewStatus(): string {
 
 export default function reviewExtension(pi: ExtensionAPI): void {
 	async function selectReviewModel(ctx: ExtensionCommandContext): Promise<Model<Api> | null> {
-		return notifyBeforePrompt("选择审查模型：", () =>
-			selectModelForExtension(ctx, {
-				title: "选择审查模型",
-				noModelsMessage: "当前没有可用模型，请先配置可用模型。",
-			}),
-		);
+		return selectModelForExtension(ctx, {
+			title: "选择审查模型",
+			noModelsMessage: "当前没有可用模型，请先配置可用模型。",
+		});
 	}
 
 	/**
@@ -799,13 +785,11 @@ export default function reviewExtension(pi: ExtensionAPI): void {
 			await executeEndReview(ctx, "returnOnly");
 			return;
 		}
-		const choice = await notifyBeforePrompt("结束审查：", () =>
-			ctx.ui.select("结束审查：", [
-				"仅返回",
-				"带回审查结果",
-				"带回并修复",
-			]),
-		);
+		const choice = await ctx.ui.select("结束审查：", [
+			"仅返回",
+			"带回审查结果",
+			"带回并修复",
+		]);
 		if (!choice) {
 			ctx.ui.notify("已取消。再次运行 /end-review 可重试。", "info");
 			return;
