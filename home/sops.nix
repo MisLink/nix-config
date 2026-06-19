@@ -1,7 +1,11 @@
 { pkgs, homedir, ... }:
 {
   sops = {
-    age.keyFile = "${homedir}/.config/sops/age/keys.txt";
+    # age.keyFile = "${homedir}/.config/sops/age/keys.txt";
+    age.keyFile = "";
+    environment = {
+      SOPS_AGE_SSH_PRIVATE_KEY_FILE = "${homedir}/.config/sops/age/ed25519_key";
+    };
     defaultSopsFile = ../secrets/secrets.yaml;
     secrets.git = { };
     secrets.ssh_hosts = { };
