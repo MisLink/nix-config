@@ -1,25 +1,24 @@
 {
-  "lastChangelogVersion": "0.79.6",
-  "defaultProvider": "github-copilot",
-  "defaultModel": "claude-sonnet-4.6",
   "defaultThinkingLevel": "high",
   "packages": [
     {
       "source": "~/projects/nix-config/agentry"
     },
-    "npm:pi-web-access",
-    "npm:pi-mcp-adapter",
-    "npm:pi-autoresearch",
-    "npm:@eko24ive/pi-ask",
-    "npm:pi-context-usage",
-    "npm:@tintinweb/pi-subagents"
+    "-npm:pi-web-access",
+    "-npm:pi-mcp-adapter",
+    "-npm:pi-autoresearch",
+    "-npm:@eko24ive/pi-ask",
+    "-npm:pi-context-usage",
+    "-npm:@tintinweb/pi-subagents"
   ],
   "hideThinkingBlock": false,
   "theme": "dark",
   "transport": "auto",
-  "showHardwareCursor": true,
   "treeFilterMode": "default",
   "doubleEscapeAction": "tree",
   "steeringMode": "all",
-  "npmCommand": ["mise", "exec", "node@latest", "--", "npm"]
+  "npmCommand": ["mise", "exec", "node@latest", "--", "npm"],
+  "markdown": {
+    "codeBlockIndent": ""
+  }
 }

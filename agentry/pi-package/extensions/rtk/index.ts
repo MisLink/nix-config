@@ -1,5 +1,5 @@
 /**
- * rtk.ts — RTK token-saving proxy for pi.
+ * rtk — RTK token-saving proxy for pi.
  *
  * Uses `rtk rewrite` (requires rtk ≥ 0.23.0) to optimize shell commands.
  * Covers both agent-initiated bash tool calls and user-issued `!<cmd>` commands.
