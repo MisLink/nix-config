@@ -159,7 +159,6 @@ in
       "microsoft-office"
       "witch"
       "openmtp"
-      "cherry-studio"
       "zotero"
       "hammerspoon"
       "eudic"
