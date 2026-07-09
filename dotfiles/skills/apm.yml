@@ -1,0 +1,36 @@
+name: skills
+version: 1.0.0
+description: APM project for skills
+author: MisLink
+# Which agent platforms to deploy to (uncomment to pin):
+targets:
+  - agent-skills
+
+dependencies:
+  apm:
+    - multica-ai/andrej-karpathy-skills
+    - grafana/skills
+    - git: larksuite/openclaw-lark
+      skills:
+        - feishu-bitable
+        - feishu-create-doc
+        - feishu-fetch-doc
+        - feishu-update-doc
+    - microsoft/playwright-cli
+    - git: shadcn/ui
+      skills:
+        - shadcn
+    - JetBrains/go-modern-guidelines
+    - git: anthropics/skills
+      skills:
+        - frontend-design
+    - vercel-labs/agent-browser
+    - git: mattpocock/skills
+      skills:
+        - grilling
+        - handoff
+        - research
+        - teach
+  mcp: []
+includes: auto
+scripts: {}

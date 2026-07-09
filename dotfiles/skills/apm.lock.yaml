@@ -1,0 +1,216 @@
+lockfile_version: '1'
+generated_at: '2026-07-09T17:39:37.858787+00:00'
+apm_version: 0.24.0
+dependencies:
+- repo_url: JetBrains/go-modern-guidelines
+  name: go-modern-guidelines
+  host: github.com
+  resolved_commit: 3e97bab6a5bccd9fa2e76e16b99d9268a05e9b31
+  version: 3e97bab
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/use-modern-go
+  - .agents/skills/use-modern-go/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/use-modern-go/SKILL.md: sha256:3bcdde3d7dd7097b7e64bdf68b9fd6d92836d54bb37ad1766018ceb1ba87fb0b
+  content_hash: sha256:cea658c884671d481ab370c015efca990de05658ec366cc6b2e47dfe242d5d61
+- repo_url: anthropics/skills
+  name: skills
+  host: github.com
+  resolved_commit: 9d2f1ae187231d8199c64b5b762e1bdf2244733d
+  version: 9d2f1ae
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/frontend-design
+  - .agents/skills/frontend-design/LICENSE.txt
+  - .agents/skills/frontend-design/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/frontend-design/LICENSE.txt: sha256:0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594
+    .agents/skills/frontend-design/SKILL.md: sha256:1608ea77fbb6fc30d13a97d12cfa8ebf31358d40f0dd97beed24829d6b3f45dd
+  content_hash: sha256:dcaf79476abae6ad1fcf3d35c4564bcba51082a505926fb311a194d2c27c1707
+  skill_subset:
+  - frontend-design
+- repo_url: grafana/skills
+  name: skills
+  host: github.com
+  resolved_commit: b58376284141433f0676ae47ad651955802a922b
+  version: b583762
+  package_type: marketplace_plugin
+  content_hash: sha256:939dab0ca1aa404d1d606135317361f2b711e06838b121e991f0bdb19b2e15b9
+- repo_url: larksuite/openclaw-lark
+  name: openclaw-lark
+  host: github.com
+  resolved_commit: 18c44168489246a2f8663f14e12923d6622ff10a
+  version: unknown
+  package_type: skill_bundle
+  deployed_files:
+  - .agents/skills/feishu-bitable
+  - .agents/skills/feishu-bitable/SKILL.md
+  - .agents/skills/feishu-bitable/references/examples.md
+  - .agents/skills/feishu-bitable/references/field-properties.md
+  - .agents/skills/feishu-bitable/references/record-values.md
+  - .agents/skills/feishu-create-doc
+  - .agents/skills/feishu-create-doc/SKILL.md
+  - .agents/skills/feishu-fetch-doc
+  - .agents/skills/feishu-fetch-doc/SKILL.md
+  - .agents/skills/feishu-update-doc
+  - .agents/skills/feishu-update-doc/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/feishu-bitable/SKILL.md: sha256:33d864153124c85f33b758faee0c684ad9448b6d2cab79b7a9731ca805a0044c
+    .agents/skills/feishu-bitable/references/examples.md: sha256:cfa108d46506c620e67835ce45be2c55e10da70ef1318aa9c02060775698246f
+    .agents/skills/feishu-bitable/references/field-properties.md: sha256:bd87f1a142dc010f7ebc384d6344e658d40e4f625ba39982d6d3b85a265754d0
+    .agents/skills/feishu-bitable/references/record-values.md: sha256:348b38218bb3c17ff5c12cd9d8f4aae1096df2a1972487b6297eb03808810de1
+    .agents/skills/feishu-create-doc/SKILL.md: sha256:54c48e32dbc59d9559286aed42bd9007b364bc2666753335dc8e9390a54eaa14
+    .agents/skills/feishu-fetch-doc/SKILL.md: sha256:5c43b2045f078cc8eb04afb2a79756ad5cf666fa43b3c4209032a2dd9a20ffb0
+    .agents/skills/feishu-update-doc/SKILL.md: sha256:88290c8674d0d63b313e50b1ac1f6b9a370eb0ab7f94d26e92794c4031acbae7
+  content_hash: sha256:ee7c553056a11ce5a79114ccca266fa88f83660984289fcfbd65e40571196d28
+  skill_subset:
+  - feishu-bitable
+  - feishu-create-doc
+  - feishu-fetch-doc
+  - feishu-update-doc
+- repo_url: mattpocock/skills
+  name: mattpocock-skills
+  host: github.com
+  resolved_commit: d574778f94cf620fcc8ce741584093bc650a61d3
+  version: d574778
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/grilling
+  - .agents/skills/grilling/SKILL.md
+  - .agents/skills/handoff
+  - .agents/skills/handoff/SKILL.md
+  - .agents/skills/research
+  - .agents/skills/research/SKILL.md
+  - .agents/skills/teach
+  - .agents/skills/teach/GLOSSARY-FORMAT.md
+  - .agents/skills/teach/LEARNING-RECORD-FORMAT.md
+  - .agents/skills/teach/MISSION-FORMAT.md
+  - .agents/skills/teach/RESOURCES-FORMAT.md
+  - .agents/skills/teach/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/grilling/SKILL.md: sha256:5a35925d03a391bcfa46940868b649b72dba89ec9c19525e785bbb6bd3a7f478
+    .agents/skills/handoff/SKILL.md: sha256:57c9f1f392d7352cdc85b1e39ca49eddc70ce1dc278bd9653fb4f23dfc2560fc
+    .agents/skills/research/SKILL.md: sha256:af378829f015775a3bcd65ff466826722e99359017ae6bae227ca4c9bd14049c
+    .agents/skills/teach/GLOSSARY-FORMAT.md: sha256:d177def491519d97873291f2e860d8f1d60ead78feecb82eee022177958069c6
+    .agents/skills/teach/LEARNING-RECORD-FORMAT.md: sha256:855f81017625256584bbf62bd5edb9b0c86605c4cc1139c56acc36b802595d17
+    .agents/skills/teach/MISSION-FORMAT.md: sha256:8da6d3ac84eb2eb19f17c260b6acf01c560d3ac7a4501c415eea0e985602f4d7
+    .agents/skills/teach/RESOURCES-FORMAT.md: sha256:2bc634a64b0d0daa10904f9222e7aa0d361420dfacabbf092fbe3a72222edc08
+    .agents/skills/teach/SKILL.md: sha256:6d2dbe5e03084cf26fef66b535127b36cd1bcbe9478e26b0626029cd51dc2259
+  content_hash: sha256:3a26aa108d8b0b740315c7e62921597f2cc2c99412e63c1f8b3d4c403a5e30b8
+  skill_subset:
+  - grilling
+  - handoff
+  - research
+  - teach
+- repo_url: microsoft/playwright-cli
+  name: playwright-cli
+  host: github.com
+  resolved_commit: 74d9bf144a96770b6295ceedecb07a2fd7e86775
+  version: unknown
+  package_type: skill_bundle
+  deployed_files:
+  - .agents/skills/playwright-cli
+  - .agents/skills/playwright-cli/SKILL.md
+  - .agents/skills/playwright-cli/references/element-attributes.md
+  - .agents/skills/playwright-cli/references/playwright-tests.md
+  - .agents/skills/playwright-cli/references/request-mocking.md
+  - .agents/skills/playwright-cli/references/running-code.md
+  - .agents/skills/playwright-cli/references/session-management.md
+  - .agents/skills/playwright-cli/references/spec-driven-testing.md
+  - .agents/skills/playwright-cli/references/storage-state.md
+  - .agents/skills/playwright-cli/references/test-generation.md
+  - .agents/skills/playwright-cli/references/tracing.md
+  - .agents/skills/playwright-cli/references/video-recording.md
+  deployed_file_hashes:
+    .agents/skills/playwright-cli/SKILL.md: sha256:e72ed4ba7e35b594056efedbd1d773b747d501a18b29ad4f04ab58224f48d7ed
+    .agents/skills/playwright-cli/references/element-attributes.md: sha256:bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2
+    .agents/skills/playwright-cli/references/playwright-tests.md: sha256:c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c
+    .agents/skills/playwright-cli/references/request-mocking.md: sha256:54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c
+    .agents/skills/playwright-cli/references/running-code.md: sha256:d95c539a5990b71d02d8bdf1d9414df16191eb6cff95b0063820518b7a13dcb2
+    .agents/skills/playwright-cli/references/session-management.md: sha256:cd3e261b8763bf952f1e371b876cb78d054379afec85482f9250633e1b7e6c44
+    .agents/skills/playwright-cli/references/spec-driven-testing.md: sha256:3326b3af65ed6e05180aa394a7fd578f29822e67bde9f22f7c7f94e6c8e3a594
+    .agents/skills/playwright-cli/references/storage-state.md: sha256:9ac47f9ae4a1aedcd2077f8ac9ab1ba6bee1962cb83ff51adcd36fb6d83b5ec6
+    .agents/skills/playwright-cli/references/test-generation.md: sha256:2a9c4d94effa31b05cf367dfa8bbace8874a3bc9799987ad2b03269af224d299
+    .agents/skills/playwright-cli/references/tracing.md: sha256:792e0ac7705e56ac48df84c0f5400221ce86107897c671590a64a4ea6a82508e
+    .agents/skills/playwright-cli/references/video-recording.md: sha256:8555ab5400df0d90e66318aacc0a8a4418fbf872e7463824d55d5c41615abd83
+  content_hash: sha256:b7db98a9f6fff711c3956611d485ec157420b3daf38ffe34f265b510fdd0759c
+- repo_url: multica-ai/andrej-karpathy-skills
+  name: andrej-karpathy-skills
+  host: github.com
+  resolved_commit: 2c606141936f1eeef17fa3043a72095b4765b9c2
+  version: 1.0.0
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/karpathy-guidelines
+  - .agents/skills/karpathy-guidelines/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/karpathy-guidelines/SKILL.md: sha256:6e22cc54cb02a5e98ae42d06d9d7292db0c1b43894831b32879beb0166b2aea7
+  content_hash: sha256:eebf9f68b0b12457e3dad7613b07ffbc4e8a9c69e7d78687bb7236ecf0399485
+  declared_license: MIT
+- repo_url: shadcn/ui
+  name: shadcn
+  host: github.com
+  resolved_commit: 21e4ceb94418096e21a7f1990027741a8f9b085d
+  version: 1.0.0
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/shadcn
+  - .agents/skills/shadcn/SKILL.md
+  - .agents/skills/shadcn/agents/openai.yml
+  - .agents/skills/shadcn/assets/shadcn-small.png
+  - .agents/skills/shadcn/assets/shadcn.png
+  - .agents/skills/shadcn/cli.md
+  - .agents/skills/shadcn/customization.md
+  - .agents/skills/shadcn/evals/evals.json
+  - .agents/skills/shadcn/mcp.md
+  - .agents/skills/shadcn/registry.md
+  - .agents/skills/shadcn/rules/base-vs-radix.md
+  - .agents/skills/shadcn/rules/chat.md
+  - .agents/skills/shadcn/rules/composition.md
+  - .agents/skills/shadcn/rules/forms.md
+  - .agents/skills/shadcn/rules/icons.md
+  - .agents/skills/shadcn/rules/styling.md
+  deployed_file_hashes:
+    .agents/skills/shadcn/SKILL.md: sha256:a45cddd4511f8262df05b20506f4d52be8210a9ee05a13d9e36d4ee321bab593
+    .agents/skills/shadcn/agents/openai.yml: sha256:35db91b1eef58b2abe01da9b88577de5a44e233b740cd93d692ddeeadd2afe4d
+    .agents/skills/shadcn/assets/shadcn-small.png: sha256:0ecc62d682727f68fc4937eed19960c706714fa084d44f63028d611ae02bf3d7
+    .agents/skills/shadcn/assets/shadcn.png: sha256:7d60ad6fec4d89a0d44ba5a3c9283d2fea0047af5467f9227040e20d927d39b7
+    .agents/skills/shadcn/cli.md: sha256:a381e35bf36fe7bb851952c13707e01e82434fd7a4a4e53f6df26c6370838904
+    .agents/skills/shadcn/customization.md: sha256:84c1d47168c4b8adb5840e4af30a4e373ae3377c1110478c8974f398dd63f5ba
+    .agents/skills/shadcn/evals/evals.json: sha256:58aca2760b0cc5265bb575f76cd8eed344b88544314b8cb2cd53e0b8007dc936
+    .agents/skills/shadcn/mcp.md: sha256:8d696b4e45b7d0e337367248513bd9acebe8f3bcfd7b748c775e5a337c8f38c8
+    .agents/skills/shadcn/registry.md: sha256:4f239be36bd2b58e17047db1ca80ab7da00e15a8b73242e5e4d50d113c4caa05
+    .agents/skills/shadcn/rules/base-vs-radix.md: sha256:2b2deb47d004285220c1fc6b38bb2edc2d0ccbcdafd031b0b189d5d8ed0d1ba8
+    .agents/skills/shadcn/rules/chat.md: sha256:fcbc4eb29a3998fa3e24e9f7f1cbb2b9f33e98cb5b66a153eeccdb74e78f9612
+    .agents/skills/shadcn/rules/composition.md: sha256:012d2a44373766fd9c13059ac1b971581fbe3982f2b1e92186a963c9990cfdcf
+    .agents/skills/shadcn/rules/forms.md: sha256:29593e14381e34626f8e0e9c15c59f3394b92a0623af6a6ec94585400123853c
+    .agents/skills/shadcn/rules/icons.md: sha256:d4a58266648872d9ee07d0c2368843a1cb88b8253b7f528dd7bda9d68b6c2535
+    .agents/skills/shadcn/rules/styling.md: sha256:47bd2c3b6216b96af0ab169063a83dfef7f80c58536cf69445a6f4d22753326c
+  content_hash: sha256:84910f41eb7926cf93ebc3d3b7278effccdd463763241407a66f60cc7622ec1b
+  skill_subset:
+  - shadcn
+  declared_license: MIT
+- repo_url: vercel-labs/agent-browser
+  name: agent-browser
+  host: github.com
+  resolved_commit: afae698a51242166170b6fe4809dd57fe9f75798
+  version: afae698
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/agent-browser
+  - .agents/skills/agent-browser/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/agent-browser/SKILL.md: sha256:bb6b4c5aae49ff88addb31312437f94242a3e5aae950503ab4f332e28186c261
+  content_hash: sha256:ad842f8bf2617d656e39f9a617999e60e34a7eaddc76d301ba7423b74218ba28
+mcp_servers:
+- shadcn
+mcp_configs:
+  shadcn:
+    name: shadcn
+    transport: stdio
+    args:
+    - shadcn@latest
+    - mcp
+    registry: false
+    command: npx

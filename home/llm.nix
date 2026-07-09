@@ -11,6 +11,8 @@
     spec-kit
     agent-browser
     ccusage
+    mcporter
+    apm
   ];
   home.file = {
     ".pi/agent" = {

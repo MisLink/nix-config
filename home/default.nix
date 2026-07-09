@@ -84,7 +84,7 @@
       stow
       mitmproxy
       frida-tools
-      python313Packages.markitdown
+      # python313Packages.markitdown
       pnpm
       bun
       biome

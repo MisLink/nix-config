@@ -8,8 +8,7 @@
     # nixpkgs-darwin.url = "github:NixOS/nixpkgs/b579d443b37c9c5373044201ea77604e37e748c8";
     nix-darwin = {
       # XXX: This is a temporary workaround for https://github.com/nix-darwin/nix-darwin/issues/1817
-      # url = "github:nix-darwin/nix-darwin/master";
-      url = "github:nix-darwin/nix-darwin/pull/1818/head";
+      url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
