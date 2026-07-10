@@ -82,7 +82,6 @@
       jujutsu
       lld
       stow
-      mitmproxy
       frida-tools
       # python313Packages.markitdown
       pnpm
