@@ -20,15 +20,15 @@
       recursive = true;
     };
     ".agents/skills" = {
-      source = ../dotfiles/skills/.agents/skills;
+      source = ../dotfiles/skills;
       recursive = true;
     };
     ".claude/skills" = {
-      source = ../dotfiles/skills/.agents/skills;
+      source = ../dotfiles/skills;
       recursive = true;
     };
     ".codex/skills" = {
-      source = ../dotfiles/skills/.agents/skills;
+      source = ../dotfiles/skills;
       recursive = true;
     };
     ".claude/settings.json".source = ../dotfiles/claude/settings.json;

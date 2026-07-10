@@ -109,6 +109,9 @@
       gotools
       golangci-lint
       mergiraf
+      broot
+      gitui
+      jjui
     ]
     ++ [
       (if pkgs.stdenv.hostPlatform.system == "x86_64-darwin" then ghidra-bin else ghidra)

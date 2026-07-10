@@ -45,6 +45,7 @@
         # "npm:bun" = "latest";
         # "npm:@biomejs/biome" = "latest";
         # "npm:@earendil-works/pi-coding-agent" = "latest";
+        "pipx:mitmproxy" = "latest";
       };
       settings = {
         fetch_remote_versions_timeout = "1m";
