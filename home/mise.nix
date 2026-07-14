@@ -37,10 +37,10 @@
         # "cargo:git-cliff" = "latest"; # A git cliff notes generator
         "cargo:cargo-crap" = "latest";
         "npm:@playwright/cli" = "latest";
-        # "pipx:markitdown" = {
-        #   version = "latest";
-        #   extras = "all";
-        # };
+        "pipx:markitdown" = {
+          version = "latest";
+          extras = "all";
+        };
         # "npm:pnpm" = "latest";
         # "npm:bun" = "latest";
         # "npm:@biomejs/biome" = "latest";
