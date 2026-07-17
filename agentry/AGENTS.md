@@ -26,7 +26,7 @@ Local pi package for custom pi extensions, skills, and shared helper code.
 | **notify** | Desktop notifications when pi waits for input |
 | **review** | `/review`、`/end-review`、`/review status` + bundled `review` skill |
 | **static-check** | `/staticcheck` |
-| **web-fetch** | `fetch_content_local` + `get_fetch_content_local` tools |
+| **web-fetch** | `fetch_content_local` tool |
 | **goal** | `/goal` + `create_goal` / `update_goal` tools |
 | **rtk** | `/rtk` |
 | **simple-plannotator** | `/plannotator-annotate`、`/plannotator-last` |

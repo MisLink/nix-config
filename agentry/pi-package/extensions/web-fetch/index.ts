@@ -2,8 +2,9 @@
  * Web Fetch Extension (local) for pi
  *
  * Lightweight, fully-local web content fetcher. No API keys required.
- * Registers `fetch_content_local` for URL content retrieval as Markdown,
- * and `get_fetch_content_local` for retrieving stored full content.
+ * Registers `fetch_content_local` for URL content retrieval as Markdown.
+ * When content is truncated, the complete Markdown is written to a temp file
+ * and the path is returned so the agent can inspect it with the read tool.
  *
  * Contrast with pi-web-access's `fetch_content`:
  *   - This plugin: pure local processing (Readability + node-html-markdown + markitdown)
@@ -13,6 +14,9 @@
  * Use pi-web-access when you need YouTube/video understanding or GitHub repo cloning.
  */
 
+import { mkdtemp, writeFile } from "node:fs/promises"
+import { tmpdir } from "node:os"
+import { join } from "node:path"
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent"
 import { Type } from "@sinclair/typebox"
 import {
@@ -23,20 +27,28 @@ import {
 } from "./fetch"
 import {
   htmlPageToMarkdown,
-  htmlToMarkdown,
   shouldFallbackToMarkitdown,
 } from "./html-extract"
-import {
-  getWebResponse,
-  storeWebResponse,
-  type StoredFetchContent,
-} from "./storage"
 import { resolveGitHubFetchPlan } from "./github"
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
-function withResponseId(text: string, responseId: string): string {
-  return `${text}\n\n[responseId: ${responseId}]`
+function withFetchMetadata(text: string, fullContentPath?: string): string {
+  if (!fullContentPath) return text
+
+  return [
+    `[fullContentPath: ${fullContentPath}]`,
+    "[Use the read tool with fullContentPath to inspect the complete Markdown.]",
+    "",
+    text,
+  ].join("\n")
+}
+
+async function writeFullContentFile(content: string): Promise<string> {
+  const tempDir = await mkdtemp(join(tmpdir(), "pi-fetch-content-"))
+  const contentPath = join(tempDir, "content.md")
+  await writeFile(contentPath, content, "utf8")
+  return contentPath
 }
 
 type FetchedUrlResult = {
@@ -145,12 +157,14 @@ export default function (pi: ExtensionAPI) {
       "Fetch a URL and return page content as Markdown. " +
       "Fully local processing — no external API keys required. " +
       "Uses Readability for article extraction and markitdown for binary files (PDF, DOCX, etc.). " +
+      "If the output is truncated, the complete Markdown is saved to a temp file for the read tool. " +
       "For YouTube videos, video analysis, or GitHub repo cloning, use fetch_content from pi-web-access instead.",
     promptSnippet:
       "Fetch a URL and return readable Markdown content (local processing, no API key)",
     promptGuidelines: [
       "Use fetch_content_local when you have a specific URL and need to read its content as clean Markdown.",
       "fetch_content_local is fully local (Readability + markitdown) — no API key, no external service calls.",
+      "If the result is truncated, use the returned fullContentPath with the read tool to inspect the complete Markdown.",
       "For YouTube videos, local video files, or full GitHub repo cloning, use fetch_content (pi-web-access) instead.",
       "For web search or source discovery, use web_search (pi-web-access) instead of constructing search URLs by hand.",
       "If a fetched page contains promising links, call fetch_content_local again on the specific URL you want to inspect.",
@@ -177,16 +191,15 @@ export default function (pi: ExtensionAPI) {
       }
 
       const result = await fetchUrlAsMarkdown(url, signal ?? undefined)
-      const responseId = storeWebResponse({
-        type: "fetch",
-        urls: [{ url: result.url, title: result.title, content: result.content }],
-      })
-
       const truncated = result.content.length > maxLength
+      const fullContentPath = truncated
+        ? await writeFullContentFile(result.content)
+        : undefined
+
       const output = truncated ? result.content.slice(0, maxLength) : result.content
       const suffix = truncated
         ? `\n\n[Content truncated at ${maxLength} chars — ${result.content.length} total. ` +
-          `Call fetch_content_local again with a larger maxLength or use get_fetch_content_local with responseId.]`
+          `Full content saved to: ${fullContentPath}. Use the read tool with fullContentPath to inspect the complete Markdown.]`
         : ""
 
       const details: Record<string, unknown> = {
@@ -196,66 +209,15 @@ export default function (pi: ExtensionAPI) {
         converter: result.converter,
         length: result.content.length,
         truncated,
-        responseId,
+        fullContentPath,
       }
 
       return {
-        content: [{ type: "text", text: withResponseId(output + suffix, responseId) }],
+        content: [{
+          type: "text",
+          text: withFetchMetadata(output + suffix, fullContentPath),
+        }],
         details,
-      }
-    },
-  })
-
-  pi.registerTool({
-    name: "get_fetch_content_local",
-    label: "Get Fetch Content (Local)",
-    description:
-      "Retrieve full content from a previous fetch_content_local call via responseId.",
-    promptSnippet:
-      "Retrieve stored full content from a previous fetch_content_local call by responseId.",
-    parameters: Type.Object({
-      responseId: Type.String({
-        description: "responseId returned from fetch_content_local.",
-      }),
-      urlIndex: Type.Optional(
-        Type.Number({
-          description: "URL index to retrieve (default 0).",
-          minimum: 0,
-        })
-      ),
-    }),
-
-    async execute(_toolCallId, params, _signal, _onUpdate, _ctx) {
-      const stored = getWebResponse(params.responseId)
-      if (!stored) {
-        return {
-          content: [{ type: "text" as const, text: `No stored response found for ${params.responseId}.` }],
-          details: { responseId: params.responseId, error: "Not found" } as Record<string, unknown>,
-        }
-      }
-
-      const urlIndex = params.urlIndex ?? 0
-      const urlData = stored.urls[urlIndex]
-
-      if (!urlData) {
-        const available = stored.urls.map((item, i) => `${i}: ${item.url}`).join("\n")
-        return {
-          content: [{
-            type: "text" as const,
-            text: `No URL at index ${urlIndex}. Available URLs:\n${available}`,
-          }],
-          details: { responseId: params.responseId, error: "Invalid urlIndex" } as Record<string, unknown>,
-        }
-      }
-
-      return {
-        content: [{ type: "text" as const, text: `# ${urlData.title}\n\n${urlData.content}` }],
-        details: {
-          responseId: params.responseId,
-          url: urlData.url,
-          title: urlData.title,
-          length: urlData.content.length,
-        } as Record<string, unknown>,
       }
     },
   })

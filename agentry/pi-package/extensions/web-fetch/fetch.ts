@@ -130,7 +130,7 @@ export async function fetchDirect(
       signal: controller.signal,
       headers: {
         ...BROWSER_HEADERS,
-        Accept: "text/markdown, text/html, application/xhtml+xml, */*;q=0.8",
+        Accept: "text/markdown, text/html, application/xhtml+xml, application/pdf, */*;q=0.8",
       },
     })
 

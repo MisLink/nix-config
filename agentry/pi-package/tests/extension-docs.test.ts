@@ -23,9 +23,9 @@ test("AGENTS documents every shipped extension surfaced to users", () => {
 	);
 	assert.equal(includes(agentsDoc, "pi-package/skills/review/"), true, "AGENTS should document the default bundled skill");
 	assert.equal(
-		includes(agentsDoc, "| **web-fetch** | `fetch_content_local` + `get_fetch_content_local` tools |"),
+		includes(agentsDoc, "| **web-fetch** | `fetch_content_local` tool |"),
 		true,
-		"AGENTS table should list local fetch tools",
+		"AGENTS table should list local fetch tool",
 	);
 	assert.equal(
 		includes(agentsDoc, "| **simple-plannotator** | `/plannotator-annotate`、`/plannotator-last` |"),
@@ -116,20 +116,20 @@ test("simple-plannotator header documents its command surface", () => {
 	);
 });
 
-test("web-fetch header documents all exported tools", () => {
+test("web-fetch header documents exported tool", () => {
 	assert.equal(
-		includes(webFetchSource, "Registers `fetch_content_local` for URL content retrieval as Markdown,"),
+		includes(webFetchSource, "Registers `fetch_content_local` for URL content retrieval as Markdown."),
 		true,
 		"web-fetch header should describe fetch_content_local",
 	);
 	assert.equal(
-		includes(webFetchSource, "`get_fetch_content_local`"),
+		includes(webFetchSource, "complete Markdown is written to a temp file"),
 		true,
-		"web-fetch header should mention get_fetch_content_local",
+		"web-fetch header should explain full-content temp files",
 	);
 	assert.equal(
-		includes(webFetchSource, "retrieving stored full content"),
-		true,
-		"web-fetch header should explain what get_fetch_content_local does",
+		includes(webFetchSource, "get_fetch_content_local"),
+		false,
+		"web-fetch should not expose responseId retrieval",
 	);
 });
