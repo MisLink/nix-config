@@ -3,7 +3,7 @@
   home.packages = with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
     claude-code
     rtk
-    pi
+    (pi.override { useBun = false; })
     amp
     codex
     copilot-cli

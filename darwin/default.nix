@@ -115,6 +115,7 @@ in
         name = "postgresql@17";
         restart_service = "changed";
       }
+      "pgvector"
       {
         name = "mysql";
         restart_service = "changed";
