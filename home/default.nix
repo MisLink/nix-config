@@ -99,7 +99,7 @@
       pre-commit
       pgcli
       pkgsStable.pdm
-      pipx
+      pkgsStable.pipx
       mycli
       litecli
       python313Packages.notebook
