@@ -25,14 +25,10 @@ Local pi package for custom pi extensions, skills, and shared helper code.
 | --- | --- |
 | **notify** | Desktop notifications when pi waits for input |
 | **review** | `/review`、`/end-review`、`/review status` + bundled `review` skill |
-| **static-check** | `/staticcheck` |
 | **web-fetch** | `fetch_content_local` tool |
-| **goal** | `/goal` + `create_goal` / `update_goal` tools |
-| **rtk** | `/rtk` |
 | **simple-plannotator** | `/plannotator-annotate`、`/plannotator-last` |
 
 Some extensions may be disabled by `dotfiles/pi/settings.json`.
-`pi-package/skills/workflow/` is kept in the repo for debugging, but is intentionally omitted from the default `package.json` `pi.skills` manifest.
 
 ## Tests
 
@@ -44,23 +40,5 @@ node --test pi-package/tests/*.test.ts
 ```
 
 ## Layout
-
-Keep this map high-level; do not paste a full generated tree.
-
-```text
-pi-package/
-├── extensions/
-│   ├── goal/
-│   ├── notify/
-│   ├── review/
-│   ├── simple-plannotator/
-│   ├── static-check/
-│   ├── web-fetch/
-│   └── rtk.ts
-├── skills/
-├── lib/
-├── tests/
-└── legacy/
-```
 
 `pi-package/skills/review/` is the only skill loaded by this package by default. `pi-package/skills/workflow/` remains available in the repo for opt-in testing while it is being debugged.

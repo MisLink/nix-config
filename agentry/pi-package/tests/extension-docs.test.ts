@@ -4,9 +4,6 @@ import { readFileSync } from "node:fs";
 
 const agentsDoc = readFileSync("AGENTS.md", "utf8");
 const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
-const staticCheckSource = readFileSync("pi-package/extensions/static-check/index.ts", "utf8");
-const staticCheckStateSource = readFileSync("pi-package/extensions/static-check/state.ts", "utf8");
-const staticCheckTypesSource = readFileSync("pi-package/extensions/static-check/types.ts", "utf8");
 const webFetchSource = readFileSync("pi-package/extensions/web-fetch/index.ts", "utf8");
 const simplePlannotatorSource = readFileSync("pi-package/extensions/simple-plannotator/index.ts", "utf8");
 
@@ -37,44 +34,6 @@ test("AGENTS documents every shipped extension surfaced to users", () => {
 		includes(agentsDoc, "`pi-package/skills/workflow/` is kept in the repo for debugging"),
 		true,
 		"AGENTS should explain that workflow skills are not loaded by default",
-	);
-});
-
-test("static-check docs and command surface use /staticcheck consistently", () => {
-	assert.equal(
-		includes(agentsDoc, "| **static-check** | `/staticcheck` |"),
-		true,
-		"AGENTS should list /staticcheck as the user-facing command",
-	);
-	assert.equal(
-		includes(staticCheckSource, "/staticcheck          — run checks now (manual trigger)"),
-		true,
-		"static-check header should document /staticcheck",
-	);
-	assert.equal(
-		includes(staticCheckSource, 'pi.registerCommand("staticcheck", {'),
-		true,
-		"static-check extension should register /staticcheck",
-	);
-	assert.equal(
-		includes(staticCheckSource, 'pi.registerFlag("no-staticcheck", {'),
-		true,
-		"static-check extension should expose --no-staticcheck",
-	);
-	assert.equal(
-		includes(staticCheckSource, "golangci-lint with go vet fallback"),
-		true,
-		"static-check header should mention golangci-lint with go vet fallback",
-	);
-	assert.equal(
-		includes(staticCheckStateSource, "mutated by /staticcheck commands"),
-		true,
-		"state docs should reference /staticcheck commands",
-	);
-	assert.equal(
-		includes(staticCheckTypesSource, "Mutable at runtime via /staticcheck commands."),
-		true,
-		"types docs should reference /staticcheck commands",
 	);
 });
 

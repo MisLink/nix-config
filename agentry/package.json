@@ -26,12 +26,12 @@
   "devDependencies": {
     "@types/jsdom": "^28.0.3",
     "@types/node": "^26.1.2",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@mozilla/readability": "^0.6.0",
-    "@plannotator/pi-extension": "^0.19.27",
-    "jsdom": "^29.1.1",
+    "@plannotator/pi-extension": "^0.25.1",
+    "jsdom": "^30.0.1",
     "node-html-markdown": "^2.0.0"
   }
 }
