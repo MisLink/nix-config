@@ -178,6 +178,8 @@ in
       "istat-menus@6"
       "hammerspoon"
       "charles"
+      "kiro-cli"
+      "curseforge"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;
