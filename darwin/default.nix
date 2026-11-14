@@ -175,10 +175,12 @@ in
       "kitty"
       "codex-app"
       "claude"
-      "istat-menus@6"
+      # "istat-menus"
       "hammerspoon"
       "charles"
       "kiro-cli"
+      "localsend"
+      "stats"
       "curseforge"
     ];
     masApps = {
