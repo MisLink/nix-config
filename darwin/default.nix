@@ -27,7 +27,11 @@ in
   };
   nix.optimise.automatic = true;
   nix.settings = {
-    extra-experimental-features = "nix-command flakes";
+    extra-experimental-features = "nix-command flakes configurable-impure-env";
+    extra-impure-env = [
+      "GOPROXY=https://goproxy.cn,direct"
+      "NIX_NPM_REGISTRY=https://registry.npmmirror.com"
+    ];
     trusted-users = [
       username
     ];
@@ -182,6 +186,7 @@ in
       "localsend"
       "stats"
       "curseforge"
+      "itsycal"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;
