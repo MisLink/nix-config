@@ -52,7 +52,6 @@
       settings = {
         fetch_remote_versions_timeout = "1m";
         legacy_version_file = false;
-        plugin_autoupdate_last_check_duration = "1 week";
         experimental = true;
         status = {
           show_env = true;
